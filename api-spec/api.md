@@ -8,6 +8,13 @@ https://stud-api.sabir.pro/dormitories/all
 
 list of Dormitories
 
+## Все events cnt=248
+https://stud-api.sabir.pro/events/all
+
+list of Events
+
+Там много усторевших евентов. Нужно фильтровать по .details.dates
+
 ## Получить себя
 https://stud-api.sabir.pro/me
 

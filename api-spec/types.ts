@@ -5,11 +5,24 @@ interface User {
   userRole: "user";
   name: "Сотников Даниил Сергеевич";
   phone: "+79069469277";
-  studentRoleType: "student";
+  studentRoleType?: "student";
+  createdTimestamp: 1674911335152;
+  starredEvents?: ["mWNp6gGkby"]; // list of event ids
+  updatedTimestamp: 1676646980795;
+  starredDormitories?: ["7Zbl2muIe4"]; // list of dormitory ids
+  firstName?: "Даниил";
+  lastName?: "Сотников";
+  middleName?: "Сергеевич";
+  birthday?: "24.12.2003";
+  departureCity?: "Москва";
+  gender?: "male";
+  WoS?: "QL";
+  WoS1?: "PO";
+  socialUrl?: "vk.com";
+  universityName?: "ВШЭ";
+  avatar?: "https://stud-files.sabir.pro/files/PVbA7soK4S-6a95693f7b294177ee38135eb27d770ede4c098b4432d01872588f7ae11a5b42.png";
   id: "PVbA7soK4S";
   timestamp: 1674911335152;
-  createdTimestamp: 1674911335152;
-  updatedTimestamp: 1674911335714;
 }
 
 // https://stud-api.sabir.pro/dormitories/7Zbl2muIe4
@@ -124,4 +137,30 @@ interface University {
   timestamp: 1647980801834;
   createdTimestamp: 1647980801834;
   updatedTimestamp: 1656061946992;
+}
+
+interface Event {
+  details: {
+    dates: { from: 1650056400000; to: 1650142800000; isRegular: true };
+    name: "Пешеходная экскурсия по Ростову-на-Дону";
+    link: "https://yandex.ru";
+    price: "1000";
+    description: "Загородная автобусная экскурсия в горные районы Северной Осетии по маршруту «Путешествие в долину водопадов»\n\nЦель экскурсии Ознакомление с культурно-историческим наследием современных осетин – потомков скифо-сармато-алан, а также посещением уникальных природных объектов континентального значения.\n\nКонечные пункты маршрута Владикавказ – Мидаграбинские водопады\nПродолжительность маршрута: 9 часов.\n\nОстановки:\n1.\tКобан;\n2.\tКахтисар;\n3.\tс. Даргавс;\n4.\tМидаграбинские водопады.\n\n1. Кобан\nКобан изначально состояло из двух населённых пунктов – Верхний и Нижний Кобан, которые в наши дни соединились в одно село.\n\nНа южной окраине села высится сторожевая башня фамилии Кануковых.";
+    video: [
+      "https://stud-files.sabir.pro/files/MlcLzJOAQC-d2b4ba173b4fd673fe86ed50f48a0daed646ee28e1ab0a7d39eb1f7b354a8384.mov"
+    ];
+    photos: [
+      "https://stud-files.sabir.pro/files/MlcLzJOAQC-17075e6576fbcab8865410068bd94bc7aecfa84abefda870dc0637d2e258e944.jpg",
+      "https://stud-files.sabir.pro/files/MlcLzJOAQC-cfb1a10ee63f7bd15dc14ae615fe79de0b3b3c54b48718afc274c5f6c5d83af3.jpg"
+    ];
+    type: "scientific";
+    WoS: "QL";
+  };
+  userId: "MlcLzJOAQC";
+  universityId: "DgxLyUYhBv";
+  createdTimestamp: 1650476393333;
+  updatedTimestamp: 1670863276275;
+  onModeration: false;
+  id: "ap5gug65RY";
+  timestamp: 1650476393333;
 }

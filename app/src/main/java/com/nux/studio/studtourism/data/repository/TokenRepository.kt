@@ -1,5 +1,6 @@
 package com.nux.studio.studtourism.data.repository
 
+import com.nux.studio.studtourism.data.local.prefs.TokenPrefs
 import com.nux.studio.studtourism.data.local.token.TokenDao
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.data.remote.models.LoginInfo
@@ -10,12 +11,11 @@ import retrofit2.awaitResponse
 import javax.inject.Inject
 
 class TokenRepository @Inject constructor(
-       private val tokenDao: TokenDao,
-       private val api: RetrofitServices
+       private val tokenPrefs: TokenPrefs
 ) {
 
-    fun getToken() : String {
-        return tokenDao.getToken()
+    fun getToken() : String? {
+        return tokenPrefs.token
     }
 
     fun login(
