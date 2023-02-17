@@ -23,7 +23,7 @@ class AuthRepository @Inject constructor(
     fun login(
         email: String,
         password: String
-    ): Flow<Resource<String>> {
+    ): Flow<Resource<Unit>> {
         return flow {
 
             emit(Resource.Loading(true))
@@ -36,16 +36,16 @@ class AuthRepository @Inject constructor(
                     responseApi.body()?.getString("token")
                 } else {
                     emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
-                    null
+                    return@flow
                 }
             } catch (e : Exception) {
                 emit(Resource.Error(message = ErrorRemote.NoInternet))
-                null
+                return@flow
             }
 
-            response?.let {data ->
-                emit(Resource.Success(data))
-            }
+            tokenPrefs.token = response
+
+            emit(Resource.Success(Unit))
 
             emit(Resource.Loading(false))
         }

@@ -1,7 +1,6 @@
 package com.nux.studio.studtourism.data.remote
 
 import com.nux.studio.studtourism.data.remote.models.LoginInfo
-import com.squareup.moshi.Json
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
