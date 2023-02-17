@@ -11,10 +11,11 @@ import retrofit2.awaitResponse
 import javax.inject.Inject
 
 class TokenRepository @Inject constructor(
-       private val tokenPrefs: TokenPrefs
+       private val tokenPrefs: TokenPrefs,
+       private val api: RetrofitServices
 ) {
 
-    fun getToken() : String? {
+    fun getToken(): String? {
         return tokenPrefs.token
     }
 
