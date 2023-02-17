@@ -61,7 +61,7 @@ class AuthRepository @Inject constructor(
             emit(Resource.Loading(true))
 
             val authInfo = AuthInfo(email = email, password = password)
-            val request = api.makeRegistration(authInfo)
+            val request = api.signUp(authInfo)
 
             val response = try {
                 val responseApi = request.awaitResponse()

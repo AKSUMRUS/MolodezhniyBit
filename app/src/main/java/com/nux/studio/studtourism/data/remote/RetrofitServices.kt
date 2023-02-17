@@ -1,5 +1,6 @@
 package com.nux.studio.studtourism.data.remote
 
+import com.nux.studio.studtourism.data.local.university.University
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
 import org.json.JSONObject
 import retrofit2.Call
@@ -16,20 +17,20 @@ interface RetrofitServices {
     ) : Call<JSONObject>
 
     @POST("users")
-    fun makeRegistration(
+    fun signUp(
         @Body info: AuthInfo
     ) : Call<JSONObject>
 
     @GET("me")
-    fun getProgile()
+    fun getProfile()
 
     @GET("universities/all")
-    fun getUniversitiesList()
+    fun getUniversitiesList() : Call<List<University>>
 
     @GET("universities/{id}")
     fun getUniversity(
         @Path("id") id: String
-    )
+    ) : Call<University>
 
     @GET("dormitories/all")
     fun getDormitoriesList()
