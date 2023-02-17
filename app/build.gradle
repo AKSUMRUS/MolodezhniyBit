@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -60,4 +62,28 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+
+//    Hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+
+//    Room
+    def room_version = "2.5.0"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+//    Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+    implementation "com.squareup.okhttp3:okhttp:4.9.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+
+//    Pictures
+    implementation "io.coil-kt:coil:2.2.2"
+    implementation("io.coil-kt:coil-compose:2.2.2")
+}
+
+kapt {
+    correctErrorTypes true
 }
