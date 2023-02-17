@@ -1,6 +1,6 @@
 package com.nux.studio.studtourism.data.remote
 
-import com.nux.studio.studtourism.data.remote.models.LoginInfo
+import com.nux.studio.studtourism.data.remote.models.AuthInfo
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -10,7 +10,11 @@ interface RetrofitServices {
 
     @POST("users/login")
     fun login(
-        @Body info: LoginInfo
+        @Body info: AuthInfo
     ) : Call<JSONObject>
 
+    @POST("users")
+    fun makeRegistration(
+        @Body info: AuthInfo
+    ) : Call<JSONObject>
 }
