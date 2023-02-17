@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH3
 import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH4
+import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.R
 
 @Preview
@@ -39,9 +40,8 @@ fun Room(
             .padding(15.dp)
             .clip(RoundedCornerShape(10.dp))
     ) {
-        Text(
+        HeadlineH5(
             text = "Комната 1",
-            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(15.dp)
         )
@@ -65,10 +65,8 @@ fun Rooms(
             .padding(15.dp)
             .clip(RoundedCornerShape(10.dp))
     ) {
-        Text(
+        HeadlineH4(
             text = "Комнаты",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(15.dp)
         )
         Room()
@@ -87,9 +85,8 @@ fun Service(
             .padding(15.dp)
             .clip(RoundedCornerShape(10.dp))
     ) {
-        Text(
+        HeadlineH5(
             text = "Услуга 1",
-            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(15.dp)
         )
@@ -134,7 +131,8 @@ fun DormitoryScreen(
                     model = photo,
                     contentDescription = "Фото общежития",
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(0.dp),
                 )
                 Box(
                     modifier = Modifier
