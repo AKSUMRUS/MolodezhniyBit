@@ -1,7 +1,8 @@
 package com.nux.studio.studtourism.data.repository
 
+import com.nux.studio.studtourism.data.error.ErrorCatcher
+import com.nux.studio.studtourism.data.error.ErrorRemote
 import com.nux.studio.studtourism.data.local.prefs.TokenPrefs
-import com.nux.studio.studtourism.data.local.token.TokenDao
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.data.remote.models.LoginInfo
 import com.nux.studio.studtourism.util.Resource
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.awaitResponse
 import javax.inject.Inject
 
-class TokenRepository @Inject constructor(
+class AuthRepository @Inject constructor(
        private val tokenPrefs: TokenPrefs,
        private val api: RetrofitServices
 ) {
@@ -34,19 +35,19 @@ class TokenRepository @Inject constructor(
                 if(responseApi.code() == 200) {
                     responseApi.body()?.getString("token")
                 } else {
-                    emit(Resource.Error(""))
+                    emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
                     null
                 }
             } catch (e : Exception) {
-                emit(Resource.Error(message = e.toString()))
+                emit(Resource.Error(message = ErrorRemote.NoInternet))
+                null
             }
 
-            response?.let {
-//                emit(Resource.Success(it))
+            response?.let {data ->
+                emit(Resource.Success(data))
             }
 
             emit(Resource.Loading(false))
-
         }
     }
 
