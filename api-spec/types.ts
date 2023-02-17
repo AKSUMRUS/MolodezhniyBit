@@ -24,6 +24,23 @@ interface User {
   id: "PVbA7soK4S";
   timestamp: 1674911335152;
 }
+interface EditUser {
+  id: "PVbA7soK4S";
+  email: "dan.sot.2003@gmail.com";
+  firstName: "Даниил";
+  lastName: "Сотников";
+  middleName: "Сергеевич";
+  gender: "male";
+  departureCity: "Москва";
+  phone: "+79069469277";
+  socialUrl: "vk.com";
+  universityName: "ВШ";
+  avatar: "https://stud-files.sabir.pro/files/PVbA7soK4S-6a95693f7b294177ee38135eb27d770ede4c098b4432d01872588f7ae11a5b42.png";
+  birthday: "24.12.2003";
+  WoS: "QL";
+  WoS1: "PO";
+  studentRoleType: "student";
+}
 
 // https://stud-api.sabir.pro/dormitories/7Zbl2muIe4
 // dormitory
@@ -131,7 +148,7 @@ interface University {
     shortName: "МФТИ";
     district: "ЦФО";
   };
-  isDebug: true;
+  isDebug?: true;
   onModeration: true;
   id: "DgxLyUYhBv";
   timestamp: 1647980801834;
@@ -163,4 +180,19 @@ interface Event {
   onModeration: false;
   id: "ap5gug65RY";
   timestamp: 1650476393333;
+}
+
+interface Review {
+  photos: [];
+  topic: "Замечательная поездка";
+  text: "Рекомендуем! ";
+  rating: 4;
+  dormitoryId: "7Zbl2muIe4";
+  userId: "apkN4cAruB";
+  published: true;
+  createdTimestamp: 1670488463935;
+  onModeration: true;
+  updatedTimestamp: 1676503492483;
+  id: "5WnZaXx92f";
+  timestamp: 1670488463935;
 }
