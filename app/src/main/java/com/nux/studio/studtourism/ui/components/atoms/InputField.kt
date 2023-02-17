@@ -20,14 +20,14 @@ import androidx.compose.ui.unit.dp
 fun InputField(
     text: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     placeholder: String = "",
     onValueChange: (String) -> Unit,
+    imeAction: ImeAction = ImeAction.Next,
     keyboardType: KeyboardType = KeyboardType.Text,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    imeAction: ImeAction = ImeAction.Next,
-    enabled: Boolean = true,
-    textStyle: TextStyle = LocalTextStyle.current.copy(color = MaterialTheme.colors.onBackground),
     capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
+    textStyle: TextStyle = LocalTextStyle.current.copy(color = MaterialTheme.colors.onBackground),
 ) {
     TextField(
         value = text,

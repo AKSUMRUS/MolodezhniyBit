@@ -1,14 +1,21 @@
 package com.nux.studio.studtourism.ui.components.screens
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.nux.studio.studtourism.ui.components.InputField
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
+import com.nux.studio.studtourism.ui.theme.StudTourismTheme
+
+@Preview
+@Composable
+private fun SingUpPreview() {
+    StudTourismTheme {
+        SignUp()
+    }
+}
 
 @Composable
 fun SignUp(
@@ -20,15 +27,16 @@ fun SignUp(
     var phone by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    val inputModifier = Modifier.padding(bottom = 10.dp)
     Column(
         modifier = Modifier.fillMaxHeight()
     ){
-        InputField(text = name, placeholder = "Имя", modifier = Modifier, onValueChange = {name = it})
-        InputField(text = surname, placeholder = "Фамилия", modifier = Modifier, onValueChange = {surname = it})
-        InputField(text = middleName, placeholder = "Отчество", modifier = Modifier, onValueChange = {middleName = it})
-        InputField(text = email, placeholder = "Почта", modifier = Modifier, onValueChange = {email = it})
-        InputField(text = phone, placeholder = "Телефон", modifier = Modifier, onValueChange = {phone = it})
-        InputField(text = password, placeholder = "Пароль", modifier = Modifier, onValueChange = {password = it})
+        InputField(text = name, placeholder = "Имя", modifier = inputModifier, onValueChange = {name = it})
+        InputField(text = surname, placeholder = "Фамилия", modifier = inputModifier, onValueChange = {surname = it})
+        InputField(text = middleName, placeholder = "Отчество", modifier = inputModifier, onValueChange = {middleName = it})
+        InputField(text = email, placeholder = "Почта", modifier = inputModifier, onValueChange = {email = it})
+        InputField(text = phone, placeholder = "Телефон", modifier = inputModifier, onValueChange = {phone = it})
+        InputField(text = password, placeholder = "Пароль", modifier = inputModifier, onValueChange = {password = it})
         ButtonPrimary(text = "Создать", modifier = Modifier, onClick = {})
     }
 }
