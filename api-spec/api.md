@@ -38,7 +38,7 @@ https://stud-api.sabir.pro/labs/all
 list of Lab
 
 ## Lab
-https://stud-api.sabir.pro/labs/j6ymFKSJ93
+https://stud-api.sabir.pro/labs/{id}
 
 Lab
 
@@ -98,3 +98,22 @@ response: [EventBooking]
 https://stud-api.sabir.pro/bookings/my
 
 response: [DormitoryBooking]
+
+## Загрузить фотку
+POST https://stud-api.sabir.pro/file/upload
+
+```
+-----------------------------267743659616070297051075925392
+Content-Disposition: form-data; name="file"; filename="Screenshot 2023-02-01 at 11.08.34.png"
+Content-Type: image/png
+```
+
+response: {"url":"https://stud-files.sabir.pro/files/uKGxGlxIQC-6a95693f7b294177ee38135eb27d770ede4c098b4432d01872588f7ae11a5b42.png","hash":"6a95693f7b294177ee38135eb27d770ede4c098b4432d01872588f7ae11a5b42"}
+
+
+## Оставить отзыв
+POST https://stud-api.sabir.pro/reviews
+
+request: ReviewRequest
+
+response: Review

@@ -188,14 +188,25 @@ interface Review {
   topic: "Замечательная поездка";
   text: "Рекомендуем! ";
   rating: 4;
-  dormitoryId: "7Zbl2muIe4";
+  dormitoryId?: "7Zbl2muIe4";
+  eventId?: "ap5gug65RY";
   userId: "apkN4cAruB";
-  published: true;
+  published?: true;
   createdTimestamp: 1670488463935;
   onModeration: true;
   updatedTimestamp: 1676503492483;
   id: "5WnZaXx92f";
   timestamp: 1670488463935;
+}
+
+interface ReviewRequest {
+  photos: [
+    "https://stud-files.sabir.pro/files/uKGxGlxIQC-6a95693f7b294177ee38135eb27d770ede4c098b4432d01872588f7ae11a5b42.png"
+  ];
+  topic: "текст";
+  text: "отзыв";
+  rating: 5;
+  eventId: "WkC61h8Pj1";
 }
 
 interface Lab {
@@ -294,7 +305,6 @@ interface EventBooking {
   createdTimestamp: 1676653880803;
   updatedTimestamp: 1676653880803;
 }
-
 
 interface EventBookingRequest {
   eventId: "WkC61h8Pj1";
