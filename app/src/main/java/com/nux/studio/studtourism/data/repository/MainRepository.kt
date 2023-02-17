@@ -2,8 +2,10 @@ package com.nux.studio.studtourism.data.repository
 
 import com.nux.studio.studtourism.data.error.ErrorCatcher
 import com.nux.studio.studtourism.data.error.ErrorRemote
+import com.nux.studio.studtourism.data.local.university.University
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.util.Resource
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.awaitResponse
 import javax.inject.Inject
@@ -12,7 +14,7 @@ class MainRepository @Inject constructor(
     private val api: RetrofitServices
 ) {
 
-    fun getUniversities() = flow<Resource<List<Unit>>> {
+    fun getUniversities(): Flow<Resource<List<University>>> = flow {
         emit(Resource.Loading(true))
         val response = try {
             val responseApi = api.getUniversitiesList().awaitResponse()
