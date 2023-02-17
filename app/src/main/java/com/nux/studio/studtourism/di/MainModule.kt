@@ -32,6 +32,9 @@ interface MainModule {
                 MyDatabase::class.java,
                 "my_database"
             )
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build()
 
     }
 
