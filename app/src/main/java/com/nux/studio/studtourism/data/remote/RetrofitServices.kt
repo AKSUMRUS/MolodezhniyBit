@@ -1,6 +1,8 @@
 package com.nux.studio.studtourism.data.remote
 
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
+import com.nux.studio.studtourism.data.remote.models.EditUser
+import com.nux.studio.studtourism.data.remote.models.User
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -15,8 +17,8 @@ interface RetrofitServices {
         @Body info: AuthInfo
     ) : Call<JSONObject>
 
-    @POST("users")
-    fun makeRegistration(
+    @POST("users/signup")
+    fun signUp(
         @Body info: AuthInfo
     ) : Call<JSONObject>
 
@@ -52,5 +54,11 @@ interface RetrofitServices {
     fun getLab(
         @Path("id") id: String
     )
+
+
+    @POST("users")
+    fun editUser(
+        @Body editUser: EditUser
+    ) : Call<User>
 
 }
