@@ -24,6 +24,7 @@ interface User {
   id: "PVbA7soK4S";
   timestamp: 1674911335152;
 }
+
 interface EditUser {
   id: "PVbA7soK4S";
   email: "dan.sot.2003@gmail.com";
@@ -195,4 +196,43 @@ interface Review {
   updatedTimestamp: 1676503492483;
   id: "5WnZaXx92f";
   timestamp: 1670488463935;
+}
+
+interface Lab {
+  "details": {
+    "name": "лаборатория 1",
+    "link": "https://yandex.ru",
+    "description": "фыва фыва фыва ",
+    "photos": [
+      "https://stud-files.sabir.pro/files/MlcLzJOAQC-f4d358d67b19614f721782b44d59ba75812f4f43025e55c49b639737072dac37.jpg"
+    ],
+    "coordinates": {
+      "lat": 55.75464699125826,
+      "lng": 37.38872558593749
+    },
+    "owner": {
+      "name": "owner1",
+      "position": "sss",
+      "phone": "ddd",
+      "email": "fff@ddd.com"
+    },
+    "unit": {
+      "name": "unit1",
+      "phone": "unit1",
+      "email": "unit1@sabir.pro"
+    },
+    "admin": {
+      "name": "admin1",
+      "phone": "admin-ph",
+      "email": "admin@sss.pro"
+    },
+    "shortDescription": "short descript"
+  },
+  "userId": "MlcLzJOAQC",
+  "universityId": "DgxLyUYhBv",
+  "onModeration": true,
+  "createdTimestamp": 1653859886766,
+  "updatedTimestamp": 1670864218030,
+  "id": "CCJnsL4JPI",
+  "timestamp": 1653859886766
 }

@@ -3,10 +3,22 @@ https://stud-api.sabir.pro/universities/all
 
 list of University
 
+## Одно university 
+https://stud-api.sabir.pro/universities/{id}
+
+University
+
 ## Все dormitories cnt=218
 https://stud-api.sabir.pro/dormitories/all
 
 list of Dormitories
+
+## Одно dormitory
+https://stud-api.sabir.pro/dormitories/{id}
+
+Dormitory
+
+У меня некоторые так загружатся не хотели. И оф. сайт их не использует
 
 ## Все events cnt=248
 https://stud-api.sabir.pro/events/all
@@ -19,6 +31,16 @@ list of Events
 https://stud-api.sabir.pro/reviews
 
 list of Review
+
+## Все labs cnt=153
+https://stud-api.sabir.pro/labs/all
+
+list of Lab
+
+## Lab
+https://stud-api.sabir.pro/labs/j6ymFKSJ93
+
+Lab
 
 ## Получить себя
 https://stud-api.sabir.pro/me
@@ -43,7 +65,10 @@ response: {"token":"r:9556c469ab83d6c5a73c0f345e9fdc70"}
 PUT https://stud-api.sabir.pro/users
 
 request: {"name":"Что","phone":"где","studentRoleType":"student"}
+
 response: User
+
+Тут он понимает что за юзер по токену
 
 ## edit user
 POST https://stud-api.sabir.pro/users
