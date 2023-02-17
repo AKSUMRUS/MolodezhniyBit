@@ -5,9 +5,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nux.studio.studtourism.ui.components.InputField
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
+import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
+
 
 @Preview
 @Composable
@@ -20,6 +23,7 @@ private fun SingUpPreview() {
 @Composable
 fun SignUp(
 ) {
+    val viewModel: SignUpViewModel = hiltViewModel()
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var middleName by remember { mutableStateOf("") }

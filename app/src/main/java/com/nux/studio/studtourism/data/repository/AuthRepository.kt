@@ -55,7 +55,7 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    fun makeRegistration(
+    fun signUp(
         email: String,
         password: String
     ): Flow<Resource<Unit>> {

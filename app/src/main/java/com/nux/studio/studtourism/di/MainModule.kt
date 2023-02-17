@@ -24,6 +24,7 @@ interface MainModule {
 
     @Binds
     @Singleton
+    @TokenInterceptorQualifier
     fun getTokenInterception(impl : TokenInterceptor) : Interceptor
 
     companion object {
@@ -40,7 +41,7 @@ interface MainModule {
         @Provides
         @Singleton
         fun provideOkHttpClient(
-            tokenInterceptor: Interceptor,
+            @TokenInterceptorQualifier tokenInterceptor: Interceptor,
             logging: HttpLoggingInterceptor
         ) : OkHttpClient {
             return OkHttpClient.Builder()
