@@ -1,6 +1,6 @@
 package com.nux.studio.studtourism.data.remote
 
-import com.nux.studio.studtourism.data.local.university.University
+import com.nux.studio.studtourism.data.local.models.University
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
 import com.nux.studio.studtourism.data.remote.models.EditUser
 import com.nux.studio.studtourism.data.remote.models.User

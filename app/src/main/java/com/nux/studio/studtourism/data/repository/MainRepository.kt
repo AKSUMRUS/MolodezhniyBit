@@ -2,7 +2,7 @@ package com.nux.studio.studtourism.data.repository
 
 import com.nux.studio.studtourism.data.error.ErrorCatcher
 import com.nux.studio.studtourism.data.error.ErrorRemote
-import com.nux.studio.studtourism.data.local.university.University
+import com.nux.studio.studtourism.data.local.models.University
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.util.Resource
 import kotlinx.coroutines.flow.Flow

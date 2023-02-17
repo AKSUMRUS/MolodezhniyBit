@@ -1,4 +1,4 @@
-package com.nux.studio.studtourism.data.local.university
+package com.nux.studio.studtourism.data.local.models
 
 data class University(
     val userId: String?,
