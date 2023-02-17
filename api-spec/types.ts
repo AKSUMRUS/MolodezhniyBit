@@ -7,9 +7,9 @@ interface User {
   phone: "+79069469277";
   studentRoleType?: "student";
   createdTimestamp: 1674911335152;
-  starredEvents?: ["mWNp6gGkby"];
+  starredEvents?: ["mWNp6gGkby"]; // list of event ids
   updatedTimestamp: 1676646980795;
-  starredDormitories?: ["7Zbl2muIe4"];
+  starredDormitories?: ["7Zbl2muIe4"]; // list of dormitory ids
   firstName?: "Даниил";
   lastName?: "Сотников";
   middleName?: "Сергеевич";
@@ -23,8 +23,9 @@ interface User {
   avatar?: "https://stud-files.sabir.pro/files/PVbA7soK4S-6a95693f7b294177ee38135eb27d770ede4c098b4432d01872588f7ae11a5b42.png";
   id: "PVbA7soK4S";
   timestamp: 1674911335152;
-} // https://stud-api.sabir.pro/dormitories/7Zbl2muIe4
+}
 
+// https://stud-api.sabir.pro/dormitories/7Zbl2muIe4
 // dormitory
 interface Dormitory {
   userId: string; // "PtA4pFzxry"
