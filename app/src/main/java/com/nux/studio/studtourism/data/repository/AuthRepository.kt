@@ -36,10 +36,12 @@ class AuthRepository @Inject constructor(
                     responseApi.body()?.getString("token")
                 } else {
                     emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
+                    emit(Resource.Loading(false))
                     return@flow
                 }
             } catch (e : Exception) {
                 emit(Resource.Error(message = ErrorRemote.NoInternet))
+                emit(Resource.Loading(false))
                 return@flow
             }
 
