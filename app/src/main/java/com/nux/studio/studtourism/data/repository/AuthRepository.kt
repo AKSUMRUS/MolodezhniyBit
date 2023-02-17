@@ -5,6 +5,8 @@ import com.nux.studio.studtourism.data.error.ErrorRemote
 import com.nux.studio.studtourism.data.local.prefs.TokenPrefs
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
+import com.nux.studio.studtourism.data.remote.models.EditUser
+import com.nux.studio.studtourism.data.remote.models.User
 import com.nux.studio.studtourism.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -83,5 +85,45 @@ class AuthRepository @Inject constructor(
             emit(Resource.Success(Unit))
             emit(Resource.Loading(false))
         }
+    }
+
+    fun editUser() = flow<Resource<User?>> {
+        val editUser = EditUser(
+            id = null,
+            email = null,
+            firstName = null,
+            lastName = null,
+            middleName = null,
+            gender = null,
+            departureCity = null,
+            phone = null,
+            socialUrl = null,
+            universityName = null,
+            avatar = null,
+            birthday = null,
+            WoS = null,
+            WoS1 = null,
+            studentRoleType = null
+        )
+
+        val request = api.editUser(editUser)
+
+        val response = try {
+            val responseApi = request.awaitResponse()
+            if (responseApi.code() == 200) {
+                responseApi.body()
+            } else {
+                emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
+                emit(Resource.Loading(false))
+                return@flow
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(message = ErrorRemote.NoInternet))
+            emit(Resource.Loading(false))
+            return@flow
+        }
+
+        emit(Resource.Success(response))
+        emit(Resource.Loading(false))
     }
 }

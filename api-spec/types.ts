@@ -3,8 +3,8 @@ interface User {
   username: "dan.sot.2003@gmail.com";
   email: "dan.sot.2003@gmail.com";
   userRole: "user";
-  name: "Сотников Даниил Сергеевич";
-  phone: "+79069469277";
+  name?: "Сотников Даниил Сергеевич";
+  phone?: "+79069469277";
   studentRoleType?: "student";
   createdTimestamp: 1674911335152;
   starredEvents?: ["mWNp6gGkby"]; // list of event ids
@@ -64,13 +64,13 @@ interface DormitoryDetails {
   "main-info": {
     name: "Студенческое общежитие ПВГУС";
     city: "Тольятти";
-    street: "ул. Ленинградская";
-    houseNumber: "29";
-    coordinates: { lat: "53.503659"; lng: "49.400055" };
+    street?: "ул. Ленинградская";
+    houseNumber?: "29";
+    coordinates?: { lat: "53.503659"; lng: "49.400055" };
     mealPlan: "nothing";
     maxDays: "30";
     minDays: "2";
-    photos: [
+    photos?: [
       "https://stud-files.sabir.pro/files/PtA4pFzxry-e6e200f4363190c4400ba0dba4958a16b719f4e33bc5e14f50e4ff6fdf8b871c.jpg",
       "https://stud-files.sabir.pro/files/PtA4pFzxry-f1e50fcce61fcf319452f4e94f18d0171ff78119185502ff72842ead96356670.png",
       "https://stud-files.sabir.pro/files/PtA4pFzxry-8d58ef1299a1161a74f77d61f179828623c25bf7cce08f62b7898c83dc081f4c.png",
@@ -79,7 +79,7 @@ interface DormitoryDetails {
       "https://stud-files.sabir.pro/files/PtA4pFzxry-02a4d11680ad219c665470fdf3d920a8390e8445d2bfc80e8fc6d79ec47d87d6.png"
     ];
   };
-  rules: {
+  rules?: {
     committee: {
       name: "Студтуризм ПВГУС 2022";
       email: "st@tolgas.ru";
@@ -88,7 +88,7 @@ interface DormitoryDetails {
     requiredUniDocuments: "Копия приказа о направлении обучающихся";
     requiredStudentsDocuments: "При заселение в общежитие   требуется:\n-паспорт гражданина, или иного документа, удостоверяющего личность; \n\n - квитанции об оплате за проживание в общежитии. \n- документ, подтверждающий обучение в образовательном учреждении высшего или среднего профессионального образования. ";
   };
-  services: [
+  services?: [
     {
       isFree: false;
       id: "CB7M76RcAF";
@@ -199,40 +199,116 @@ interface Review {
 }
 
 interface Lab {
-  "details": {
-    "name": "лаборатория 1",
-    "link": "https://yandex.ru",
-    "description": "фыва фыва фыва ",
-    "photos": [
+  details: {
+    name: "лаборатория 1";
+    link: "https://yandex.ru";
+    description: "фыва фыва фыва ";
+    photos: [
       "https://stud-files.sabir.pro/files/MlcLzJOAQC-f4d358d67b19614f721782b44d59ba75812f4f43025e55c49b639737072dac37.jpg"
-    ],
-    "coordinates": {
-      "lat": 55.75464699125826,
-      "lng": 37.38872558593749
-    },
-    "owner": {
-      "name": "owner1",
-      "position": "sss",
-      "phone": "ddd",
-      "email": "fff@ddd.com"
-    },
-    "unit": {
-      "name": "unit1",
-      "phone": "unit1",
-      "email": "unit1@sabir.pro"
-    },
-    "admin": {
-      "name": "admin1",
-      "phone": "admin-ph",
-      "email": "admin@sss.pro"
-    },
-    "shortDescription": "short descript"
-  },
-  "userId": "MlcLzJOAQC",
-  "universityId": "DgxLyUYhBv",
-  "onModeration": true,
-  "createdTimestamp": 1653859886766,
-  "updatedTimestamp": 1670864218030,
-  "id": "CCJnsL4JPI",
-  "timestamp": 1653859886766
+    ];
+    coordinates: {
+      lat: 55.75464699125826;
+      lng: 37.38872558593749;
+    };
+    owner: {
+      name: "owner1";
+      position: "sss";
+      phone: "ddd";
+      email: "fff@ddd.com";
+    };
+    unit: {
+      name: "unit1";
+      phone: "unit1";
+      email: "unit1@sabir.pro";
+    };
+    admin: {
+      name: "admin1";
+      phone: "admin-ph";
+      email: "admin@sss.pro";
+    };
+    shortDescription: "short descript";
+  };
+  userId: "MlcLzJOAQC";
+  universityId: "DgxLyUYhBv";
+  onModeration: true;
+  createdTimestamp: 1653859886766;
+  updatedTimestamp: 1670864218030;
+  id: "CCJnsL4JPI";
+  timestamp: 1653859886766;
+}
+
+interface DormitoryBooking {
+  dates: { from: "2023-03-14"; to: "2023-03-17" };
+  author: {
+    role: "user";
+    name: "Фио точно";
+    contacts: { phone: "телефон точно"; email: "mail@mail.ru" };
+  };
+  userId: "PVbA7soK4S";
+  universityId: "ddasXacKVT";
+  dormitoryId: "t46oXcQLKo";
+  roomId: "yek4nZPkhE";
+  quantity: 2;
+  comment: "Не обращайте внимание на заявку";
+  status: "new";
+  from: "2023-03-14";
+  to: "2023-03-17";
+  id: "C0LWkzghs0";
+  timestamp: 1676652740970;
+  createdTimestamp: 1676652740970;
+  updatedTimestamp: 1676652740970;
+}
+
+interface DormitoryBookingRequest {
+  roomId: "yek4nZPkhE";
+  dates: { from: "2023-03-14"; to: "2023-03-17" };
+  quantity: "2";
+  author: {
+    role: "user";
+    name: "Фио точно";
+    contacts: { phone: "телефон точно"; email: "mail@mail.ru" };
+  };
+  comment: "Не обращайте внимание на заявку";
+}
+
+interface EventBooking {
+  details: {
+    quantity: "1";
+    fullName: "Некто А Б";
+    phone: "РЕАЛЬНЫЙ ТЕЛЕФОН";
+    email: "mail@mail.ru";
+    participants: [
+      {
+        fullName: "ПОПУТЧИК 123";
+        phone: "ТЕЛЕФОН ПОПУТЧИКА";
+        email: "почта@попутчик.рф";
+      }
+    ];
+  };
+  userId: "uKGxGlxIQC";
+  universityId: "5SjLN2TEn0";
+  status: "new";
+  eventId: "WkC61h8Pj1";
+  id: "Cyz0EEWmID";
+  timestamp: 1676653880803;
+  createdTimestamp: 1676653880803;
+  updatedTimestamp: 1676653880803;
+}
+
+
+interface EventBookingRequest {
+  eventId: "WkC61h8Pj1";
+  details: {
+    quantity: "1";
+    fullName: "Некто А Б";
+    phone: "РЕАЛЬНЫЙ ТЕЛЕФОН";
+    email: "mail@mail.ru";
+    participants: [
+      {
+        fullName: "ПОПУТЧИК 123";
+        phone: "ТЕЛЕФОН ПОПУТЧИКА";
+        email: "почта@попутчик.рф";
+      }
+    ];
+  };
 }

@@ -68,12 +68,33 @@ request: {"name":"Что","phone":"где","studentRoleType":"student"}
 
 response: User
 
-Тут он понимает что за юзер по токену
-
-## edit user
+## Edit User
 POST https://stud-api.sabir.pro/users
 
 request: EditUser 
 
 response: User
 
+## Бронирование жилья
+POST https://stud-api.sabir.pro/bookings
+
+request: DormitoryBookingRequest
+
+response: DormitoryBooking
+
+## Бронирование эвентов
+POST https://stud-api.sabir.pro/event-bookings
+
+request: EventBookingRequest
+
+response: EventBooking
+
+## Бронирования эвентов
+https://stud-api.sabir.pro/event-bookings/my
+
+response: [EventBooking]
+
+## Получить бронирования жилья
+https://stud-api.sabir.pro/bookings/my
+
+response: [DormitoryBooking]
