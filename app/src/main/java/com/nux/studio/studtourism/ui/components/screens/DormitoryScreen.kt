@@ -3,7 +3,6 @@ package com.nux.studio.studtourism.ui.components.screens
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,9 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH3
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
@@ -57,7 +54,7 @@ fun DormitoryScreen(
                     .background(Color.Transparent)
             ) {
                 dormitory.details.mainInfo.city?.let { city ->
-                    Pill(dormitory.details.mainInfo.city, variant = PillVariant.OUTLINE)
+                    Pill(dormitory.details.mainInfo.city, variant = PillVariant.BACKGROUND)
                 }
             }
             val minDays = dormitory.details.mainInfo.minDays

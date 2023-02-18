@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -22,6 +23,8 @@ import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.data.local.models.getFormattedDays
 import com.nux.studio.studtourism.data.local.models.getFormattedPrice
+import com.nux.studio.studtourism.ui.components.atoms.Pill
+import com.nux.studio.studtourism.ui.components.atoms.PillVariant
 import com.nux.studio.studtourism.ui.components.atoms.texts.Body1
 import com.nux.studio.studtourism.ui.components.atoms.texts.Body2
 
@@ -39,8 +42,8 @@ fun CardDormitory(
         elevation = 10.dp,
         modifier = Modifier
             .padding(10.dp)
-            .clip(RoundedCornerShape(20.dp))
             .fillMaxSize()
+            .clip(RoundedCornerShape(20.dp))
             .clickable {
                 onClick()
             }
@@ -134,6 +137,13 @@ fun CardDormitory(
                         fontWeight = FontWeight.Normal
                     )
                 }
+            }
+            dormitory.details?.mainInfo?.city?.let { city ->
+                Pill(
+                    text = city,
+                    modifier = Modifier.align(Alignment.TopStart),
+                    variant = PillVariant.BACKGROUND,
+                )
             }
         }
     }

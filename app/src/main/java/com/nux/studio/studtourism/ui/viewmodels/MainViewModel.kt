@@ -51,7 +51,7 @@ class MainViewModel @Inject constructor(
         }
 
         cities = dormitories.mapNotNull { dormitory ->
-            dormitory.details?.city
+            dormitory.details?.mainInfo?.city
         }.toSet()
 
         districts = dormitories.mapNotNull { dormitory ->

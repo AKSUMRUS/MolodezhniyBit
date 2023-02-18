@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 enum class PillVariant {
     PRIMARY,
+    BACKGROUND,
     OUTLINE,
 }
 
@@ -23,26 +25,32 @@ enum class PillVariant {
 fun Pill(
     text: String,
     modifier: Modifier = Modifier,
-    variant: PillVariant = PillVariant.OUTLINE,
+    variant: PillVariant = PillVariant.BACKGROUND,
+    textColor: Color? = null,
 ) {
-    val modifierWithBg = when (variant) {
-        PillVariant.PRIMARY -> modifier.background(color = MaterialTheme.colors.primary)
-        PillVariant.OUTLINE -> modifier.background(color = MaterialTheme.colors.background)
+    val bgColor = when (variant) {
+        PillVariant.PRIMARY -> MaterialTheme.colors.primary
+        PillVariant.BACKGROUND -> MaterialTheme.colors.background
+        PillVariant.OUTLINE -> Color.Transparent
     }
-    val textColor = when (variant) {
+    val textColorCalculated = textColor?: when (variant) {
         PillVariant.PRIMARY -> MaterialTheme.colors.onPrimary
+        PillVariant.BACKGROUND -> MaterialTheme.colors.onBackground
         PillVariant.OUTLINE -> MaterialTheme.colors.onBackground
     }
     Box(
-        modifier = modifierWithBg
+        modifier = Modifier
             .padding(5.dp, 0.dp)
             .clip(RoundedCornerShape(30.dp))
-            .border(1.dp, color = textColor, shape = CircleShape),
+            .border(1.dp, color = textColorCalculated, shape = CircleShape)
+            .background(bgColor)
+            .then(modifier)
     ) {
         Text(
             text = text,
             modifier = Modifier.padding(10.dp, 5.dp),
-            color = textColor
+            color = textColorCalculated,
+            fontSize = 15.sp,
         )
     }
 }
