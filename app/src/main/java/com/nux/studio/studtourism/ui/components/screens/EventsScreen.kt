@@ -1,6 +1,8 @@
 package com.nux.studio.studtourism.ui.components.screens
 
 import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -20,7 +22,7 @@ import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 @Composable
 fun EventsScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
 ) {
     val events = viewModel.state.eventsList
     val isLoading = viewModel.state.isLoading
@@ -31,20 +33,24 @@ fun EventsScreen(
         viewModel.getEvents()
     }
 
-    if (isLoading) {
-        LoadingViewCenter()
-    } else {
+    Box(
+        modifier = modifier
+    ) {
+        if (isLoading) {
+            LoadingViewCenter()
+        } else {
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(top = 80.dp, start = 0.dp, end = 0.dp),
-            modifier = Modifier,
-        ) {
-            items(events) { event ->
-                Text(
-                    text = event.details.name.toString(),
-                    color = MaterialTheme.colors.error
-                )
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(top = 80.dp, start = 0.dp, end = 0.dp),
+                modifier = Modifier.background(MaterialTheme.colors.background),
+            ) {
+                items(events) { event ->
+                    Text(
+                        text = event.details.name.toString(),
+                        color = MaterialTheme.colors.error
+                    )
+                }
             }
         }
     }

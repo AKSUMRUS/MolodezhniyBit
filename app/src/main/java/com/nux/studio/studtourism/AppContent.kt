@@ -50,7 +50,7 @@ fun AppContent() {
         ) {
             AppNavGraph(
                 navController = navController,
-                modifier = Modifier.padding(15.dp)
+                modifier = Modifier
             )
         }
     }

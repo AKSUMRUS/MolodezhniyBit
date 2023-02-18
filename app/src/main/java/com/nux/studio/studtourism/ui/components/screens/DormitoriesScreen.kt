@@ -1,10 +1,13 @@
 package com.nux.studio.studtourism.ui.components.screens
 
 import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -18,7 +21,8 @@ import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 @Composable
 fun DormitoriesScreen(
     navController: NavController,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    modifier: Modifier = Modifier
 ) {
     val isLoading = viewModel.state.isLoading
 
@@ -29,30 +33,34 @@ fun DormitoriesScreen(
         viewModel.getDormitories()
     }
 
-    if (isLoading) {
-        LoadingViewCenter()
-    } else {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(top = 10.dp, start = 0.dp, end = 0.dp),
-            modifier = Modifier,
-        ) {
-            itemsIndexed(viewModel.state.dormitoriesList) { index, dormitory ->
-                if (index % 2 == 0) {
-                    height = (200..400).random()
-                }
+    Box(
+        modifier = modifier
+    ) {
+        if (isLoading) {
+            LoadingViewCenter()
+        } else {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(top = 10.dp, start = 0.dp, end = 0.dp),
+                modifier = Modifier.background(MaterialTheme.colors.background),
+            ) {
+                itemsIndexed(viewModel.state.dormitoriesList) { index, dormitory ->
+                    if (index % 2 == 0) {
+                        height = (200..400).random()
+                    }
 
-                CardDormitory(
-                    dormitory = dormitory,
-                    onClick = {
-                        Log.e("LOGGGG", viewModel.toString())
-                        navController.navigate(
-                            "dormitory?index=$index"
-                        )
-                    },
-                    height = height,
-                    navController = navController,
-                )
+                    CardDormitory(
+                        dormitory = dormitory,
+                        onClick = {
+                            Log.e("LOGGGG", viewModel.toString())
+                            navController.navigate(
+                                "dormitory?index=$index"
+                            )
+                        },
+                        height = height,
+                        navController = navController,
+                    )
+                }
             }
         }
     }

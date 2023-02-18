@@ -1,8 +1,13 @@
 package com.nux.studio.studtourism.ui.navigation
 
 import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -27,17 +32,26 @@ fun AppNavGraph(
         composable(SegmentControlTabs.DORMITORIES.route) {
             DormitoriesScreen(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                modifier = Modifier
+                    .background(MaterialTheme.colors.surface)
+                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
             )
         }
         composable(SegmentControlTabs.EVENTS.route) {
             EventsScreen(
-                viewModel = viewModel
+                viewModel = viewModel,
+                modifier = Modifier
+                    .background(MaterialTheme.colors.surface)
+                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
             )
         }
         composable(SegmentControlTabs.LABS.route) {
             LabsScreen(
-                viewModel = viewModel
+                viewModel = viewModel,
+                modifier = Modifier
+                    .background(MaterialTheme.colors.surface)
+                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
             )
         }
         composable(
