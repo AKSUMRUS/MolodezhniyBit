@@ -23,7 +23,7 @@ fun SectionHeader(
         color = color,
         style = MaterialTheme.typography.subtitle1,
         modifier = Modifier
-            .padding(top = 20.dp)
+            .padding(top = 25.dp)
             .padding(bottom = 10.dp)
             .then(modifier),
         fontWeight = fontWeight,
