@@ -65,15 +65,28 @@ fun AppNavGraph(
                 }
             )
         ){ backStackEntry ->
-            Log.e("LOGGGG", backStackEntry.arguments.toString())
             val index = backStackEntry.arguments?.getInt("index", 0)?: 0
-            Log.e("LOGGGG", index.toString())
             DormitoryScreen(
                 index = index,
                 viewModel = viewModel
             )
         }
-        composable("profile") {
+        composable(
+            route = "event?index={index}",
+            arguments = listOf(
+                navArgument("index") {
+                    type = NavType.IntType
+                    defaultValue = 0
+                }
+            )
+        ) { backStackEntry ->
+            val index = backStackEntry.arguments?.getInt("index", 0)?: 0
+            EventScreen(
+                index = index,
+                viewModel = viewModel
+            )
+        }
+            composable("profile") {
             ProfileScreen()
         }
         composable("login") {

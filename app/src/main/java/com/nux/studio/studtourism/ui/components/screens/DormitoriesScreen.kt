@@ -65,9 +65,9 @@ fun DormitoriesScreen(
                 ) {
                     val list = viewModel.state.dormitoriesList.filter {item ->
                         var can = true
-//                        if(filters.city.) {
-
-//                        }
+                        if(!filters.city.isNullOrEmpty()) {
+//                            can &= 1
+                        }
                         can
                     }
                     itemsIndexed(viewModel.state.dormitoriesList) { index, dormitory ->
