@@ -1,20 +1,27 @@
 package com.nux.studio.studtourism.ui.components.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.ui.components.molecules.CardDormitory
 import com.nux.studio.studtourism.ui.components.molecules.CardLab
 import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
@@ -67,6 +74,21 @@ fun LabsScreen(
                     )
                 }
             }
+        }
+
+        FloatingActionButton(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(end = 16.dp, bottom = 24.dp),
+            backgroundColor = MaterialTheme.colors.surface,
+            onClick = {
+                //
+            }
+        ) {
+            Image(
+                imageVector = ImageVector.vectorResource(id = R.drawable.filters),
+                contentDescription = "Filter's button"
+            )
         }
     }
 

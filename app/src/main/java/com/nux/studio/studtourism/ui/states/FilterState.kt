@@ -3,13 +3,13 @@ package com.nux.studio.studtourism.ui.states
 import com.nux.studio.studtourism.data.local.models.Committee
 
 data class FilterState(
-    val ratingBy: RatingBy = RatingBy.DESCENDING,
-    val city: String? = null,
-    val district: String? = null,
-    val subject: String? = null,
-    val committee: Committee? = null,
-    val placeType: String? = null,
-    val mealType: MealType = MealType.BREAKFAST
+    var ratingBy: RatingBy = RatingBy.DESCENDING,
+    var city: String? = null,
+    var district: String? = null,
+    var subject: String? = null,
+    var committee: Committee? = null,
+    var placeType: String? = null,
+    var mealType: MealType = MealType.BREAKFAST
 )
 
 enum class RatingBy{

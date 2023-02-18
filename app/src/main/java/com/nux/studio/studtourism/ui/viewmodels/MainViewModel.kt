@@ -32,9 +32,7 @@ class MainViewModel @Inject constructor(
     val state : MainState
         get() = _state
 
-    private var _filterState by mutableStateOf(FilterState())
-    val filterState : FilterState
-        get() = _filterState
+    var filterState by mutableStateOf(FilterState())
 
     var cities: Set<String> = emptySet()
     private set
@@ -71,6 +69,7 @@ class MainViewModel @Inject constructor(
                     is Resource.Success -> {
                         result.data?.let {data ->
                             _state = _state.copy(dormitoriesList = data)
+                            filterInfo(data)
                         }
                     }
                     is Resource.Loading -> {
