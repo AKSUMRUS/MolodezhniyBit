@@ -11,5 +11,6 @@ data class LabDetails(
     val owner: LabOwner?,
     val unit: LabUnit?,
     val admin: LabUnit?,
-    val shortDescription: String?
+    val shortDescription: String?,
+    val city: String?,
 )

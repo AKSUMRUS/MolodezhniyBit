@@ -139,7 +139,6 @@ class MainViewModel @Inject constructor(
         }
     }
     fun getDormitoriesBooked() {
-        Log.d("getDormitoriesBooked", "getDormitoriesBooked: called")
         viewModelScope.launch {
             repository.getDormitoriesBooked().collect { result ->
                 when (result) {
