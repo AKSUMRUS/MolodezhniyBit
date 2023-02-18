@@ -13,7 +13,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 @Composable
 fun SegmentControlBar(
     navController: NavController,
-    tabs: Array<SegmentControlTabs>
+    tabs: Array<SegmentControlTabs>,
+    index: Int = 0
 ) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -21,7 +22,7 @@ fun SegmentControlBar(
 
     val routes = remember { SegmentControlTabs.values().map { it.route } }
 
-    var defaultSelectedItemIndex by remember { mutableStateOf(0) }
+    var defaultSelectedItemIndex by remember { mutableStateOf(index) }
 
     if (currentRoute in routes) {
         Column(

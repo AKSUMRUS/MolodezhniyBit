@@ -41,10 +41,6 @@ fun AppContent() {
                         navController = navController,
                         tabs = tabs
                     )
-//                    SegmentControlBar(
-//                        navController = navController,
-//                        tabs = tabs
-//                    )
                 }
             }
         ) {

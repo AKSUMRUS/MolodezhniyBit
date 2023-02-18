@@ -16,7 +16,7 @@ interface RetrofitServices {
     @POST("users/login")
     fun login(
         @Body info: AuthInfo
-    ) : Call<JSONObject>
+    ) : Call<Token>
 
     @POST("users/signup")
     fun signUp(
