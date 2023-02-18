@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun Body2(
@@ -15,6 +17,7 @@ fun Body2(
     color: Color = MaterialTheme.colors.onBackground,
     fontWeight: FontWeight? = MaterialTheme.typography.body2.fontWeight,
     textAlign: TextAlign = TextAlign.Left,
+    fontSize: TextUnit = MaterialTheme.typography.body2.fontSize,
 ) {
 
     Text(
@@ -24,6 +27,7 @@ fun Body2(
         modifier = modifier,
         fontWeight = fontWeight,
         textAlign = textAlign,
+        fontSize = fontSize,
     )
 }
 

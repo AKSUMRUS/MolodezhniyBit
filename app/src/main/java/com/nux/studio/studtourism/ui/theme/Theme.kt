@@ -24,19 +24,19 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = LightBlue,
+    primary = LightLightBlue,
     onPrimary = Black,
 
     background = White,
     onBackground = Black,
 
-    primaryVariant = LightLightBlue,
+    primaryVariant = LightBlue,
 
-    secondary = White,
-    onSecondary = Black,
+    secondary = LightGray,
+    onSecondary = White,
 
-    surface = LightGray,
-    onSurface = Black,
+    surface = Black,
+    onSurface = Cyan,
 )
 
 @Composable

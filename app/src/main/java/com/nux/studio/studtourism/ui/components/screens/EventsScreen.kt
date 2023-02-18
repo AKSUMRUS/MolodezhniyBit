@@ -3,6 +3,9 @@ package com.nux.studio.studtourism.ui.components.screens
 import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -26,9 +29,10 @@ fun EventsScreen(
         viewModel.getEvents()
     }
 
-    LazyColumn(
-        contentPadding = PaddingValues(top = 0.dp, start = 20.dp, end = 20.dp),
-        modifier = modifier,
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(top = 80.dp, start = 0.dp, end = 0.dp),
+        modifier = Modifier,
     ) {
         items(events) { event ->
             Text(
