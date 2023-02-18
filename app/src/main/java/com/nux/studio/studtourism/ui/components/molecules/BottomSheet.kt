@@ -1,18 +1,23 @@
 package com.nux.studio.studtourism.ui.components.molecules
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.nux.studio.studtourism.ui.components.atoms.InputField
+import com.nux.studio.studtourism.ui.states.FilterState
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun BottomSheet(
     viewModel: MainViewModel,
@@ -26,7 +31,20 @@ fun BottomSheet(
         skipHalfExpanded = true,
     )
 
-    var state = viewModel.filterState
+    var state by remember { mutableStateOf(FilterState()) }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(state) {
+        if(state != FilterState()) {
+            viewModel.updateFilters(state)
+        }
+    }
+
+    BackHandler {
+        coroutineScope.launch {
+            modalSheetState.hide() // trigger the LaunchedEffect
+        }
+    }
 
     ModalBottomSheetLayout(
         sheetState = modalSheetState,
@@ -47,17 +65,23 @@ fun BottomSheet(
                 
                 InputField(
                     text = state.city?: "",
-                    onValueChange = {state.city = it}
+                    onValueChange = {
+                        state = state.copy(city = it)
+                    },
+                    keyboardActions = KeyboardActions(
+                        onDone = {keyboardController?.hide()})
                 )
             }
         }
     ) {
         content {
             coroutineScope.launch {
-                if (modalSheetState.isVisible)
+                if (modalSheetState.isVisible) {
                     modalSheetState.hide()
-                else
+                }
+                else {
                     modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
+                }
             }
         }
     }

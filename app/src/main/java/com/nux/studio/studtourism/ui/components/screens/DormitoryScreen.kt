@@ -33,11 +33,13 @@ import com.nux.studio.studtourism.ui.viewmodels.UniversityViewModel
 
 @Composable
 fun DormitoryScreen(
-    index: Int,
+    index: String,
     viewModel: MainViewModel
 ) {
     Log.e("LOGGGG", viewModel.toString())
-    val dormitory = viewModel.state.dormitoriesList[index]
+    val dormitory = viewModel.state.dormitoriesList.find { item ->
+        item.id == index
+    }?: viewModel.state.dormitoriesList[0]
 
     val universityViewModel: UniversityViewModel = hiltViewModel()
 

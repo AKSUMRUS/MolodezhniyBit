@@ -63,14 +63,15 @@ fun DormitoriesScreen(
                     contentPadding = PaddingValues(top = 10.dp, start = 0.dp, end = 0.dp),
                     modifier = Modifier.background(MaterialTheme.colors.background),
                 ) {
+                    Log.d("Dormitories", filters.toString())
                     val list = viewModel.state.dormitoriesList.filter {item ->
                         var can = true
                         if(!filters.city.isNullOrEmpty()) {
-//                            can &= 1
+                            can = can && (item.details?.mainInfo?.city?.contains(filters.city.toString())?: true)
                         }
                         can
                     }
-                    itemsIndexed(viewModel.state.dormitoriesList) { index, dormitory ->
+                    itemsIndexed(list) { index, dormitory ->
                         if (index % 2 == 0) {
                             height = (200..400).random()
                         }
@@ -79,7 +80,7 @@ fun DormitoriesScreen(
                             dormitory = dormitory,
                             onClick = {
                                 navController.navigate(
-                                    "dormitory?index=$index"
+                                    "dormitory?index=${dormitory.id}"
                                 )
                             },
                             height = height,
@@ -95,6 +96,7 @@ fun DormitoriesScreen(
                     .padding(end = 16.dp, bottom = 24.dp),
                 backgroundColor = MaterialTheme.colors.surface,
                 onClick = {
+                    Log.e("AAAAAHK", "HERE")
                     openBottomSheet()
                 }
             ) {

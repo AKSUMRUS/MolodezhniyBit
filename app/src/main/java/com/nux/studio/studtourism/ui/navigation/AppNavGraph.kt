@@ -60,12 +60,12 @@ fun AppNavGraph(
             route = "dormitory?index={index}",
             arguments = listOf(
                 navArgument("index") {
-                    type = NavType.IntType
-                    defaultValue = 0
+                    type = NavType.StringType
+                    defaultValue = ""
                 }
             )
         ){ backStackEntry ->
-            val index = backStackEntry.arguments?.getInt("index", 0)?: 0
+            val index = backStackEntry.arguments?.getString("index", "")?: ""
             DormitoryScreen(
                 index = index,
                 viewModel = viewModel

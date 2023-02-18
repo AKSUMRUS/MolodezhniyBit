@@ -94,7 +94,7 @@ fun CardDormitory(
                 verticalArrangement = Arrangement.Bottom,
             ) {
                 Body1(
-                    text = dormitory.details?.mainInfo?.name!!,
+                    text = dormitory.details?.mainInfo?.name?: "",
                     color = MaterialTheme.colors.onSecondary,
                     textAlign = TextAlign.Left,
                     fontWeight = FontWeight.Bold,

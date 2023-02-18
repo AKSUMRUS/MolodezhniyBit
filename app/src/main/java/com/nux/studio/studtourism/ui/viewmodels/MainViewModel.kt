@@ -62,6 +62,12 @@ class MainViewModel @Inject constructor(
 
     }
 
+    fun updateFilters(
+        filters: FilterState
+    ) {
+        filterState = filters
+    }
+
     fun getDormitories() {
         viewModelScope.launch {
             repository.getDormitories().collect { result ->

@@ -7,7 +7,7 @@ data class Dormitory (
     val details: DormitoryDetails?,
     val rooms: Map<String, Room>?,
     val onModeration: Boolean?,
-    val id: String?,
+    val id: String,
     val timestamp: Long?,
     val updatedTimestamp: Long?,
 )
