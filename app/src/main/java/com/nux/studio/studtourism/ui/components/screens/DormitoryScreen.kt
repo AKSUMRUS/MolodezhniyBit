@@ -11,6 +11,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -60,13 +61,28 @@ fun DormitoryScreen(
                     Pill(dormitory.details.mainInfo.city, variant = PillVariant.BACKGROUND)
                 }
             }
-            val minDays = dormitory.details.mainInfo.minDays
-            val maxDays = dormitory.details.mainInfo.maxDays
-            if (!minDays.isNullOrEmpty() && !maxDays.isNullOrEmpty()) {
-                Dates("$minDays – $maxDays дней", modifier = Modifier.padding(15.dp, 0.dp))
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+                    .fillMaxWidth()
+            ) {
+                Column(Modifier.align(Alignment.CenterStart)) {
+                    val minDays = dormitory.details.mainInfo.minDays
+                    val maxDays = dormitory.details.mainInfo.maxDays
+                    if (!minDays.isNullOrEmpty() && !maxDays.isNullOrEmpty()) {
+                        Dates("$minDays – $maxDays дней")
+                    }
+                    Price(getFormattedPrice(dormitory))
+                }
+                Column(Modifier.align(Alignment.CenterEnd)) {
+                    dormitory.details.rules?.committee?.phone?.let { phone ->
+                        Phone(
+                            phone,
+                        )
+                    }
+                    dormitory.details.rules?.committee?.email?.let { email -> Mail(email) }
+                }
             }
-            Price(getFormattedPrice(dormitory), modifier = Modifier.padding(15.dp, 0.dp))
-
             SectionHeader(text = "Адрес", modifier = Modifier.padding(15.dp, 0.dp))
             Text(text = getFormattedAddress(dormitory), modifier = Modifier.padding(15.dp))
 

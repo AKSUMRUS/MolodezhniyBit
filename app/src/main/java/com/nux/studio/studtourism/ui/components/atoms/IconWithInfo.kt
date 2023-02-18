@@ -74,9 +74,21 @@ fun Phone(
     modifier: Modifier = Modifier,
 ) {
     IconWithInfo(
-        id = R.drawable.icon_calendar,
+        id = R.drawable.icon_phone,
         contentDescription = "phone",
         text = phone,
+        modifier = modifier
+    )
+}
+@Composable
+fun Mail(
+    mail: String,
+    modifier: Modifier = Modifier,
+) {
+    IconWithInfo(
+        id = R.drawable.icon_mail,
+        contentDescription = "mail",
+        text = mail,
         modifier = modifier
     )
 }
