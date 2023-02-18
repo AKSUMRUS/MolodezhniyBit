@@ -55,6 +55,8 @@ class ProfileRepository @Inject constructor(
             return
         }
 
+        photoPrefs.url = response?.avatar
+
         _profileFlow.emit(Resource.Success(response))
         _profileFlow.emit(Resource.Loading(false))
     }
@@ -111,6 +113,8 @@ class ProfileRepository @Inject constructor(
             _editUserFlow.emit(Resource.Loading(false))
             return
         }
+
+        photoPrefs.url = response?.avatar
 
         _editUserFlow.emit(Resource.Loading(false))
         _editUserFlow.emit(Resource.Success(response))
