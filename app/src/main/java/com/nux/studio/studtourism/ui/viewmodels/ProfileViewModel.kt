@@ -132,4 +132,41 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
+    fun setLastName(lastName: String) {
+        _profileState = _profileState.copy(user = _profileState.user?.copy(lastName = lastName))
+    }
+
+    fun setFirstName(firstName: String) {
+        _profileState = _profileState.copy(user = _profileState.user?.copy(firstName = firstName))
+    }
+
+    fun setMiddleName(middleName: String) {
+        _profileState = _profileState.copy(user = _profileState.user?.copy(middleName = middleName))
+    }
+
+    fun setBirthDate(birthDate: String) {
+        _profileState = _profileState.copy(user = _profileState.user?.copy(birthday = birthDate))
+    }
+
+    fun setGender(gender: String) {
+        _profileState = _profileState.copy(user = _profileState.user?.copy(gender = gender))
+    }
+
+    fun setDepartureCity(departureCity: String) {
+        _profileState =
+            _profileState.copy(user = _profileState.user?.copy(departureCity = departureCity))
+    }
+
+    fun setEmail(email: String) {
+        _profileState = _profileState.copy(user = _profileState.user?.copy(email = email))
+    }
+
+    fun setPhone(phone: String) {
+        _profileState = _profileState.copy(user = _profileState.user?.copy(phone = phone))
+    }
+
+    fun setUserRole(userRole: String) {
+        _profileState = _profileState.copy(user = _profileState.user?.copy(userRole = userRole))
+    }
 }

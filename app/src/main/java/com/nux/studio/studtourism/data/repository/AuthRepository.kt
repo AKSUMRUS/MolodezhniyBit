@@ -27,9 +27,10 @@ class AuthRepository @Inject constructor(
     val signUpFlow = _signUpFlow.asSharedFlow()
     val editUserFlow = profileRepository.editUserFlow
 
-    fun getToken(): String? {
-        return tokenPrefs.token
-    }
+    fun getToken(): String? = tokenPrefs.token
+
+    fun isAuthorized(): Boolean = tokenPrefs.token != null
+
 
     suspend fun login(
         email: String,

@@ -31,7 +31,7 @@ fun TopBar(
                     navController.navigate("profile")
                 }) {
                     CircleAsyncImage(
-                        url = "https://sun1-26.userapi.com/impg/zmzFaRBkJtt_KwMGd41ARQyNMRxIctDLPD3uCg/U3HSrag1wIw.jpg?size=1035x1280&quality=95&sign=846b0408cc33466822f75ec8a3728431&type=album",
+                        url = "https://sun9-43.userapi.com/impg/f-fGHeXhvKyKaKAMzV7lcGQWnQULXPSrT-eMBQ/No-X0HpAlmM.jpg?size=1441x2160&quality=95&sign=c1b60c1cc758e15c8b85a2d583331204&type=album",
                         description = "Фото профиля"
                     )
                 }

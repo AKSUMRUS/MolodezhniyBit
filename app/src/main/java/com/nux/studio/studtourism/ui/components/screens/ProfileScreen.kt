@@ -5,13 +5,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -36,19 +36,17 @@ fun ProfileScreen() {
     val viewModel: ProfileViewModel = hiltViewModel()
     val state = viewModel.profileState
 
-    var lastName by remember { mutableStateOf("") }
-    var firstName by remember { mutableStateOf("") }
-    var middleName by remember { mutableStateOf("") }
-    var birthDate by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("") }
-    var departure by remember { mutableStateOf("") }
-
-
-    LazyColumn(
-        modifier = Modifier.padding(
-            bottom = 24.dp
-        )
-    ) {
+    val lastName = state.user?.lastName ?: ""
+    val firstName = state.user?.firstName ?: ""
+    val middleName = state.user?.middleName ?: ""
+    val birthDate = state.user?.birthday ?: ""
+    val gender = state.user?.gender ?: ""
+    val departureCity = state.user?.departureCity ?: ""
+    val email = state.user?.email ?: ""
+    val phone = state.user?.phone ?: ""
+    val userRole = state.user
+    
+    LazyColumn {
         item {
             val photo = state.user?.avatar
             AsyncImage(
@@ -70,142 +68,75 @@ fun ProfileScreen() {
             )
         }
         item {
-            HeadlineH5(
-                text = "Основная информация",
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(
-                    top = 20.dp,
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                )
-            )
+            TitleText("Основная информация")
         }
         //Фамилия
         item {
-            Subtitle2(
-                text = "Фамилия",
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 4.dp
-                )
-            )
-            InputField(
+            InputFieldItem(
+                title = "Фамилия",
                 text = lastName,
-                placeholder = "Фамилия",
-                onValueChange = { lastName = it },
-                modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp,
-                    )
-                    .background(Color(0xF3F8FCFF)),
+                onValueChange = viewModel::setLastName
             )
         }
         //Имя
         item {
-            Subtitle2(
-                text = "Имя",
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 4.dp
-                )
-            )
-            InputField(
+            InputFieldItem(
+                title = "Имя",
                 text = firstName,
-                placeholder = "Имя",
-                onValueChange = { firstName = it },
-                modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp,
-                    )
-                    .background(Color(0xF3F8FCFF)),
+                onValueChange = viewModel::setFirstName
             )
         }
         //Отчество
         item {
-            Subtitle2(
-                text = "Отчество",
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 4.dp
-                )
-            )
-            InputField(
+            InputFieldItem(
+                title = "Отчество",
                 text = middleName,
-                placeholder = "Отчество",
-                onValueChange = { middleName = it },
-                modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp,
-                    )
-                    .background(Color(0xF3F8FCFF)),
+                onValueChange = viewModel::setMiddleName
             )
         }
         // Дата рождения
         item {
-            Subtitle2(
-                text = "Дата рождения",
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 4.dp
-                )
-            )
-            InputField(
+            InputFieldItem(
+                title = "Дата рождения",
                 text = birthDate,
-                placeholder = "Дата рождения",
-                onValueChange = { birthDate = it },
-                modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp,
-                    )
-                    .background(Color(0xF3F8FCFF)),
+                onValueChange = viewModel::setBirthDate
             )
         }
         // Пол
         item {
-            Subtitle2(
-                text = "Пол",
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 4.dp
-                )
-            )
-            InputField(
+            InputFieldItem(
+                title = "Пол",
                 text = gender,
-                placeholder = "Пол",
-                onValueChange = { gender = it },
-                modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp,
-                    )
-                    .background(Color(0xF3F8FCFF)),
+                onValueChange = viewModel::setGender
             )
         }
         // Город отправления
         item {
-            Subtitle2(
-                text = "Город отправления",
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 4.dp
-                )
+            InputFieldItem(
+                title = "Город отправления",
+                text = departureCity,
+                onValueChange = viewModel::setDepartureCity
             )
-            InputField(
-                text = departure,
-                placeholder = "Город отправления",
-                onValueChange = { departure = it },
-                modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp,
-                    )
-                    .background(Color(0xF3F8FCFF)),
+        }
+        item { 
+            TitleText(text = "Контакты", topPadding = 48.dp)
+        }
+        item { 
+            InputFieldItem(
+                title = "E-mail",
+                text = email,
+                onValueChange = viewModel::setEmail
             )
+        }
+        item { 
+            InputFieldItem(
+                title = "Телефон",
+                text = phone,
+                onValueChange = viewModel::setPhone
+            )
+        }
+        item { 
+            TitleText(text = "Данные о студенте", topPadding = 48.dp)
         }
         item {
             ButtonPrimary(
@@ -216,19 +147,59 @@ fun ProfileScreen() {
                         firstName = firstName,
                         middleName = middleName,
                         birthday = birthDate,
-                        departureCity = departure,
+                        departureCity = departureCity,
                         gender = gender
                     )
                 },
-                modifier = Modifier.padding(
-                    top = 24.dp,
-                    start = 16.dp,
-                    end = 16.dp,
-                ).fillMaxWidth()
+                modifier = Modifier
+                    .padding(
+                        top = 24.dp,
+                        bottom = 24.dp,
+                        start = 16.dp,
+                        end = 16.dp,
+                    )
+                    .fillMaxWidth()
             )
-
         }
     }
+}
+
+@Composable
+fun InputFieldItem(title: String, text: String, onValueChange: (String) -> Unit) {
+    Subtitle2(
+        text = title,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(
+            start = 16.dp,
+            end = 16.dp,
+            top = 16.dp,
+            bottom = 4.dp
+        )
+    )
+    InputField(
+        text = text,
+        placeholder = title,
+        onValueChange = onValueChange,
+        modifier = Modifier
+            .padding(
+                horizontal = 16.dp,
+            )
+            .background(Color(0xF3F8FCFF)),
+    )
+}
+
+@Composable
+fun TitleText(text: String, topPadding: Dp = 20.dp) {
+    HeadlineH5(
+        text = text,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(
+            top = topPadding,
+            start = 16.dp,
+            end = 16.dp,
+            bottom = 8.dp
+        )
+    )
 }
 
 
