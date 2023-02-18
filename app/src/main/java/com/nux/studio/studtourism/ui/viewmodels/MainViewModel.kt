@@ -1,6 +1,7 @@
 package com.nux.studio.studtourism.ui.viewmodels
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -138,6 +139,7 @@ class MainViewModel @Inject constructor(
         }
     }
     fun getDormitoriesBooked() {
+        Log.d("getDormitoriesBooked", "getDormitoriesBooked: called")
         viewModelScope.launch {
             repository.getDormitoriesBooked().collect { result ->
                 when (result) {

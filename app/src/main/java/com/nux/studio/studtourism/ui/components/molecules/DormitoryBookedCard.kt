@@ -1,5 +1,6 @@
 package com.nux.studio.studtourism.ui.components.molecules
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,15 +36,20 @@ import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 @Composable
 fun CardDormitoryBooked(
     dormitoryBooked: DormitoryBooked,
-    height: Int,
     navController: NavController,
     viewModel: MainViewModel
 ) {
-
+    Log.d("CardDormitoryBooked", "dormitoryBooked: ${dormitoryBooked.dormitoryId}");
     val dormitory = viewModel.state.dormitoriesList.find { it.id == dormitoryBooked.dormitoryId };
+    Log.d(
+        "CardDormitoryBooked",
+        "dormitoryBookedListIsEmpty ${viewModel.state.dormitoriesList.isEmpty()}"
+    );
+    Log.d("CardDormitoryBooked", "found dormitory ${dormitory}");
     val room: Room? = dormitory?.rooms?.get(dormitoryBooked.roomId);
+    Log.d("CardDormitoryBooked", "room: ${room}")
     val price: String? = room?.details?.price;
-    val dates: String? = dormitory?.let { getFormattedDays(it)};
+    val dates: String? = dormitoryBooked.dates?.let { "${it.from} - ${it.to}" };
 
     Card(
         elevation = 10.dp,
@@ -54,8 +60,8 @@ fun CardDormitoryBooked(
 
     ) {
         Box(
-            modifier = Modifier.height(height.dp),
 //            contentAlignment = Alignment.CenterVertically
+            modifier = Modifier.height(300.dp)
         ) {
             AsyncImage(
                 model = dormitory?.details?.mainInfo?.photos?.get(0),
@@ -70,6 +76,7 @@ fun CardDormitoryBooked(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .clip(RoundedCornerShape(20.dp))
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
@@ -82,57 +89,89 @@ fun CardDormitoryBooked(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(10.dp),
+                    .padding(5.dp),
 //                        contentAlignment = Alignment.BottomStart,
                 verticalArrangement = Arrangement.Bottom,
             ) {
-                Body1(
-                    text = dormitory?.details?.mainInfo?.name!!,
-                    color = MaterialTheme.colors.onSecondary,
-                    textAlign = TextAlign.Left,
-                    fontWeight = FontWeight.Bold,
-                )
-                Row() {
-                    dormitoryBooked.quantity?.let { quantity ->
-                        People(quantity.toString())
-                    }
-                    if (dates != null) {
-                        Dates(dates)
-                    }
-                }
-                if (price != null) {
-                    Price(formatPrice(price))
-                }
-                Button(
-                    shape = CircleShape,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent,
-                        contentColor = MaterialTheme.colors.error,
-                    ),
-                    onClick = {/* TODO */ },
-                ) {
-                    Text(
-                        text = "Отменить Заявку",
-                        modifier = Modifier.padding(10.dp),
-                        color = MaterialTheme.colors.error,
+                dormitory?.details?.mainInfo?.name?.let { name ->
+                    Body1(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 5.dp)
+                            .padding(bottom = 10.dp),
+                        text = name,
+                        color = MaterialTheme.colors.onSecondary,
+                        textAlign = TextAlign.Left,
                         fontWeight = FontWeight.Bold,
                     )
                 }
-                Button(
-                    shape = CircleShape,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent,
-                        contentColor = MaterialTheme.colors.onPrimary,
-                    ),
-                    border = BorderStroke(1.dp, MaterialTheme.colors.onPrimary),
-                    onClick = {/* TODO */ },
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 5.dp)
+                        .padding(horizontal = 5.dp)
                 ) {
-                    Text(
-                        text = "Изменить",
-                        modifier = Modifier.padding(10.dp),
-                        color = MaterialTheme.colors.error,
-                        fontWeight = FontWeight.Bold,
-                    )
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 10.dp)) {
+                        dormitoryBooked.quantity?.let { quantity ->
+                            People(
+                                quantity.toString(),
+                                tint = MaterialTheme.colors.background,
+                                modifier = Modifier.padding(end = 15.dp)
+                            )
+                        }
+                        if (dates != null) {
+                            Dates(
+                                dates,
+                                tint = MaterialTheme.colors.background,
+                            )
+                        }
+                    }
+                    if (price != null) {
+                        Price(
+                            formatPrice(price), tint = MaterialTheme.colors.background,
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp)
+                ) {
+                    Button(
+                        modifier = Modifier.weight(1f),
+                        shape = CircleShape,
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent,
+                            contentColor = MaterialTheme.colors.error,
+                        ),
+                        onClick = {/* TODO */ },
+                    ) {
+                        Text(
+                            text = "Отменить Заявку",
+                            modifier = Modifier.padding(10.dp),
+                            color = MaterialTheme.colors.error,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+                    Button(
+                        modifier = Modifier.weight(1f),
+                        shape = CircleShape,
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent,
+                            contentColor = MaterialTheme.colors.background,
+                        ),
+                        border = BorderStroke(1.dp, MaterialTheme.colors.background),
+                        onClick = {/* TODO */ },
+                    ) {
+                        Text(
+                            text = "Изменить",
+                            modifier = Modifier.padding(10.dp),
+                            color = MaterialTheme.colors.background,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
                 }
             }
             dormitory?.details?.mainInfo?.city?.let { city ->

@@ -77,6 +77,7 @@ fun CardLab(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .clip(RoundedCornerShape(20.dp))
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
