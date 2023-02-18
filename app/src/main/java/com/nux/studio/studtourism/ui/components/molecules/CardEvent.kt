@@ -137,7 +137,7 @@ fun CardEvent(
                 Pill(
                     text = type,
                     modifier = Modifier.align(Alignment.TopStart),
-                    variant = PillVariant.BACKGROUND,
+                    variant = PillVariant.OUTLINE,
                 )
             }
         }

@@ -37,7 +37,6 @@ val Typography = Typography(
         fontSize = 14.0.sp,
         fontFamily = fontFamily,
         lineHeight = 16.sp,
-
         )
 
 

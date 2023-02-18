@@ -270,6 +270,7 @@ private fun RulesText(
             .padding(bottom = 20.dp)
             .then(modifier),
         lineHeight = 20.sp,
+        style = MaterialTheme.typography.body2
     )
 }
 
