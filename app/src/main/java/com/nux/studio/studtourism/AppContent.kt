@@ -22,6 +22,7 @@ import com.nux.studio.studtourism.ui.components.atoms.CircleAsyncImage
 import com.nux.studio.studtourism.ui.navigation.AppNavGraph
 import com.nux.studio.studtourism.ui.navigation.SegmentControlBar
 import com.nux.studio.studtourism.ui.navigation.SegmentControlTabs
+import com.nux.studio.studtourism.ui.navigation.TopBar
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -35,36 +36,7 @@ fun AppContent() {
             modifier = Modifier.fillMaxSize(),
             topBar = {
                 Column {
-                    val contextForToast = LocalContext.current.applicationContext
-
-                    TopAppBar(
-                        title = {},
-                        backgroundColor = MaterialTheme.colors.background,
-                        navigationIcon = {
-                            IconButton(onClick = {
-                                Toast.makeText(contextForToast, "Back Icon Click", Toast.LENGTH_SHORT)
-                                    .show()
-                            }) {
-                                CircleAsyncImage(url = "https://sun1-26.userapi.com/impg/zmzFaRBkJtt_KwMGd41ARQyNMRxIctDLPD3uCg/U3HSrag1wIw.jpg?size=1035x1280&quality=95&sign=846b0408cc33466822f75ec8a3728431&type=album", description = "Фото профиля")
-                            }
-                        },
-                        actions = {
-                            TopAppBarActionButton(
-                                imageVector = ImageVector.vectorResource(id = R.drawable.favourites),
-                                description = "Search"
-                            ) {
-                                Toast.makeText(contextForToast, "Search Click", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                            TopAppBarActionButton(
-                                imageVector = ImageVector.vectorResource(id = R.drawable.notifications),
-                                description = "Lock"
-                            ) {
-                                Toast.makeText(contextForToast, "Lock Click", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
-                    )
+                    TopBar(navController = navController)
                     SegmentControlBar(
                         navController = navController,
                         tabs = tabs

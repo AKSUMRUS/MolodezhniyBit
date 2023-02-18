@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -18,6 +16,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.nux.studio.studtourism.R
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH6
 
 /**
  * items : list of items to be render
@@ -33,9 +33,9 @@ fun SegmentedControl(
     items: List<SegmentControlTabs>,
     modifier: Modifier = Modifier,
     defaultSelectedItemIndex: Int = 0,
-    onClick: (selectedItem: SegmentControlTabs) -> Unit
+    onClick: (index: Int, selectedItem: SegmentControlTabs) -> Unit
 ) {
-    val selectedIndex = remember { mutableStateOf(defaultSelectedItemIndex) }
+    var selectedIndex by remember { mutableStateOf(defaultSelectedItemIndex) }
 
     Row(
         modifier = Modifier
@@ -45,19 +45,19 @@ fun SegmentedControl(
         items.forEachIndexed { index, item ->
             TextButton(
                 onClick = {
-                    selectedIndex.value = index
-                    onClick(item)
+                    selectedIndex = index
+                    onClick(index, item)
                 },
                 modifier = Modifier
                     .weight(1f)
             ) {
-                Text(
+                HeadlineH6(
                     text = stringResource(id = item.title),
-                    fontWeight = FontWeight.Normal,
-                    color = if (selectedIndex.value == index) {
-                        MaterialTheme.colors.onBackground
+                    fontWeight = FontWeight.Bold,
+                    color = if (selectedIndex == index) {
+                        MaterialTheme.colors.onSurface
                     } else {
-                        MaterialTheme.colors.onBackground.copy(alpha = 0.6f)
+                        MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
                     },
                 )
             }

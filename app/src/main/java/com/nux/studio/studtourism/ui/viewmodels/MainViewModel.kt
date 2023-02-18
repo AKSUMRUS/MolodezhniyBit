@@ -64,11 +64,7 @@ class MainViewModel @Inject constructor(
 
     }
 
-    init {
-        getDormitories()
-    }
-
-    private fun getDormitories() {
+    fun getDormitories() {
         viewModelScope.launch {
             repository.getDormitories().collect { result ->
                 when (result) {

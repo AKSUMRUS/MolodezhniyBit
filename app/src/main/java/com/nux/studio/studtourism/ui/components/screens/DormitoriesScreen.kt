@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,6 +29,10 @@ fun DormitoriesScreen(
 
     val mainViewModel: MainViewModel = hiltViewModel()
     var height = (200..400).random()
+
+    LaunchedEffect(true) {
+        viewModel.getDormitories()
+    }
 
     if(isLoading) {
         LoadingViewCenter()

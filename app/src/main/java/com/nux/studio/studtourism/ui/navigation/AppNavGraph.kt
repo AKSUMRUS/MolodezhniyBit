@@ -9,10 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.nux.studio.studtourism.ui.components.screens.DormitoriesScreen
-import com.nux.studio.studtourism.ui.components.screens.DormitoryScreen
-import com.nux.studio.studtourism.ui.components.screens.EventsScreen
-import com.nux.studio.studtourism.ui.components.screens.LabsScreen
+import com.nux.studio.studtourism.ui.components.screens.*
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 
 @Composable
@@ -59,6 +56,10 @@ fun AppNavGraph(
                 index = index,
                 viewModel = viewModel
             )
+        }
+
+        composable("profile") {
+            ProfileScreen()
         }
     }
 

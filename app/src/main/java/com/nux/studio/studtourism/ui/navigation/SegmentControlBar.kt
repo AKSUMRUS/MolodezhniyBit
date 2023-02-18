@@ -1,10 +1,10 @@
 package com.nux.studio.studtourism.ui.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -21,17 +21,22 @@ fun SegmentControlBar(
 
     val routes = remember { SegmentControlTabs.values().map { it.route } }
 
+    var defaultSelectedItemIndex by remember { mutableStateOf(0) }
+
     if (currentRoute in routes) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.surface)
         ) {
             SegmentedControl(
                 items = tabs.toList(),
+                defaultSelectedItemIndex = defaultSelectedItemIndex,
                 modifier = Modifier
                     .align(CenterHorizontally)
                     .fillMaxWidth()
                 ,
-                onClick = { tab ->
+                onClick = { index, tab ->
                     if (tab.route != currentRoute) {
                         navController.navigate(tab.route) {
                             popUpTo(navController.graph.startDestinationId) {
@@ -41,6 +46,7 @@ fun SegmentControlBar(
                             restoreState = true
                         }
                     }
+                    defaultSelectedItemIndex = index
                 }
             )
         }
