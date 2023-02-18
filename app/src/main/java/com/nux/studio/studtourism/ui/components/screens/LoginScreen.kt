@@ -19,17 +19,16 @@ import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 
 @Preview
 @Composable
-fun PreviewRegistrationScreen() {
+fun PreviewLoginScreen() {
     StudTourismTheme {
-        RegistrationScreen()
+        LoginScreen()
     }
 }
 
 @Composable
-fun RegistrationScreen() {
+fun LoginScreen() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var passwordRepeat by remember { mutableStateOf("") }
     var isVisible by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -44,8 +43,9 @@ fun RegistrationScreen() {
                 .padding(15.dp)
         ) {
             HeadlineH3(
-                text = "Регистрация",
-                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                text = "Готовься к путешествиям",
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
                     .padding(bottom = 20.dp),
                 color = MaterialTheme.colors.background,
                 textAlign = TextAlign.Center,
@@ -59,13 +59,6 @@ fun RegistrationScreen() {
                 isVisible = isVisible,
                 onVisibleToggle = { isVisible = !isVisible }
             )
-            Label("Повторите пароль")
-            PasswordInputField(
-                value = passwordRepeat,
-                onValueChange = { passwordRepeat = it },
-                isVisible = isVisible,
-                onVisibleToggle = { isVisible = !isVisible }
-            )
         }
         Column(
             modifier = Modifier
@@ -73,14 +66,14 @@ fun RegistrationScreen() {
                 .padding(15.dp)
         ) {
             ButtonPrimary(
-                text = "Зарегистрироваться",
+                text = "Войти",
                 onClick = { /*TODO*/ },
                 modifier = Modifier
                     .fillMaxWidth(),
                 buttonColor = MaterialTheme.colors.primaryVariant,
             )
             ButtonPrimary(
-                text = "Войти",
+                text = "Зарегестрироваться",
                 onClick = { /*TODO*/ },
                 modifier = Modifier
                     .fillMaxWidth(),
