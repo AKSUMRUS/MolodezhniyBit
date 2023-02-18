@@ -10,21 +10,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.nux.studio.studtourism.ui.navigation.AppNavGraph
-import com.nux.studio.studtourism.ui.navigation.TopBar
-import com.nux.studio.studtourism.ui.navigation.TopTabs
+import com.nux.studio.studtourism.ui.navigation.SegmentControllBar
+import com.nux.studio.studtourism.ui.navigation.SegmentControlTabs
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AppContent() {
     StudTourismTheme {
-        val tabs = remember { TopTabs.values() }
+        val tabs = remember { SegmentControlTabs.values() }
         val navController = rememberNavController()
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
-                TopBar(
+                SegmentControllBar(
                     navController = navController,
                     tabs = tabs
                 )

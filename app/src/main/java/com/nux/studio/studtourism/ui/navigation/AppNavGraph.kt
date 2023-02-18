@@ -17,17 +17,17 @@ fun AppNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = TopTabs.DORMITORIES.route,
+        startDestination = SegmentControlTabs.DORMITORIES.route,
     ) {
-        composable(TopTabs.DORMITORIES.route) {
+        composable(SegmentControlTabs.DORMITORIES.route) {
             DormitoriesScreen()
 //            Text("DORMITORIES")
         }
-        composable(TopTabs.EVENTS.route) {
+        composable(SegmentControlTabs.EVENTS.route) {
             EventsScreen()
 //            Text("EVENTS")
         }
-        composable(TopTabs.LABS.route) {
+        composable(SegmentControlTabs.LABS.route) {
             LabsScreen()
 //            Text("LABS")
         }

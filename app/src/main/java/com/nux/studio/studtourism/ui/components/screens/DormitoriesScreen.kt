@@ -14,7 +14,7 @@ import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
 
 @Composable
-fun HomeScreen(
+fun DormitoriesScreen(
 ){
 
     val mainViewModel: MainViewModel = hiltViewModel()

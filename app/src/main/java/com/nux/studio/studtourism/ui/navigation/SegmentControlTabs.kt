@@ -3,7 +3,7 @@ package com.nux.studio.studtourism.ui.navigation
 import androidx.annotation.StringRes
 import com.nux.studio.studtourism.R
 
-enum class TopTabs(
+enum class SegmentControlTabs(
     @StringRes val title: Int,
     val route: String,
 ) {

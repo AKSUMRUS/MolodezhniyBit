@@ -11,15 +11,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
-fun TopBar(
+fun SegmentControlBar(
     navController: NavController,
-    tabs: Array<TopTabs>
+    tabs: Array<SegmentControlTabs>
 ) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val routes = remember { TopTabs.values().map { it.route } }
+    val routes = remember { SegmentControlTabs.values().map { it.route } }
 
     if (currentRoute in routes) {
         Column(

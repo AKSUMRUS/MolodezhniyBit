@@ -32,14 +32,14 @@ import com.nux.studio.studtourism.R
  */
 @Composable
 fun SegmentedControl(
-    items: List<TopTabs>,
+    items: List<SegmentControlTabs>,
     modifier: Modifier = Modifier,
     defaultSelectedItemIndex: Int = 0,
     useFixedWidth: Boolean = false,
     itemWidth: Dp = 120.dp,
     cornerRadius : Int = 10,
     @ColorRes color : Int = R.color.teal_200,
-    onClick: (selectedItem: TopTabs) -> Unit
+    onClick: (selectedItem: SegmentControlTabs) -> Unit
 ) {
     val selectedIndex = remember { mutableStateOf(defaultSelectedItemIndex) }
 
