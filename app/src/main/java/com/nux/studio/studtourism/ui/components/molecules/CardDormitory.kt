@@ -30,10 +30,10 @@ fun CardDormitory(
 ){
 
     var price: String = "";
-    if(dormitory.service.isNullOrEmpty() || dormitory.service[0].isFree!!){
+    if(dormitory.services.isNullOrEmpty() || dormitory.services[0].isFree!!){
         price = "Бесплатно"
     }else{
-        price = dormitory.service[0].price!!
+        price = dormitory.services[0].price!!
     }
 
     var dates: String = "";
