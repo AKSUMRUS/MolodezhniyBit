@@ -14,6 +14,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -28,6 +29,8 @@ fun InputField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     textStyle: TextStyle = LocalTextStyle.current.copy(color = MaterialTheme.colors.onBackground),
+    trailingIcon: @Composable (() -> Unit)? = null,
+    visualTransformation: VisualTransformation? = null,
 ) {
     TextField(
         value = text,
@@ -54,7 +57,9 @@ fun InputField(
             cursorColor = Color.DarkGray,
             disabledTextColor = MaterialTheme.colors.onPrimary,
         ),
-        enabled = enabled
+        enabled = enabled,
+        trailingIcon = trailingIcon,
+        visualTransformation = visualTransformation?: VisualTransformation.None,
     )
 }
 
