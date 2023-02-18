@@ -10,15 +10,7 @@ import com.nux.studio.studtourism.ui.components.InputField
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
-
-
-@Preview
-@Composable
-private fun SingUpPreview() {
-    StudTourismTheme {
-        SignUp()
-    }
-}
+import com.nux.studio.studtourism.ui.components.atoms.ButtonSecondary
 
 @Composable
 fun SignUp(
@@ -42,5 +34,6 @@ fun SignUp(
         InputField(text = phone, placeholder = "Телефон", modifier = inputModifier, onValueChange = {phone = it})
         InputField(text = password, placeholder = "Пароль", modifier = inputModifier, onValueChange = {password = it})
         ButtonPrimary(text = "Создать", modifier = Modifier, onClick = {})
+        ButtonSecondary(text = "Уже есть аккаунт? Войти", modifier = Modifier, onClick = {})
     }
 }
