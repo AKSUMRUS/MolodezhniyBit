@@ -1,4 +1,4 @@
-package com.ledokol.dvor_app.ui.components.atoms.texts
+package com.nux.studio.studtourism.ui.components.atoms.texts
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text

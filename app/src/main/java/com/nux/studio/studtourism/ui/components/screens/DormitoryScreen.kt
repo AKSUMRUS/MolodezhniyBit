@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -19,11 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH3
-import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH4
-import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH5
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH3
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.R
+import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 
@@ -127,7 +130,7 @@ fun DormitoryScreen(
         item {
             LazyRow() {
                 item {
-                    dormitory.details.mainInfo.photos?.forEach { photoUrl ->
+                    dormitory.details?.mainInfo?.photos?.forEach { photoUrl ->
                         AsyncImage(
                             model = photoUrl,
                             contentDescription = "Фото общежития",
@@ -144,7 +147,7 @@ fun DormitoryScreen(
                     .background(Color.Transparent)
             )
             HeadlineH3(
-                text = dormitory.details.mainInfo.name, modifier = Modifier.padding(3.dp, 15.dp)
+                text = dormitory.details?.mainInfo!!.name, modifier = Modifier.padding(3.dp, 15.dp)
             )
             Text(
                 modifier = Modifier

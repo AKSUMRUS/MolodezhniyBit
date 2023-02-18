@@ -1,4 +1,4 @@
-package com.nux.studio.studtourism.ui.components
+package com.nux.studio.studtourism.ui.components.atoms
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.nux.studio.studtourism.ui.components.InputField
+import com.nux.studio.studtourism.ui.components.atoms.InputField
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 
 @Composable

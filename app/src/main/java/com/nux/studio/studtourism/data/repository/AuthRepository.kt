@@ -25,34 +25,32 @@ class AuthRepository @Inject constructor(
     fun login(
         email: String,
         password: String
-    ): Flow<Resource<Unit>> {
-        return flow {
+    ): Flow<Resource<Unit>> = flow {
 
-            emit(Resource.Loading(true))
+        emit(Resource.Loading(true))
 
-            val request = api.login(AuthInfo(email = email, password = password))
+        val request = api.login(AuthInfo(email = email, password = password))
 
-            val response = try {
-                val responseApi = request.awaitResponse()
-                if (responseApi.code() == 200) {
-                    responseApi.body()?.getString("token")
-                } else {
-                    emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
-                    emit(Resource.Loading(false))
-                    return@flow
-                }
-            } catch (e: Exception) {
-                emit(Resource.Error(message = ErrorRemote.NoInternet))
+        val response = try {
+            val responseApi = request.awaitResponse()
+            if (responseApi.code() == 200) {
+                responseApi.body()?.getString("token")
+            } else {
+                emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
                 emit(Resource.Loading(false))
                 return@flow
             }
-
-            tokenPrefs.token = response
-
-            emit(Resource.Success(Unit))
-
+        } catch (e: Exception) {
+            emit(Resource.Error(message = ErrorRemote.NoInternet))
             emit(Resource.Loading(false))
+            return@flow
         }
+
+        tokenPrefs.token = response
+
+        emit(Resource.Success(Unit))
+
+        emit(Resource.Loading(false))
     }
 
     fun signUp(

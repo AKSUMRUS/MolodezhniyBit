@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">Stud Tourism</string>
+    <string name="app_name">Студ Туризм</string>
+    <string name="error_unauthorized">Отсутствует авторизация</string>
+    <string name="error_forbidden">В доступе отказано</string>
+    <string name="error_not_found">По запросу ничего не найдено</string>
 </resources>

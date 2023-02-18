@@ -15,13 +15,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import coil.compose.AsyncImage
-import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH2
 import com.nux.studio.studtourism.R
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH2
 
 @Composable
 fun CardDormitory(
     title: String = "Dormitory",
-    link_icon: String,
+    link_icon: String?,
     cost: String,
     time: String,
 ){

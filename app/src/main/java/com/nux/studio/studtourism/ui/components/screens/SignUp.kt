@@ -6,8 +6,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.nux.studio.studtourism.ui.components.InputField
+import com.nux.studio.studtourism.ui.components.atoms.InputField
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
+import com.nux.studio.studtourism.ui.components.atoms.ButtonSecondary
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
 

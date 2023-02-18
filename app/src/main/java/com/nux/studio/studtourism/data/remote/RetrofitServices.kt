@@ -1,5 +1,8 @@
 package com.nux.studio.studtourism.data.remote
 
+import com.nux.studio.studtourism.data.local.models.Dormitory
+import com.nux.studio.studtourism.data.local.models.Event
+import com.nux.studio.studtourism.data.local.models.lab.Lab
 import com.nux.studio.studtourism.data.local.models.University
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
 import com.nux.studio.studtourism.data.remote.models.EditUser
@@ -36,26 +39,26 @@ interface RetrofitServices {
     ) : Call<University>
 
     @GET("dormitories/all")
-    fun getDormitoriesList()
+    fun getDormitoriesList() : Call<List<Dormitory>>
 
     @GET("dormitories/{id}")
     fun getDormitory(
         @Path("id") id: String
-    )
+    ) : Call<Dormitory>
 
     @GET("events/all")
-    fun getEventsList()
+    fun getEventsList() : Call<List<Event>>
 
     @GET("reviews")
-    fun getReviews()
+    fun getReviews() : Call<Unit>
 
     @GET("labs/all")
-    fun getLabsList()
+    fun getLabsList() : Call<List<Lab>>
 
     @GET("labs/{id}")
     fun getLab(
         @Path("id") id: String
-    )
+    ) : Call<Lab>
 
     @POST("users")
     fun editUser(
