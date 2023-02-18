@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,13 +28,13 @@ fun IconWithInfo(
             imageVector = ImageVector.vectorResource(id = id),
             contentDescription = contentDescription,
             modifier = Modifier
-                .size(15.dp)
+                .size(17.dp)
                 .align(Alignment.CenterVertically)
         )
         Text(
             text = text,
-            fontSize = 12.sp,
-            modifier = Modifier.padding(15.dp),
+            style = MaterialTheme.typography.body2,
+            modifier = Modifier.padding(start=20.dp),
         )
     }
 }
@@ -53,6 +54,9 @@ fun Price(
 }
 
 fun formatPrice(price: String?): String {
+    if (price == "0") {
+        return "Бесплатно";
+    }
     return price?.plus("₽") ?: "Цена не указана";
 }
 
@@ -90,6 +94,19 @@ fun Mail(
         id = R.drawable.icon_mail,
         contentDescription = "mail",
         text = mail,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun People(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    IconWithInfo(
+        id = R.drawable.icon_people,
+        contentDescription = "amount of peoples",
+        text = text,
         modifier = modifier
     )
 }
