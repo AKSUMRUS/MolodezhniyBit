@@ -4,6 +4,7 @@ import android.util.Log
 import com.nux.studio.studtourism.data.error.ErrorCatcher
 import com.nux.studio.studtourism.data.error.ErrorRemote
 import com.nux.studio.studtourism.data.local.models.Dormitory
+import com.nux.studio.studtourism.data.local.models.DormitoryBooked
 import com.nux.studio.studtourism.data.local.models.Event
 import com.nux.studio.studtourism.data.local.models.lab.Lab
 import com.nux.studio.studtourism.data.local.models.University
@@ -97,6 +98,26 @@ class MainRepository @Inject constructor(
             }
         } catch (e: Exception) {
             Log.d("GetLabs", e.toString())
+            emit(Resource.Error(message = ErrorRemote.NoInternet))
+            emit(Resource.Loading(false))
+            return@flow
+        }
+
+        emit(Resource.Success(response))
+        emit(Resource.Loading(false))
+    }
+    fun getDormitoriesBooked(): Flow<Resource<List<DormitoryBooked>>> = flow {
+        emit(Resource.Loading(true))
+        val response = try {
+            val responseApi = api.getDormitoriesBookedList().awaitResponse()
+            if (responseApi.code() == 200) {
+                responseApi.body()
+            } else {
+                emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
+                emit(Resource.Loading(false))
+                return@flow
+            }
+        } catch (e: Exception) {
             emit(Resource.Error(message = ErrorRemote.NoInternet))
             emit(Resource.Loading(false))
             return@flow

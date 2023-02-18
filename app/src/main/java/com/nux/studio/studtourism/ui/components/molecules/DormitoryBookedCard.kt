@@ -1,5 +1,6 @@
 package com.nux.studio.studtourism.ui.components.molecules
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,18 +30,21 @@ import com.nux.studio.studtourism.ui.components.atoms.texts.Body1
 import com.nux.studio.studtourism.ui.components.atoms.texts.Body2
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH2
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
+import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 
 @Composable
 fun CardDormitoryBooked(
     dormitoryBooked: DormitoryBooked,
-    dormitory: Dormitory, // dormitoryBooked.dormitoryId
-    room: Room, // dormitoryBooked.roomId
     onClick: () -> Unit,
     height: Int,
     navController: NavController,
+    viewModel: MainViewModel
 ) {
-    val price: String? = room.details?.price;
-    val dates: String? = getFormattedDays(dormitory);
+
+    val dormitory = viewModel.state.dormitoriesList.find { it.id == dormitoryBooked.dormitoryId };
+    val room: Room? = dormitory?.rooms?.get(dormitoryBooked.roomId);
+    val price: String? = room?.details?.price;
+    val dates: String? = dormitory?.let { getFormattedDays(it)};
 
     Card(
         elevation = 10.dp,
@@ -58,7 +62,7 @@ fun CardDormitoryBooked(
 //            contentAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = dormitory.details?.mainInfo?.photos?.get(0),
+                model = dormitory?.details?.mainInfo?.photos?.get(0),
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxSize()
@@ -87,7 +91,7 @@ fun CardDormitoryBooked(
                 verticalArrangement = Arrangement.Bottom,
             ) {
                 Body1(
-                    text = dormitory.details?.mainInfo?.name!!,
+                    text = dormitory?.details?.mainInfo?.name!!,
                     color = MaterialTheme.colors.onSecondary,
                     textAlign = TextAlign.Left,
                     fontWeight = FontWeight.Bold,
@@ -113,12 +117,29 @@ fun CardDormitoryBooked(
                 ) {
                     Text(
                         text = "Отменить Заявку",
+                        modifier = Modifier.padding(10.dp),
+                        color = MaterialTheme.colors.error,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+                Button(
+                    shape = CircleShape,
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Transparent,
+                        contentColor = MaterialTheme.colors.onPrimary,
+                    ),
+                    border = BorderStroke(1.dp, MaterialTheme.colors.onPrimary),
+                    onClick = {/* TODO */ },
+                ) {
+                    Text(
+                        text = "Изменить",
+                        modifier = Modifier.padding(10.dp),
                         color = MaterialTheme.colors.error,
                         fontWeight = FontWeight.Bold,
                     )
                 }
             }
-            dormitory.details?.mainInfo?.city?.let { city ->
+            dormitory?.details?.mainInfo?.city?.let { city ->
                 Pill(
                     text = city,
                     modifier = Modifier.align(Alignment.TopStart),
@@ -127,5 +148,4 @@ fun CardDormitoryBooked(
             }
         }
     }
-
 }
