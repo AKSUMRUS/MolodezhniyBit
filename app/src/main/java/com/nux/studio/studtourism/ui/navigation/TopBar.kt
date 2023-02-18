@@ -16,6 +16,7 @@ import com.nux.studio.studtourism.TopAppBarActionButton
 import com.nux.studio.studtourism.data.repository.AuthRepository
 import com.nux.studio.studtourism.ui.components.atoms.CircleAsyncImage
 import com.nux.studio.studtourism.ui.viewmodels.AuthViewModel
+import com.nux.studio.studtourism.ui.viewmodels.ProfileViewModel
 import javax.inject.Inject
 
 
@@ -25,10 +26,14 @@ fun TopBar(
     navController: NavController,
 ) {
 
+    val profileViewModel = hiltViewModel<ProfileViewModel>()
+
     val authRepository = hiltViewModel<AuthViewModel>().repository
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
+    val photoUrl = profileViewModel.getProfileUrl()
 
     val routes = remember { SegmentControlTabs.values().map { it.route } }
     if (currentRoute in routes) {
@@ -47,7 +52,7 @@ fun TopBar(
                     }
                 }) {
                     CircleAsyncImage(
-                        url = "https://sun9-43.userapi.com/impg/f-fGHeXhvKyKaKAMzV7lcGQWnQULXPSrT-eMBQ/No-X0HpAlmM.jpg?size=1441x2160&quality=95&sign=c1b60c1cc758e15c8b85a2d583331204&type=album",
+                        url = photoUrl,
                         description = "Фото профиля"
                     )
                 }

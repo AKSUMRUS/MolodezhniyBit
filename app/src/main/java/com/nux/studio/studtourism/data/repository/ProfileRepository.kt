@@ -31,7 +31,8 @@ class ProfileRepository @Inject constructor(
     )
     val profileFlow = _profileFlow.asSharedFlow()
 
-    fun getProfileUrl(): String? = photoPrefs.url
+    private val defVal = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtxuuCDWzGaybpBF5fQJs6oTATHfPl42PH1JP2PH6D&s"
+    fun getProfileUrl(): String = photoPrefs.url?: defVal
 
     suspend fun loadProfile() {
         _profileFlow.emit(Resource.Loading(true))
