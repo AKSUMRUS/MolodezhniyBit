@@ -10,14 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -29,6 +23,7 @@ import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.ui.components.molecules.BottomSheet
 import com.nux.studio.studtourism.ui.components.molecules.CardDormitory
 import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
+import com.nux.studio.studtourism.ui.components.molecules.SegmentControlMap
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 
 @Composable
@@ -40,6 +35,8 @@ fun DormitoriesScreen(
     val isLoading = viewModel.state.isLoading
 
     var height = (200..400).random()
+
+    var indexView by remember { mutableStateOf(0) }
 
     val filters = viewModel.filterState
 
@@ -53,39 +50,52 @@ fun DormitoriesScreen(
             .then(modifier)
     ) {
         BottomSheet(
-            viewModel = viewModel
-        ) {openBottomSheet ->
+            viewModel = viewModel,
+        ) { openBottomSheet ->
             if (isLoading) {
                 LoadingViewCenter()
             } else {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(top = 10.dp, start = 0.dp, end = 0.dp),
-                    modifier = Modifier.background(MaterialTheme.colors.background),
-                ) {
-                    Log.d("Dormitories", filters.toString())
-                    val list = viewModel.state.dormitoriesList.filter {item ->
-                        var can = true
-                        if(!filters.city.isNullOrEmpty()) {
-                            can = can && (item.details?.mainInfo?.city?.contains(filters.city.toString())?: true)
+                if(indexView == 0) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(top = 10.dp, start = 0.dp, end = 0.dp),
+                        modifier = Modifier.background(MaterialTheme.colors.background),
+                    ) {
+                        Log.d("Dormitories", filters.toString())
+                        val list = viewModel.state.dormitoriesList.filter { item ->
+                            var can = true
+                            if (!filters.city.isNullOrEmpty()) {
+                                can =
+                                    can && (item.details?.mainInfo?.city?.contains(filters.city.toString())
+                                        ?: true)
+                            }
+                            can
                         }
-                        can
-                    }
-                    itemsIndexed(list) { index, dormitory ->
-                        if (index % 2 == 0) {
-                            height = (200..400).random()
-                        }
+                        itemsIndexed(list) { index, dormitory ->
+                            if (index % 2 == 0) {
+                                height = (200..400).random()
+                            }
 
-                        CardDormitory(
-                            dormitory = dormitory,
-                            onClick = {
-                                navController.navigate(
-                                    "dormitory?index=${dormitory.id}"
-                                )
-                            },
-                            height = height,
-                            navController = navController,
-                        )
+                            CardDormitory(
+                                dormitory = dormitory,
+                                onClick = {
+                                    navController.navigate(
+                                        "dormitory?index=${dormitory.id}"
+                                    )
+                                },
+                                height = height,
+                                navController = navController,
+                            )
+                        }
+                    }
+                }
+                else if(indexView == 1) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colors.background)
+                    ) {
+                        Text("map")
                     }
                 }
             }
@@ -105,6 +115,17 @@ fun DormitoriesScreen(
                     contentDescription = "Filter's button"
                 )
             }
+
+            SegmentControlMap(
+                items = listOf("Лента","Карта"),
+                defaultSelectedItemIndex = indexView,
+                onItemSelection = { index ->
+                    indexView = index
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 24.dp)
+            )
         }
     }
 }

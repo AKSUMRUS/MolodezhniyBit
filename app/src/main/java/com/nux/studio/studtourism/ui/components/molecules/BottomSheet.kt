@@ -27,10 +27,8 @@ fun BottomSheet(
     val coroutineScope = rememberCoroutineScope()
     val modalSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
-        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
-        skipHalfExpanded = true,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
     )
-
     var state by remember { mutableStateOf(FilterState()) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -52,7 +50,7 @@ fun BottomSheet(
         sheetContent = {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+//                    .fillMaxSize()
                     .background(MaterialTheme.colors.background)
             ) {
                 Button(
@@ -76,12 +74,7 @@ fun BottomSheet(
     ) {
         content {
             coroutineScope.launch {
-                if (modalSheetState.isVisible) {
-                    modalSheetState.hide()
-                }
-                else {
-                    modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
-                }
+                modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
             }
         }
     }

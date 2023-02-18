@@ -50,7 +50,8 @@ fun DormitoriesBookedScreen(
     ) {
         BottomSheet(
             viewModel = viewModel
-        ) { openBottomSheet ->
+        ) {
+//                openBottomSheet ->
             if (isLoading) {
                 LoadingViewCenter()
             } else {
@@ -80,7 +81,7 @@ fun DormitoriesBookedScreen(
                     .padding(end = 16.dp, bottom = 24.dp),
                 backgroundColor = MaterialTheme.colors.surface,
                 onClick = {
-                    openBottomSheet()
+//                    openBottomSheet()
                 }
             ) {
                 Image(
