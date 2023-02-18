@@ -31,7 +31,7 @@ class MainViewModel @Inject constructor(
         getDormitories()
     }
 
-    fun getDormitories() {
+    private fun getDormitories() {
         viewModelScope.launch {
             repository.getDormitories().collect { result ->
                 when (result) {
