@@ -16,6 +16,10 @@ var fontFamily = FontFamily(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
+    h5 = TextStyle(
+        fontSize = 24.0.sp,
+        fontFamily = fontFamily,
+    ),
     h6 = TextStyle(
         fontSize = 22.0.sp,
         fontFamily = fontFamily,
@@ -34,8 +38,7 @@ val Typography = Typography(
         fontFamily = fontFamily,
         lineHeight = 16.sp,
 
-    )
-
+        )
 
 
     /* Other default text styles to override

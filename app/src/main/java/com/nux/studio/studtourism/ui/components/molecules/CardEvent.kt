@@ -34,6 +34,7 @@ import com.nux.studio.studtourism.data.local.models.getFormattedDays
 import com.nux.studio.studtourism.data.local.models.getFormattedPrice
 import com.nux.studio.studtourism.ui.components.atoms.Pill
 import com.nux.studio.studtourism.ui.components.atoms.PillVariant
+import com.nux.studio.studtourism.ui.components.atoms.formatPrice
 import com.nux.studio.studtourism.ui.components.atoms.texts.Body1
 import com.nux.studio.studtourism.ui.components.atoms.texts.Body2
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH2
@@ -47,7 +48,6 @@ fun CardEvent(
     onClick: () -> Unit,
     height: Int,
 ) {
-    val price: String = "${event.details.price!!} рублей";
     val dates: String = "${convertLongToTime(event.details.dates.from)} - ${convertLongToTime(event.details.dates.to)}";
 
     Card(
@@ -125,7 +125,7 @@ fun CardEvent(
                     )
 
                     Body2(
-                        text = price,
+                        text = formatPrice(event.details.price!!),
                         color = MaterialTheme.colors.onPrimary,
                         modifier = modifierSubtitle,
                         textAlign = TextAlign.Left,

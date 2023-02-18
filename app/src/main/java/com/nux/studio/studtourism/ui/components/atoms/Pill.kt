@@ -40,8 +40,8 @@ fun Pill(
     }
     Box(
         modifier = Modifier
-            .padding(7.dp, 7.dp)
-            .clip(RoundedCornerShape(30.dp))
+            .padding(5.dp, 5.dp)
+            .clip(CircleShape)
             .border(1.dp, color = textColorCalculated, shape = CircleShape)
             .background(bgColor)
             .then(modifier)

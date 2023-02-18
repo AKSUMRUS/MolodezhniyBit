@@ -13,6 +13,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,14 +23,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH3
-import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.ui.components.atoms.*
-import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH6
+import com.nux.studio.studtourism.ui.components.atoms.texts.*
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
-import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
+import com.nux.studio.studtourism.ui.viewmodels.UniversityViewModel
 
 @Composable
 fun DormitoryScreen(
@@ -38,6 +38,16 @@ fun DormitoryScreen(
 ) {
     Log.e("LOGGGG", viewModel.toString())
     val dormitory = viewModel.state.dormitoriesList[index]
+
+    val universityViewModel: UniversityViewModel = hiltViewModel()
+
+    if (dormitory.universityId != null) {
+        LaunchedEffect(true) {
+            universityViewModel.loadUniversity(dormitory.universityId)
+        }
+    }
+    val university = universityViewModel.state.university
+
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
             item {
@@ -55,9 +65,10 @@ fun DormitoryScreen(
                         }
                     }
                 }
-                HeadlineH3(
+                HeadlineH5(
                     text = dormitory.details?.mainInfo!!.name,
-                    modifier = Modifier.padding(15.dp, 5.dp)
+                    modifier = Modifier.padding(horizontal = 15.dp).padding(top = 20.dp),
+                    fontWeight = FontWeight.Bold,
                 )
                 Row(
                     modifier = Modifier
@@ -120,7 +131,7 @@ fun DormitoryScreen(
                         Documents(documents = dormitory.details.documents)
                     }
                 }
-                Box(modifier = Modifier.height(100.dp))
+                Box(modifier = Modifier.height(120.dp))
             }
         }
         Button(
