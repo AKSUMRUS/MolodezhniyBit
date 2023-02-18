@@ -1,7 +1,7 @@
 package com.nux.studio.studtourism.data.local.models
 
 class MainInfo (
-    val name: String?,
+    val name: String,
     val city: String?,
     val street: String?,
     val houseNumber: String?,

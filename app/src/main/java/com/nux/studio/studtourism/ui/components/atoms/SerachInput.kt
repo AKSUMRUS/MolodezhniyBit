@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -37,9 +38,9 @@ fun SearchInput(
             .border(1.dp, Color.LightGray, CircleShape),
         shape = CircleShape,
         colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.Gray,
+            textColor = MaterialTheme.colors.onPrimary,
             disabledTextColor = Color.Transparent,
-            backgroundColor = Color.White,
+            backgroundColor = MaterialTheme.colors.primary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent

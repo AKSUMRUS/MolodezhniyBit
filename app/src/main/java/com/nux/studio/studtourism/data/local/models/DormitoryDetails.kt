@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 
 class DormitoryDetails(
     @Json(name = "main-info")
-    val mainInfo: MainInfo?,
+    val mainInfo: MainInfo,
     val rules: Rules?,
     val service: List<Service>?,
     val documents: List<String>?,

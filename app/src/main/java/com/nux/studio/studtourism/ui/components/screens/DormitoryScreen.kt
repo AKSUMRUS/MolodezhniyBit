@@ -4,7 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,12 +24,13 @@ import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH3
 import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH4
 import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.R
+import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 
 @Preview
 @Composable
 fun DormitoryScreenPreview() {
-    DormitoryScreen()
+//    DormitoryScreen()
 }
 
 @Composable
@@ -118,40 +121,37 @@ fun Services(
 
 @Composable
 fun DormitoryScreen(
+    dormitory: Dormitory
 ) {
-    val name = "Dormitory 123"
-    val photo =
-        "https://stud-files.sabir.pro/files/PtA4pFzxry-e6e200f4363190c4400ba0dba4958a16b719f4e33bc5e14f50e4ff6fdf8b871c.jpg"
-    val price = "1000 рублей"
-    val minDays = "2"
-    val maxDays = "25"
-    LazyColumn() {
+    LazyColumn(modifier = Modifier.background(MaterialTheme.colors.primary)) {
         item {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                AsyncImage(
-                    model = photo,
-                    contentDescription = "Фото общежития",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(0.dp),
-                )
-                Box(
-                    modifier = Modifier
-                        .padding(15.dp)
-                        .clip(RoundedCornerShape(30.dp))
-                        .align(Alignment.TopStart)
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .background(Color.White)
-                            .padding(15.dp, 10.dp),
-                        text = "Тольятти",
-                        fontSize = 20.sp
-                    )
+            LazyRow() {
+                item {
+                    dormitory.details.mainInfo.photos?.forEach { photoUrl ->
+                        AsyncImage(
+                            model = photoUrl,
+                            contentDescription = "Фото общежития",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp),
+                        )
+                    }
                 }
             }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Transparent)
+            )
             HeadlineH3(
-                text = name, modifier = Modifier.padding(3.dp, 15.dp)
+                text = dormitory.details.mainInfo.name, modifier = Modifier.padding(3.dp, 15.dp)
+            )
+            Text(
+                modifier = Modifier
+                    .background(Color.White)
+                    .padding(15.dp, 10.dp),
+                text = "Тольятти",
+                fontSize = 20.sp
             )
             Row(
             ) {
@@ -162,10 +162,10 @@ fun DormitoryScreen(
                         .size(30.dp)
                         .align(Alignment.CenterVertically)
                 )
-                Text(
-                    text = price, fontSize = 20.sp, modifier = Modifier.padding(15.dp),
-                    fontWeight = FontWeight.Bold,
-                )
+//                Text(
+//                    text = price, fontSize = 20.sp, modifier = Modifier.padding(15.dp),
+//                    fontWeight = FontWeight.Bold,
+//                )
             }
             Row(
             ) {
@@ -176,14 +176,14 @@ fun DormitoryScreen(
                         .size(30.dp)
                         .align(Alignment.CenterVertically)
                 )
-                Text(
-                    text = "от $minDays до $maxDays дней",
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(15.dp),
-                    fontWeight = FontWeight.Bold,
-                )
+//                Text(
+////                    text = "от $minDays до $maxDays дней",
+//                    fontSize = 20.sp,
+//                    modifier = Modifier.padding(15.dp),
+//                    fontWeight = FontWeight.Bold,
+//                )
             }
-            ButtonPrimary(text = "Забронировать"){}
+            ButtonPrimary(text = "Забронировать") {}
             Rooms()
             Services()
         }
