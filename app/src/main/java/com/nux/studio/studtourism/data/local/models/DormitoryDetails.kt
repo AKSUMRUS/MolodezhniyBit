@@ -9,4 +9,5 @@ class DormitoryDetails(
     val service: List<Service>?,
     val documents: List<String>?,
     val district: String?,
+    val city: String?,
 )

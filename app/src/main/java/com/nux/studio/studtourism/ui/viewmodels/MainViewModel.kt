@@ -7,8 +7,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nux.studio.studtourism.data.local.models.Committee
+import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.data.repository.MainRepository
+import com.nux.studio.studtourism.ui.states.FilterState
 import com.nux.studio.studtourism.ui.states.MainState
+import com.nux.studio.studtourism.ui.states.RatingBy
 import com.nux.studio.studtourism.ui.viewmodels.error.ErrorMapper
 import com.nux.studio.studtourism.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +30,38 @@ class MainViewModel @Inject constructor(
     private var _state by mutableStateOf(MainState())
     val state : MainState
         get() = _state
+
+    private var _filterState by mutableStateOf(FilterState())
+    val filterState : FilterState
+        get() = _filterState
+
+    var cities: Set<String> = emptySet()
+    private set
+
+    var districts: Set<String> = emptySet()
+    private set
+
+    var committees: Set<Committee> = emptySet()
+        private set
+
+    fun filterInfo(dormitories: List<Dormitory>?) {
+        if (dormitories.isNullOrEmpty()) {
+            return
+        }
+
+        cities = dormitories.mapNotNull { dormitory ->
+            dormitory.details?.city
+        }.toSet()
+
+        districts = dormitories.mapNotNull { dormitory ->
+            dormitory.details?.district
+        }.toSet()
+
+        committees = dormitories.mapNotNull { dormitory ->
+            dormitory.details?.rules?.committee
+        }.toSet()
+
+    }
 
     init {
         getDormitories()
