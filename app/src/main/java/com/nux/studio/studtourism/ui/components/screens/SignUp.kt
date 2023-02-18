@@ -11,6 +11,7 @@ import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 import com.nux.studio.studtourism.ui.components.atoms.ButtonSecondary
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
+import kotlin.concurrent.fixedRateTimer
 
 
 @Preview
@@ -43,7 +44,14 @@ fun SignUp(
         InputField(text = phone, placeholder = "Телефон", modifier = inputModifier, onValueChange = {phone = it})
         InputField(text = password, placeholder = "Пароль", modifier = inputModifier, onValueChange = {password = it})
         ButtonPrimary(text = "Создать", modifier = Modifier, onClick = {
-            viewModel.signUp(email, password)
+            viewModel.signUp(
+                email = email,
+                password = password,
+                fistName = name,
+                lastName = surname,
+                middleName = middleName,
+                phone = phone,
+            )
         })
         ButtonPrimary(text = "Создать", modifier = Modifier, onClick = {})
         ButtonSecondary(text = "Уже есть аккаунт? Войти", modifier = Modifier, onClick = {})
