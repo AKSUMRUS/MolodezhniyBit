@@ -1,9 +1,9 @@
 package com.nux.studio.studtourism.data.repository
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import android.util.Log
 import com.nux.studio.studtourism.data.error.ErrorCatcher
 import com.nux.studio.studtourism.data.error.ErrorRemote
+import com.nux.studio.studtourism.data.local.prefs.PhotoPrefs
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.data.remote.models.EditUser
 import com.nux.studio.studtourism.data.remote.models.User
@@ -15,7 +15,8 @@ import retrofit2.awaitResponse
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(
-    private val api: RetrofitServices
+    private val api: RetrofitServices,
+    private val photoPrefs: PhotoPrefs,
 ) {
 
     private val _editUserFlow = MutableSharedFlow<Resource<User>>(
@@ -29,6 +30,8 @@ class ProfileRepository @Inject constructor(
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val profileFlow = _profileFlow.asSharedFlow()
+
+    fun getProfileUrl(): String? = photoPrefs.url
 
     suspend fun loadProfile() {
         _profileFlow.emit(Resource.Loading(true))
