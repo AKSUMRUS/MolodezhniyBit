@@ -39,6 +39,12 @@ fun ProfileScreen() {
     val state = viewModel.profileState
 
     var lastName by remember { mutableStateOf("") }
+    var firstName by remember { mutableStateOf("") }
+    var middleName by remember { mutableStateOf("") }
+    var birthDate by remember { mutableStateOf("") }
+    var gender by remember { mutableStateOf("") }
+    var departure by remember { mutableStateOf("") }
+
 
     LazyColumn {
         item {
@@ -85,15 +91,61 @@ fun ProfileScreen() {
             )
             InputField(
                 text = lastName,
-                placeholder = "Имя",
+                placeholder = "Фамилия",
                 onValueChange = { lastName = it },
-                modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                ).background(Color(0xF3F8FCFF)),
-
+                modifier = Modifier
+                    .padding(
+                        horizontal = 16.dp,
+                    )
+                    .background(Color(0xF3F8FCFF)),
             )
         }
+        //Имя
+        item {
+            Subtitle2(
+                text = "Имя",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(
+                    horizontal = 16.dp,
+                    vertical = 4.dp
+                )
+            )
+            InputField(
+                text = firstName,
+                placeholder = "Имя",
+                onValueChange = { firstName = it },
+                modifier = Modifier
+                    .padding(
+                        horizontal = 16.dp,
+                    )
+                    .background(Color(0xF3F8FCFF)),
+            )
+        }
+        //Отчество
+        item {
+            Subtitle2(
+                text = "Отчество",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(
+                    horizontal = 16.dp,
+                    vertical = 4.dp
+                )
+            )
+            InputField(
+                text = middleName,
+                placeholder = "Отчество",
+                onValueChange = { middleName = it },
+                modifier = Modifier
+                    .padding(
+                        horizontal = 16.dp,
+                    )
+                    .background(Color(0xF3F8FCFF)),
+            )
+        }
+        // Дата рождения
+        item {
 
+        }
     }
 }
 
