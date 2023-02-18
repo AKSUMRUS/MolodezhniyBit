@@ -93,9 +93,6 @@ dependencies {
 
 //    Канарейка
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
-
-
-    implementation 'com.android.support:multidex:2.0.1'
 }
 
 kapt {

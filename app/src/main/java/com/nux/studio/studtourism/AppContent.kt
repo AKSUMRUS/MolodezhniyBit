@@ -1,6 +1,7 @@
 package com.nux.studio.studtourism
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
@@ -10,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.nux.studio.studtourism.ui.navigation.AppNavGraph
-import com.nux.studio.studtourism.ui.navigation.SegmentControllBar
+import com.nux.studio.studtourism.ui.navigation.SegmentControlBar
 import com.nux.studio.studtourism.ui.navigation.SegmentControlTabs
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 
@@ -24,10 +25,16 @@ fun AppContent() {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
-                SegmentControllBar(
-                    navController = navController,
-                    tabs = tabs
-                )
+                Column {
+                    SegmentControlBar(
+                        navController = navController,
+                        tabs = tabs
+                    )
+                    SegmentControlBar(
+                        navController = navController,
+                        tabs = tabs
+                    )
+                }
             }
         ) {
             AppNavGraph(
