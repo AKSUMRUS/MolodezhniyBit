@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'kotlin-android'
+    id 'com.google.relay' version '0.3.02'
 }
 
 android {
@@ -15,6 +17,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -89,6 +92,9 @@ dependencies {
 
 //    Канарейка
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+
+
+    implementation 'com.android.support:multidex:2.0.1'
 }
 
 kapt {
