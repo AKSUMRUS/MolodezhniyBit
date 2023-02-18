@@ -22,6 +22,35 @@ class ProfileRepository @Inject constructor(
     )
     val editUserFlow = _editUserFlow.asSharedFlow()
 
+    private val _profileFlow = MutableSharedFlow<Resource<User>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val profileFlow = _profileFlow.asSharedFlow()
+
+    suspend fun loadProfile() {
+        _profileFlow.emit(Resource.Loading(true))
+        val request = api.getProfile()
+
+        val response = try {
+            val responseApi = request.awaitResponse()
+            if (responseApi.code() == 200) {
+                responseApi.body()
+            } else {
+                _profileFlow.emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
+                _profileFlow.emit(Resource.Loading(false))
+                return
+            }
+        } catch (e: Exception) {
+            _profileFlow.emit(Resource.Error(message = ErrorRemote.NoInternet))
+            _profileFlow.emit(Resource.Loading(false))
+            return
+        }
+
+        _profileFlow.emit(Resource.Loading(false))
+        _profileFlow.emit(Resource.Success(response))
+    }
+
     suspend fun editUser(
         firstName: String? = null,
         lastName: String? = null,

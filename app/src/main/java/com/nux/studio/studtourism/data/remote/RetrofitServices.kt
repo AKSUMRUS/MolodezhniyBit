@@ -24,7 +24,7 @@ interface RetrofitServices {
     ) : Call<Token>
 
     @GET("me")
-    fun getProfile()
+    fun getProfile(): Call<User>
 
     @GET("universities/all")
     fun getUniversitiesList() : Call<List<University>>
