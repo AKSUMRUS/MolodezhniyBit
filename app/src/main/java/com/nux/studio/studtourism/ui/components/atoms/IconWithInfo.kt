@@ -27,11 +27,12 @@ fun IconWithInfo(
             imageVector = ImageVector.vectorResource(id = id),
             contentDescription = contentDescription,
             modifier = Modifier
-                .size(20.dp)
+                .size(15.dp)
                 .align(Alignment.CenterVertically)
         )
         Text(
             text = text,
+            fontSize = 12.sp,
             modifier = Modifier.padding(15.dp),
         )
     }

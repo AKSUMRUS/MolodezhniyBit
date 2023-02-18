@@ -19,13 +19,15 @@ val Typography = Typography(
     body1 = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 18.sp
+        fontSize = 18.sp,
+        lineHeight = 20.sp,
     ),
 
     body2 = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = 14.0.sp,
         fontFamily = fontFamily,
+        lineHeight = 16.sp,
 
     )
 

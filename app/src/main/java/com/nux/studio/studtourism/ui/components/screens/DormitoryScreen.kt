@@ -7,13 +7,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,86 +38,116 @@ fun DormitoryScreen(
 ) {
     Log.e("LOGGGG", viewModel.toString())
     val dormitory = viewModel.state.dormitoriesList[index]
-    LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
-        item {
-            LazyRow() {
-                item {
-                    dormitory.details?.mainInfo?.photos?.forEach { photoUrl ->
-                        AsyncImage(
-                            model = photoUrl,
-                            contentDescription = "Фото общежития",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(0.dp)
-                        )
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
+            item {
+                LazyRow() {
+                    item {
+                        dormitory.details?.mainInfo?.photos?.forEach { photoUrl ->
+                            AsyncImage(
+                                model = photoUrl,
+                                contentDescription = "Фото общежития",
+                                modifier = Modifier
+                                    .width(LocalConfiguration.current.screenWidthDp.dp)
+                                    .padding(0.dp),
+                                contentScale = ContentScale.FillWidth
+                            )
+                        }
                     }
                 }
-            }
-            HeadlineH3(
-                text = dormitory.details?.mainInfo!!.name, modifier = Modifier.padding(15.dp, 5.dp)
-            )
-            Row(
-                modifier = Modifier
-                    .padding(10.dp, 0.dp)
-                    .background(Color.Transparent)
-            ) {
-                dormitory.details.mainInfo.city?.let { city ->
-                    Pill(dormitory.details.mainInfo.city, variant = PillVariant.BACKGROUND)
-                }
-            }
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-                    .fillMaxWidth()
-            ) {
-                Column(Modifier.align(Alignment.CenterStart)) {
-                    val minDays = dormitory.details.mainInfo.minDays
-                    val maxDays = dormitory.details.mainInfo.maxDays
-                    if (!minDays.isNullOrEmpty() && !maxDays.isNullOrEmpty()) {
-                        Dates("$minDays – $maxDays дней")
+                HeadlineH3(
+                    text = dormitory.details?.mainInfo!!.name,
+                    modifier = Modifier.padding(15.dp, 5.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .padding(10.dp, 0.dp)
+                        .background(Color.Transparent)
+                ) {
+                    dormitory.details.mainInfo.city?.let { city ->
+                        Pill(dormitory.details.mainInfo.city, variant = PillVariant.BACKGROUND)
                     }
-                    Price(getFormattedPrice(dormitory))
                 }
-                Column(Modifier.align(Alignment.CenterEnd)) {
-                    dormitory.details.rules?.committee?.phone?.let { phone ->
-                        Phone(
-                            phone,
-                        )
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 15.dp)
+                        .fillMaxWidth(),
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        val minDays = dormitory.details.mainInfo.minDays
+                        val maxDays = dormitory.details.mainInfo.maxDays
+                        if (!minDays.isNullOrEmpty() && !maxDays.isNullOrEmpty()) {
+                            Dates("$minDays – $maxDays дней")
+                        }
+                        Price(getFormattedPrice(dormitory))
                     }
-                    dormitory.details.rules?.committee?.email?.let { email -> Mail(email) }
+                    Column(modifier = Modifier.weight(1f)) {
+                        dormitory.details.rules?.committee?.phone?.let { phone ->
+                            Phone(
+                                phone,
+                            )
+                        }
+                        dormitory.details.rules?.committee?.email?.let { email -> Mail(email) }
+                    }
                 }
-            }
-            SectionHeader(text = "Адрес", modifier = Modifier.padding(15.dp, 0.dp))
-            Text(text = getFormattedAddress(dormitory), modifier = Modifier.padding(15.dp))
+                SectionHeader(text = "Адрес", modifier = Modifier.padding(15.dp, 0.dp))
+                Text(text = getFormattedAddress(dormitory), modifier = Modifier.padding(15.dp))
 
-            dormitory.rooms.let { rooms ->
-                if (rooms != null && rooms.isNotEmpty()) {
-                    SectionHeader(text = "Комнаты", modifier = Modifier.padding(15.dp, 0.dp))
-                    Rooms(rooms = rooms.values)
+                dormitory.rooms.let { rooms ->
+                    if (rooms != null && rooms.isNotEmpty()) {
+                        SectionHeader(text = "Комнаты", modifier = Modifier.padding(15.dp, 0.dp))
+                        Rooms(rooms = rooms.values)
+                    }
                 }
-            }
-            dormitory.details.services?.let { services ->
-                if (services.isNotEmpty()) {
-                    SectionHeader(text = "Услуги", modifier = Modifier.padding(15.dp, 0.dp))
-                    Services(services = services)
+                dormitory.details.services?.let { services ->
+                    if (services.isNotEmpty()) {
+                        SectionHeader(text = "Услуги", modifier = Modifier.padding(15.dp, 0.dp))
+                        Services(services = services)
+                    }
                 }
-            }
-            dormitory.details.documents?.let { documents ->
-                if (documents.isNotEmpty()) {
-                    SectionHeader(text = "Документы", modifier = Modifier.padding(15.dp, 0.dp))
-                    Documents(documents = dormitory.details.documents)
+                dormitory.details.rules?.let { rules ->
+                    SectionHeader(
+                        text = "Правила",
+                        modifier = Modifier
+                            .padding(horizontal = 15.dp)
+
+                    )
+                    Rules(rules = rules)
                 }
+                dormitory.details.documents?.let { documents ->
+                    if (documents.isNotEmpty()) {
+                        SectionHeader(text = "Документы", modifier = Modifier.padding(15.dp, 0.dp))
+                        Documents(documents = dormitory.details.documents)
+                    }
+                }
+                Box(modifier = Modifier.height(100.dp))
             }
-            dormitory.details.rules?.let { rules ->
-                SectionHeader(text = "Правила", modifier = Modifier.padding(15.dp, 0.dp))
-                Rules(rules = rules)
-            }
+        }
+        Button(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .padding(bottom = 30.dp)
+                .padding(horizontal = 25.dp),
+            shape = CircleShape,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = MaterialTheme.colors.surface,
+            ),
+            onClick = { /*TODO*/ },
+        ) {
+            Text(
+                modifier = Modifier.padding(15.dp),
+                text = "Оставить заявку",
+                color = MaterialTheme.colors.onSurface,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+            )
         }
     }
 }
 
 @Composable
-fun Room(
+private fun Room(
     room: Room,
     modifier: Modifier = Modifier,
 ) {
@@ -133,7 +167,7 @@ fun Room(
 }
 
 @Composable
-fun Rooms(
+private fun Rooms(
     rooms: Collection<Room>,
     modifier: Modifier = Modifier,
 ) {
@@ -147,7 +181,7 @@ fun Rooms(
 }
 
 @Composable
-fun Service(
+private fun Service(
     service: Service,
     modifier: Modifier = Modifier,
 ) {
@@ -166,7 +200,7 @@ fun Service(
 }
 
 @Composable
-fun Services(
+private fun Services(
     services: Collection<Service>,
     modifier: Modifier = Modifier,
 ) {
@@ -180,7 +214,7 @@ fun Services(
 }
 
 @Composable
-fun Documents(
+private fun Documents(
     documents: Collection<DocumentUrl>,
     modifier: Modifier = Modifier,
 ) {
@@ -200,7 +234,36 @@ fun Documents(
 }
 
 @Composable
-fun Rules(
+private fun RulesHeader(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .padding(bottom = 10.dp)
+            .then(modifier),
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp
+    )
+}
+
+@Composable
+private fun RulesText(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .padding(bottom = 20.dp)
+            .then(modifier),
+        lineHeight = 20.sp,
+    )
+}
+
+@Composable
+private fun Rules(
     rules: Rules,
     modifier: Modifier = Modifier,
 ) {
@@ -212,25 +275,22 @@ fun Rules(
         val uniDoc = rules.requiredUniDocuments;
         val studentsDocs = rules.requiredStudentsDocuments;
         if (studentsDocs == uniDoc && studentsDocs != null) {
-            Text(
-                text = "Перечень необходимых документов и требований",
-                modifier = Modifier, fontWeight = FontWeight.Bold, fontSize = 18.sp
+            RulesHeader(
+                text = "Перечень необходимых документов и требований"
             )
-            Text(text = studentsDocs)
+            RulesText(text = studentsDocs)
         } else {
             rules.requiredUniDocuments?.let { requiredUniDocuments ->
-                Text(
+                RulesHeader(
                     text = "Перечень необходимых документов и требований для направляющей образовательной организации",
-                    modifier = Modifier, fontWeight = FontWeight.Bold, fontSize = 18.sp
                 )
-                Text(text = requiredUniDocuments)
+                RulesText(text = requiredUniDocuments)
             }
             rules.requiredStudentsDocuments?.let { requiredStudentsDocuments ->
-                Text(
+                RulesHeader(
                     text = "Перечень необходимых документов и требований для путешественников, оплачивающих услуги самостоятельно",
-                    modifier = Modifier, fontWeight = FontWeight.Bold, fontSize = 18.sp
                 )
-                Text(text = requiredStudentsDocuments)
+                RulesText(text = requiredStudentsDocuments)
             }
         }
     }
