@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -16,6 +17,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.nux.studio.studtourism.ui.components.molecules.CardEvent
 import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 
@@ -23,7 +26,8 @@ import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 fun EventsScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-) {
+    navController: NavController,
+    ) {
     val events = viewModel.state.eventsList
     val isLoading = viewModel.state.isLoading
 
@@ -42,13 +46,18 @@ fun EventsScreen(
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(top = 80.dp, start = 0.dp, end = 0.dp),
+                contentPadding = PaddingValues(top = 0.dp, start = 0.dp, end = 0.dp),
                 modifier = Modifier.background(MaterialTheme.colors.background),
             ) {
-                items(events) { event ->
-                    Text(
-                        text = event.details.name.toString(),
-                        color = MaterialTheme.colors.error
+                itemsIndexed(events) { index, event ->
+                    CardEvent(
+                        event = event,
+                        height = 240,
+                        onClick = {
+                            navController.navigate(
+                                "event?index=$index"
+                            )
+                        }
                     )
                 }
             }

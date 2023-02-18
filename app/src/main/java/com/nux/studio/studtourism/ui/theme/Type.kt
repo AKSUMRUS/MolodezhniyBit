@@ -16,14 +16,17 @@ var fontFamily = FontFamily(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
+    h6 = TextStyle(
+        fontSize = 22.0.sp,
+        fontFamily = fontFamily,
+    ),
+
     body1 = TextStyle(
         fontFamily = fontFamily,
-        fontWeight = FontWeight.Normal,
         fontSize = 18.sp
     ),
 
     body2 = TextStyle(
-        fontWeight = FontWeight.Normal,
         fontSize = 14.0.sp,
         fontFamily = fontFamily,
 

@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.nux.studio.studtourism.ui.theme.fontFamily
 
 @Composable
 fun Body1(
@@ -23,9 +24,10 @@ fun Body1(
     Text(
         text = text,
         color = color,
+        style = MaterialTheme.typography.body1,
         modifier = modifier,
         fontWeight = fontWeight,
         textAlign = textAlign,
-//        fontSize = fontSize,
+        fontSize = fontSize,
     )
 }

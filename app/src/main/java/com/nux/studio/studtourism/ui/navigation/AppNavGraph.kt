@@ -43,7 +43,8 @@ fun AppNavGraph(
                 viewModel = viewModel,
                 modifier = Modifier
                     .background(MaterialTheme.colors.surface)
-                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)),
+                navController = navController,
             )
         }
         composable(SegmentControlTabs.LABS.route) {
@@ -51,7 +52,8 @@ fun AppNavGraph(
                 viewModel = viewModel,
                 modifier = Modifier
                     .background(MaterialTheme.colors.surface)
-                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                    .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)),
+                navController = navController,
             )
         }
         composable(

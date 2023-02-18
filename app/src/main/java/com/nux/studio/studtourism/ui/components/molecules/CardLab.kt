@@ -1,3 +1,5 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL")
+
 package com.nux.studio.studtourism.ui.components.molecules
 
 import androidx.compose.foundation.Image
@@ -31,6 +33,7 @@ import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.data.local.models.getFormattedDays
 import com.nux.studio.studtourism.data.local.models.getFormattedPrice
+import com.nux.studio.studtourism.data.local.models.lab.Lab
 import com.nux.studio.studtourism.ui.components.atoms.Pill
 import com.nux.studio.studtourism.ui.components.atoms.PillVariant
 import com.nux.studio.studtourism.ui.components.atoms.texts.Body1
@@ -39,14 +42,12 @@ import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH2
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
 
 @Composable
-fun CardDormitory(
-    dormitory: Dormitory,
+fun CardLab(
+    lab: Lab,
     onClick: () -> Unit,
+    region: String,
     height: Int,
-    navController: NavController,
 ) {
-    val price: String = getFormattedPrice(dormitory);
-    val dates: String? = getFormattedDays(dormitory);
 
     Card(
         elevation = 10.dp,
@@ -64,7 +65,7 @@ fun CardDormitory(
 //            contentAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = dormitory.details?.mainInfo?.photos?.get(0),
+                model = lab.details.photos?.get(0),
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxSize()
@@ -93,68 +94,21 @@ fun CardDormitory(
 //                        contentAlignment = Alignment.BottomStart,
                 verticalArrangement = Arrangement.Bottom,
             ) {
-                Body1(
-                    text = dormitory.details?.mainInfo?.name!!,
-                    color = MaterialTheme.colors.onSecondary,
-                    textAlign = TextAlign.Left,
-                    fontWeight = FontWeight.Bold,
-                )
-
-                val modifierSubtitle: Modifier = Modifier.padding(start = 20.dp)
-
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp)
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.icon_calendar),
-                        contentDescription = "",
-                        modifier = Modifier,
-                        tint = MaterialTheme.colors.onSecondary,
-                    )
-                    if (dates != null) {
-                        Body2(
-                            text = dates,
-                            color = MaterialTheme.colors.onSecondary,
-                            modifier = modifierSubtitle,
-//                            letterSpacing = -0.2040000057220459.sp,
-                            textAlign = TextAlign.Left,
-                            fontWeight = FontWeight.Normal
-//                            modifier = modifier.wrapContentHeight(align = Alignment.CenterVertically)
-                        )
-                    }
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp)
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.icon),
-                        contentDescription = "",
-                        modifier = Modifier,
-                        tint = MaterialTheme.colors.onSecondary,
-                    )
-
-                    Body2(
-                        text = price,
+                if(lab.details.name!=null){
+                    Body1(
+                        text = lab.details.name!!,
                         color = MaterialTheme.colors.onSecondary,
-                        modifier = modifierSubtitle,
                         textAlign = TextAlign.Left,
-                        fontWeight = FontWeight.Normal
+                        fontWeight = FontWeight.Bold,
                     )
                 }
             }
-            dormitory.details?.mainInfo?.city?.let { city ->
-                Pill(
-                    text = city,
-                    modifier = Modifier.align(Alignment.TopStart),
-                    variant = PillVariant.BACKGROUND,
-                )
-            }
+
+            Pill(
+                text = region,
+                modifier = Modifier.align(Alignment.TopStart),
+                variant = PillVariant.BACKGROUND,
+            )
         }
     }
 

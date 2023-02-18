@@ -14,18 +14,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.nux.studio.studtourism.ui.components.molecules.CardDormitory
+import com.nux.studio.studtourism.ui.components.molecules.CardLab
 import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
+import com.nux.studio.studtourism.ui.viewmodels.UniversityViewModel
 
 @Composable
 fun LabsScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    navController: NavController,
 ){
 
     val labs = viewModel.state.labsList
     val isLoading = viewModel.state.isLoading
+    val universityViewModel: UniversityViewModel = hiltViewModel()
 
     LaunchedEffect(true) {
         viewModel.getLabs()
@@ -41,10 +46,24 @@ fun LabsScreen(
                 contentPadding = PaddingValues(top = 0.dp, start = 20.dp, end = 20.dp),
                 modifier = Modifier.background(MaterialTheme.colors.background),
             ) {
+
+
                 items(labs) { lab ->
-                    Text(
-                        text = lab.details.name ?: "",
-                        color = MaterialTheme.colors.error
+                    LaunchedEffect(true) {
+                        universityViewModel.loadUniversity(lab.universityId)
+                    }
+                    var region: String = ""
+                    if (universityViewModel.state.university != null && universityViewModel.state.university!!.details != null) {
+                        region = universityViewModel.state.university!!.details!!.region!!
+                    }
+
+                    CardLab(
+                        lab = lab,
+                        height = 250,
+                        region = region,
+                        onClick = {
+
+                        }
                     )
                 }
             }

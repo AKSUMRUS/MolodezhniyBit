@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.Dormitory
+import com.nux.studio.studtourism.data.local.models.Event
 import com.nux.studio.studtourism.data.local.models.getFormattedDays
 import com.nux.studio.studtourism.data.local.models.getFormattedPrice
 import com.nux.studio.studtourism.ui.components.atoms.Pill
@@ -37,16 +38,17 @@ import com.nux.studio.studtourism.ui.components.atoms.texts.Body1
 import com.nux.studio.studtourism.ui.components.atoms.texts.Body2
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH2
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
-fun CardDormitory(
-    dormitory: Dormitory,
+fun CardEvent(
+    event: Event,
     onClick: () -> Unit,
     height: Int,
-    navController: NavController,
 ) {
-    val price: String = getFormattedPrice(dormitory);
-    val dates: String? = getFormattedDays(dormitory);
+    val price: String = "${event.details.price!!} рублей";
+    val dates: String = "${convertLongToTime(event.details.dates.from)} - ${convertLongToTime(event.details.dates.to)}";
 
     Card(
         elevation = 10.dp,
@@ -57,45 +59,28 @@ fun CardDormitory(
             .clickable {
                 onClick()
             }
-
+            .background(MaterialTheme.colors.primary),
+        backgroundColor = MaterialTheme.colors.primary
     ) {
         Box(
-            modifier = Modifier.height(height.dp),
+            modifier = Modifier
+                .height(height.dp)
+                .background(Color.Transparent)
+            ,
 //            contentAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = dormitory.details?.mainInfo?.photos?.get(0),
-                contentDescription = "",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(20.dp)),
-                contentScale = ContentScale.Crop,
-//                colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0.9f) })
-            )
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent, Color.Black
-                            ),
-                            startY = 300f
-                        )
-                    )
-            )
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .background(Color.Transparent)
                     .padding(10.dp),
 //                        contentAlignment = Alignment.BottomStart,
                 verticalArrangement = Arrangement.Bottom,
             ) {
                 Body1(
-                    text = dormitory.details?.mainInfo?.name!!,
-                    color = MaterialTheme.colors.onSecondary,
+                    text = event.details.name!!,
+                    color = MaterialTheme.colors.onPrimary,
                     textAlign = TextAlign.Left,
                     fontWeight = FontWeight.Bold,
                 )
@@ -112,12 +97,12 @@ fun CardDormitory(
                         imageVector = ImageVector.vectorResource(id = R.drawable.icon_calendar),
                         contentDescription = "",
                         modifier = Modifier,
-                        tint = MaterialTheme.colors.onSecondary,
+                        tint = MaterialTheme.colors.onPrimary,
                     )
                     if (dates != null) {
                         Body2(
                             text = dates,
-                            color = MaterialTheme.colors.onSecondary,
+                            color = MaterialTheme.colors.onPrimary,
                             modifier = modifierSubtitle,
 //                            letterSpacing = -0.2040000057220459.sp,
                             textAlign = TextAlign.Left,
@@ -136,26 +121,31 @@ fun CardDormitory(
                         imageVector = ImageVector.vectorResource(id = R.drawable.icon),
                         contentDescription = "",
                         modifier = Modifier,
-                        tint = MaterialTheme.colors.onSecondary,
+                        tint = MaterialTheme.colors.onPrimary,
                     )
 
                     Body2(
                         text = price,
-                        color = MaterialTheme.colors.onSecondary,
+                        color = MaterialTheme.colors.onPrimary,
                         modifier = modifierSubtitle,
                         textAlign = TextAlign.Left,
                         fontWeight = FontWeight.Normal
                     )
                 }
             }
-            dormitory.details?.mainInfo?.city?.let { city ->
+            event.details.type?.let { type ->
                 Pill(
-                    text = city,
+                    text = type,
                     modifier = Modifier.align(Alignment.TopStart),
                     variant = PillVariant.BACKGROUND,
                 )
             }
         }
     }
+}
 
+fun convertLongToTime(time: Long): String {
+    val date = Date(time)
+    val format = SimpleDateFormat("dd.MM.yy")
+    return format.format(date)
 }

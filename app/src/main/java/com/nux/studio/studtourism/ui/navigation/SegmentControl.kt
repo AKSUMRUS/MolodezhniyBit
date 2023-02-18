@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.nux.studio.studtourism.R
+import com.nux.studio.studtourism.ui.components.atoms.texts.Body1
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH6
 
@@ -39,7 +40,7 @@ fun SegmentedControl(
 
     Row(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(16.dp, bottom = 2.dp)
             .then(modifier)
     ) {
         items.forEachIndexed { index, item ->
@@ -53,7 +54,7 @@ fun SegmentedControl(
             ) {
                 HeadlineH6(
                     text = stringResource(id = item.title),
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Normal,
                     color = if (selectedIndex == index) {
                         MaterialTheme.colors.onSurface
                     } else {
