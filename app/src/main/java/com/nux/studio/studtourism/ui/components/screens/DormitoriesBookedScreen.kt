@@ -66,11 +66,6 @@ fun DormitoriesBookedScreen(
 
                         CardDormitoryBooked(
                             dormitoryBooked = dormitoryBooked,
-                            onClick = {
-                                navController.navigate(
-                                    "dormitory?index=$index"
-                                )
-                            },
                             height = height,
                             navController = navController,
                             viewModel=viewModel,

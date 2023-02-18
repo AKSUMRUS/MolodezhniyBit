@@ -35,7 +35,6 @@ import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 @Composable
 fun CardDormitoryBooked(
     dormitoryBooked: DormitoryBooked,
-    onClick: () -> Unit,
     height: Int,
     navController: NavController,
     viewModel: MainViewModel
@@ -52,9 +51,6 @@ fun CardDormitoryBooked(
             .padding(start = 4.dp, top = 8.dp, end = 4.dp, bottom = 0.dp)
             .fillMaxSize()
             .clip(RoundedCornerShape(20.dp))
-            .clickable {
-                onClick()
-            }
 
     ) {
         Box(
