@@ -10,26 +10,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 import com.nux.studio.studtourism.ui.components.atoms.authforms.EmailInputField
 import com.nux.studio.studtourism.ui.components.atoms.authforms.Label
 import com.nux.studio.studtourism.ui.components.atoms.authforms.PasswordInputField
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH3
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
-
-@Preview
-@Composable
-fun PreviewLoginScreen() {
-    StudTourismTheme {
-        LoginScreen()
-    }
-}
+import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navController: NavController
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isVisible by remember { mutableStateOf(false) }
+
+    val viewModel: SignUpViewModel = hiltViewModel()
+
+    LaunchedEffect(viewModel.state.isSuccess) {
+        if(viewModel.state.isSuccess == true) {
+            navController.navigate("profile") {
+                popUpTo("login") {
+                    inclusive = true
+                }
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxHeight()
@@ -67,14 +77,25 @@ fun LoginScreen() {
         ) {
             ButtonPrimary(
                 text = "Войти",
-                onClick = { /*TODO*/ },
+                onClick = {
+                    viewModel.login(
+                        email = email,
+                        password = password
+                    )
+                          },
                 modifier = Modifier
                     .fillMaxWidth(),
                 buttonColor = MaterialTheme.colors.primaryVariant,
             )
             ButtonPrimary(
                 text = "Зарегестрироваться",
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate("signUp") {
+                        popUpTo("login") {
+                            inclusive = true
+                        }
+                    }
+                          },
                 modifier = Modifier
                     .fillMaxWidth(),
                 buttonColor = Color.Transparent,

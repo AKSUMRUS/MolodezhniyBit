@@ -71,9 +71,18 @@ fun AppNavGraph(
                 viewModel = viewModel
             )
         }
-
         composable("profile") {
             ProfileScreen()
+        }
+        composable("login") {
+            LoginScreen(
+                navController = navController
+            )
+        }
+        composable("signUp") {
+            SignUp(
+                navController = navController
+            )
         }
     }
 

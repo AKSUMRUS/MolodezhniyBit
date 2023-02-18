@@ -10,18 +10,23 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import retrofit2.awaitResponse
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AuthRepository @Inject constructor(
     private val tokenPrefs: TokenPrefs,
     private val api: RetrofitServices,
     private val profileRepository: ProfileRepository,
 ) {
 
-    private val _loginFlow = MutableSharedFlow<Resource<Unit>>()
+    private val _loginFlow = MutableSharedFlow<Resource<Unit>>(
+        replay = 3,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
     val loginFlow = _loginFlow.asSharedFlow()
 
     private val _signUpFlow = MutableSharedFlow<Resource<Unit>>(
-        replay = 1,
+        replay = 3,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val signUpFlow = _signUpFlow.asSharedFlow()
@@ -43,7 +48,7 @@ class AuthRepository @Inject constructor(
         val response = try {
             val responseApi = request.awaitResponse()
             if (responseApi.code() == 200) {
-                responseApi.body()?.getString("token")
+                responseApi.body()?.token
             } else {
                 _loginFlow.emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
                 _loginFlow.emit(Resource.Loading(false))

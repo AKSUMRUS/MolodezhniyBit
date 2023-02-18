@@ -1,6 +1,7 @@
 package com.nux.studio.studtourism.ui.viewmodels
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -29,6 +30,7 @@ class SignUpViewModel @Inject constructor(
 
     init {
         subscribeSignUpFlow()
+        subscribeLoginFlow()
     }
 
     fun signUp(
@@ -51,9 +53,46 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    fun login(
+        email: String,
+        password: String
+    ){
+        viewModelScope.launch {
+            authRepository.login(
+                email = email,
+                password = password
+            )
+        }
+    }
+
     private fun subscribeSignUpFlow() {
         viewModelScope.launch {
             authRepository.signUpFlow.collectLatest { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        result.data?.let {
+                            Log.e("SIGNUP", "SUCCESS")
+                            _state = _state.copy(isSuccess = true)
+                        }
+                    }
+                    is Resource.Loading -> {
+                        result.isLoading.let { data ->
+                            _state = _state.copy(isLoading = data)
+                        }
+                    }
+                    is Resource.Error -> {
+                        result.message?.let { error ->
+                            _state = _state.copy(error = errorMapper.map(error))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun subscribeLoginFlow() {
+        viewModelScope.launch {
+            authRepository.loginFlow.collectLatest { result ->
                 when (result) {
                     is Resource.Success -> {
                         result.data?.let {

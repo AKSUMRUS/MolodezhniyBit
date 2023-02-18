@@ -2,6 +2,7 @@ package com.nux.studio.studtourism.di
 
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.data.remote.TokenInterceptor
+import com.nux.studio.studtourism.data.repository.AuthRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Binds
