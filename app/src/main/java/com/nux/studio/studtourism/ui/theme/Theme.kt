@@ -24,11 +24,11 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    background = Black,
-    onBackground = Cyan,
+    primary = Black,
+    onPrimary = Cyan,
 
-    primary = White,
-    onPrimary = Black,
+    background = White,
+    onBackground = Black,
 
     primaryVariant = LightBlack,
 

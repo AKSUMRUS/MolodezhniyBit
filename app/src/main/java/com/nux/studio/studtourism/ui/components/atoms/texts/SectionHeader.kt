@@ -13,7 +13,7 @@ fun SectionHeader(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colors.onBackground,
-    fontWeight: FontWeight? = MaterialTheme.typography.h6.fontWeight,
+    fontWeight: FontWeight? = FontWeight.Bold,
     textAlign: TextAlign = TextAlign.Left,
 ) {
     Text(

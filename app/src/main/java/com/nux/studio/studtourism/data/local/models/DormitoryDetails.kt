@@ -6,7 +6,7 @@ class DormitoryDetails(
     @Json(name = "main-info")
     val mainInfo: MainInfo?,
     val rules: Rules?,
-    val service: List<Service>?,
+    val services: List<Service>?,
     val documents: List<String>?,
     val district: String?,
     val city: String?,
