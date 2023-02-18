@@ -14,12 +14,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH3
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.ui.components.atoms.*
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH6
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 
@@ -84,6 +87,10 @@ fun DormitoryScreen(
                     SectionHeader(text = "Документы", modifier = Modifier.padding(15.dp, 0.dp))
                     Documents(documents = dormitory.details.documents)
                 }
+            }
+            dormitory.details.rules?.let { rules ->
+                SectionHeader(text = "Правила", modifier = Modifier.padding(15.dp, 0.dp))
+                Rules(rules = rules)
             }
         }
     }
@@ -162,13 +169,52 @@ fun Documents(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    Column(modifier = Modifier
-        .padding(15.dp, 0.dp)
-        .then(modifier)) {
+    Column(
+        modifier = Modifier
+            .padding(15.dp, 0.dp)
+            .then(modifier)
+    ) {
         documents.forEachIndexed { index, documentUrl ->
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(documentUrl))
             Button(onClick = { context.startActivity(intent) }) {
                 Text(text = "Документ ${index + 1}")
+            }
+        }
+    }
+}
+
+@Composable
+fun Rules(
+    rules: Rules,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 15.dp)
+            .then(modifier)
+    ) {
+        val uniDoc = rules.requiredUniDocuments;
+        val studentsDocs = rules.requiredStudentsDocuments;
+        if (studentsDocs == uniDoc && studentsDocs != null) {
+            Text(
+                text = "Перечень необходимых документов и требований",
+                modifier = Modifier, fontWeight = FontWeight.Bold, fontSize = 18.sp
+            )
+            Text(text = studentsDocs)
+        } else {
+            rules.requiredUniDocuments?.let { requiredUniDocuments ->
+                Text(
+                    text = "Перечень необходимых документов и требований для направляющей образовательной организации",
+                    modifier = Modifier, fontWeight = FontWeight.Bold, fontSize = 18.sp
+                )
+                Text(text = requiredUniDocuments)
+            }
+            rules.requiredStudentsDocuments?.let { requiredStudentsDocuments ->
+                Text(
+                    text = "Перечень необходимых документов и требований для путешественников, оплачивающих услуги самостоятельно",
+                    modifier = Modifier, fontWeight = FontWeight.Bold, fontSize = 18.sp
+                )
+                Text(text = requiredStudentsDocuments)
             }
         }
     }
