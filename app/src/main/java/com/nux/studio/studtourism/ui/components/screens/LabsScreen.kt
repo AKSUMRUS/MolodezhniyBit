@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
@@ -55,7 +57,7 @@ fun LabsScreen(
             ) {
 
 
-                items(labs) { lab ->
+                itemsIndexed(labs) { index, lab ->
                     LaunchedEffect(true) {
                         universityViewModel.loadUniversity(lab.universityId)
                     }
@@ -69,7 +71,9 @@ fun LabsScreen(
                         height = 250,
                         region = region,
                         onClick = {
-
+                            navController.navigate(
+                                "lab?index=$index"
+                            )
                         }
                     )
                 }

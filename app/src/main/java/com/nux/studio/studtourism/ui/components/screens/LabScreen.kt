@@ -92,7 +92,6 @@ fun LabScreen(
                     )
                     Text(text = university.name, modifier = Modifier.padding(horizontal = 15.dp))
                 }
-                Box(modifier = Modifier.height(120.dp))
                 lab.details.unit?.let { unit ->
                     SectionHeader(
                         text = "Ответсвенное лицо",
@@ -106,13 +105,16 @@ fun LabScreen(
                                 .padding(bottom = 15.dp)
                         )
                     }
-                    unit.phone?.let { phone ->
-                        Phone(phone)
-                    }
-                    unit.email?.let { email ->
-                        Mail(email)
+                    Column(Modifier.padding(horizontal = 15.dp)) {
+                        unit.phone?.let { phone ->
+                            Phone(phone, Modifier.padding(bottom = 15.dp))
+                        }
+                        unit.email?.let { email ->
+                            Mail(email)
+                        }
                     }
                 }
+                Box(modifier = Modifier.height(20.dp))
             }
         }
     }
