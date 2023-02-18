@@ -89,13 +89,17 @@ fun EventScreen(
                         .fillMaxWidth(),
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Dates(dates)
+                        Dates(dates, modifier = Modifier.padding(bottom = 7.dp))
                         Price(formatPrice(event.details.price))
                     }
                 }
+                event.details.description?.let { description ->
+                    SectionHeader(text = "Описание", modifier = Modifier.padding(horizontal = 15.dp))
+                    Text(text = description, modifier = Modifier.padding(horizontal = 15.dp))
+                }
                 university?.name?.let {name ->
-                    SectionHeader(text = "Организатор", modifier = Modifier.padding(15.dp, 0.dp))
-                    Text(text = university.name, modifier = Modifier.padding(15.dp))
+                    SectionHeader(text = "Организатор", modifier = Modifier.padding(horizontal = 15.dp))
+                    Text(text = university.name, modifier = Modifier.padding(horizontal = 15.dp))
                 }
                 Box(modifier = Modifier.height(120.dp))
             }

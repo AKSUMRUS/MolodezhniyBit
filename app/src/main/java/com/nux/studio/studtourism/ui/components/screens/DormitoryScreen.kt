@@ -69,7 +69,9 @@ fun DormitoryScreen(
                 }
                 HeadlineH5(
                     text = dormitory.details?.mainInfo!!.name,
-                    modifier = Modifier.padding(horizontal = 15.dp).padding(top = 20.dp),
+                    modifier = Modifier
+                        .padding(horizontal = 15.dp)
+                        .padding(top = 20.dp),
                     fontWeight = FontWeight.Bold,
                 )
                 Row(
@@ -90,15 +92,16 @@ fun DormitoryScreen(
                         val minDays = dormitory.details.mainInfo.minDays
                         val maxDays = dormitory.details.mainInfo.maxDays
                         if (!minDays.isNullOrEmpty() && !maxDays.isNullOrEmpty()) {
-                            Dates("$minDays – $maxDays дней")
+                            Dates(
+                                "$minDays – $maxDays дней",
+                                modifier = Modifier.padding(bottom = 7.dp)
+                            )
                         }
                         Price(getFormattedPrice(dormitory))
                     }
                     Column(modifier = Modifier.weight(1f)) {
                         dormitory.details.rules?.committee?.phone?.let { phone ->
-                            Phone(
-                                phone,
-                            )
+                            Phone(phone, modifier = Modifier.padding(bottom = 7.dp))
                         }
                         dormitory.details.rules?.committee?.email?.let { email -> Mail(email) }
                     }

@@ -82,6 +82,11 @@ request: DormitoryBookingRequest
 
 response: DormitoryBooking
 
+## Получить бронирования жилья
+https://stud-api.sabir.pro/bookings/my
+
+response: [DormitoryBooking]
+
 ## Бронирование эвентов
 POST https://stud-api.sabir.pro/event-bookings
 
@@ -93,11 +98,6 @@ response: EventBooking
 https://stud-api.sabir.pro/event-bookings/my
 
 response: [EventBooking]
-
-## Получить бронирования жилья
-https://stud-api.sabir.pro/bookings/my
-
-response: [DormitoryBooking]
 
 ## Загрузить фотку
 POST https://stud-api.sabir.pro/file/upload

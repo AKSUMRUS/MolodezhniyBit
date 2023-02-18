@@ -1,6 +1,7 @@
 package com.nux.studio.studtourism.data.remote
 
 import com.nux.studio.studtourism.data.local.models.Dormitory
+import com.nux.studio.studtourism.data.local.models.DormitoryBooked
 import com.nux.studio.studtourism.data.local.models.Event
 import com.nux.studio.studtourism.data.local.models.lab.Lab
 import com.nux.studio.studtourism.data.local.models.University
@@ -41,6 +42,9 @@ interface RetrofitServices {
     fun getDormitory(
         @Path("id") id: String
     ) : Call<Dormitory>
+
+    @GET("bookings/my")
+    fun getDormitoriesBookedList() : Call<List<DormitoryBooked>>
 
     @GET("events/all")
     fun getEventsList() : Call<List<Event>>

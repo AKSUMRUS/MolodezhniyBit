@@ -3,8 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
-//    id 'kotlin-android'
-//    id 'com.google.relay' version '0.3.02'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -96,7 +95,11 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 
 
-//    implementation 'com.android.support:multidex:2.0.1'
+    // Firebase
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging'
 }
 
 kapt {
