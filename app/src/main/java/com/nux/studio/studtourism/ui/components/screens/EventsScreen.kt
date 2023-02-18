@@ -14,32 +14,38 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.nux.studio.studtourism.ui.components.molecules.CardDormitory
+import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 
 @Composable
 fun EventsScreen(
-    modifier: Modifier = Modifier
-){
-
-    val viewModel: MainViewModel = hiltViewModel<MainViewModel>()
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel
+) {
     val events = viewModel.state.eventsList
+    val isLoading = viewModel.state.isLoading
+
+    Log.e("LOGGGG", viewModel.toString())
 
     LaunchedEffect(true) {
         viewModel.getEvents()
     }
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(top = 80.dp, start = 0.dp, end = 0.dp),
-        modifier = Modifier,
-    ) {
-        items(events) { event ->
-            Text(
-                text = event.details.name.toString(),
-                color = MaterialTheme.colors.error
-            )
+    if (isLoading) {
+        LoadingViewCenter()
+    } else {
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(top = 80.dp, start = 0.dp, end = 0.dp),
+            modifier = Modifier,
+        ) {
+            items(events) { event ->
+                Text(
+                    text = event.details.name.toString(),
+                    color = MaterialTheme.colors.error
+                )
+            }
         }
     }
-
 }

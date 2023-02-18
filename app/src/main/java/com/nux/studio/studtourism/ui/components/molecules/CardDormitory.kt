@@ -39,6 +39,7 @@ import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
 @Composable
 fun CardDormitory(
     dormitory: DormitoryDetails,
+    onClick: () -> Unit
 ){
 
     var price: String = "";
@@ -65,7 +66,8 @@ fun CardDormitory(
             .clip(RoundedCornerShape(20.dp))
             .fillMaxSize()
             .clickable {
-            },
+                onClick()
+            }
 
         ) {
         Box(

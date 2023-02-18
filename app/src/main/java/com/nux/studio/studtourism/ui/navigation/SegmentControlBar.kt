@@ -28,7 +28,9 @@ fun SegmentControlBar(
             SegmentedControl(
                 items = tabs.toList(),
                 modifier = Modifier
-                    .align(CenterHorizontally),
+                    .align(CenterHorizontally)
+                    .fillMaxWidth()
+                ,
                 onClick = { tab ->
                     if (tab.route != currentRoute) {
                         navController.navigate(tab.route) {

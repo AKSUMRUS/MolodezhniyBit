@@ -1,15 +1,24 @@
 package com.nux.studio.studtourism
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.nux.studio.studtourism.ui.components.atoms.CircleAsyncImage
 import com.nux.studio.studtourism.ui.navigation.AppNavGraph
 import com.nux.studio.studtourism.ui.navigation.SegmentControlBar
 import com.nux.studio.studtourism.ui.navigation.SegmentControlTabs
@@ -26,14 +35,44 @@ fun AppContent() {
             modifier = Modifier.fillMaxSize(),
             topBar = {
                 Column {
-                    SegmentControlBar(
-                        navController = navController,
-                        tabs = tabs
+                    val contextForToast = LocalContext.current.applicationContext
+
+                    TopAppBar(
+                        title = {},
+                        backgroundColor = MaterialTheme.colors.background,
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                Toast.makeText(contextForToast, "Back Icon Click", Toast.LENGTH_SHORT)
+                                    .show()
+                            }) {
+                                CircleAsyncImage(url = "https://sun1-26.userapi.com/impg/zmzFaRBkJtt_KwMGd41ARQyNMRxIctDLPD3uCg/U3HSrag1wIw.jpg?size=1035x1280&quality=95&sign=846b0408cc33466822f75ec8a3728431&type=album", description = "Фото профиля")
+                            }
+                        },
+                        actions = {
+                            TopAppBarActionButton(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.favourites),
+                                description = "Search"
+                            ) {
+                                Toast.makeText(contextForToast, "Search Click", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                            TopAppBarActionButton(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.notifications),
+                                description = "Lock"
+                            ) {
+                                Toast.makeText(contextForToast, "Lock Click", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
                     )
                     SegmentControlBar(
                         navController = navController,
                         tabs = tabs
                     )
+//                    SegmentControlBar(
+//                        navController = navController,
+//                        tabs = tabs
+//                    )
                 }
             }
         ) {
@@ -42,5 +81,18 @@ fun AppContent() {
                 modifier = Modifier.padding(15.dp)
             )
         }
+    }
+}
+
+@Composable
+fun TopAppBarActionButton(
+    imageVector: ImageVector,
+    description: String,
+    onClick: () -> Unit
+) {
+    IconButton(onClick = {
+        onClick()
+    }) {
+        Icon(imageVector = imageVector, contentDescription = description)
     }
 }

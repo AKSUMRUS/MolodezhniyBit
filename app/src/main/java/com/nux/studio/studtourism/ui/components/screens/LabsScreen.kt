@@ -11,29 +11,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nux.studio.studtourism.ui.components.molecules.CardDormitory
+import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 
 @Composable
 fun LabsScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel
 ){
 
-    val viewModel: MainViewModel = hiltViewModel<MainViewModel>()
     val labs = viewModel.state.labsList
+    val isLoading = viewModel.state.isLoading
 
     LaunchedEffect(true) {
         viewModel.getLabs()
     }
 
-    LazyColumn(
-        contentPadding = PaddingValues(top = 0.dp, start = 20.dp, end = 20.dp),
-        modifier = modifier,
-    ) {
-        items(labs) { lab ->
-            Text(
-                text = lab.details.name?: "",
-                color = MaterialTheme.colors.error
-            )
+    if(isLoading) {
+        LoadingViewCenter()
+    } else {
+        LazyColumn(
+            contentPadding = PaddingValues(top = 0.dp, start = 20.dp, end = 20.dp),
+            modifier = modifier,
+        ) {
+            items(labs) { lab ->
+                Text(
+                    text = lab.details.name ?: "",
+                    color = MaterialTheme.colors.error
+                )
+            }
         }
     }
 

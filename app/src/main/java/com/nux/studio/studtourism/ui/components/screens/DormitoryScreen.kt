@@ -1,5 +1,6 @@
 package com.nux.studio.studtourism.ui.components.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -33,18 +34,13 @@ import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 import com.nux.studio.studtourism.ui.theme.Cyan
 import com.nux.studio.studtourism.ui.theme.LightBlue
 
-@Preview
-@Composable
-fun DormitoryScreenPreview() {
-    val viewModel: MainViewModel = hiltViewModel()
-    val dormitory = viewModel.state.dormitoriesList[0]
-    DormitoryScreen(dormitory)
-}
-
 @Composable
 fun DormitoryScreen(
-    dormitory: Dormitory
+    index : Int,
+    viewModel: MainViewModel
 ) {
+    Log.e("LOGGGG", viewModel.toString() )
+    val dormitory = viewModel.state.dormitoriesList[index]
     LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
         item {
             LazyRow() {
