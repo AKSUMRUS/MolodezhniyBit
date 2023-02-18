@@ -4,6 +4,7 @@ import com.nux.studio.studtourism.data.local.models.University
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
 import com.nux.studio.studtourism.data.remote.models.EditUser
 import com.nux.studio.studtourism.data.remote.models.User
+import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -21,7 +22,7 @@ interface RetrofitServices {
     @POST("users/signup")
     fun signUp(
         @Body info: AuthInfo
-    ) : Call<JSONObject>
+    ) : Call<Token>
 
     @GET("me")
     fun getProfile()

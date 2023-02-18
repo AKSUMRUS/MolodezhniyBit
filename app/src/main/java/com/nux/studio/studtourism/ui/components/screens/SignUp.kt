@@ -41,6 +41,8 @@ fun SignUp(
         InputField(text = email, placeholder = "Почта", modifier = inputModifier, onValueChange = {email = it})
         InputField(text = phone, placeholder = "Телефон", modifier = inputModifier, onValueChange = {phone = it})
         InputField(text = password, placeholder = "Пароль", modifier = inputModifier, onValueChange = {password = it})
-        ButtonPrimary(text = "Создать", modifier = Modifier, onClick = {})
+        ButtonPrimary(text = "Создать", modifier = Modifier, onClick = {
+            viewModel.signUp(email, password)
+        })
     }
 }
