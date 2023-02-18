@@ -24,6 +24,7 @@ class AuthRepository @Inject constructor(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
+    val signUpFlow = _signUpFlow.asSharedFlow()
     val editUserFlow = profileRepository.editUserFlow
 
     fun getToken(): String? {
