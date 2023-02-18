@@ -1,6 +1,5 @@
 package com.nux.studio.studtourism.data.local.models
 
-
 data class Dormitory (
     val userId: String?,
     val universityId: String?,
@@ -28,9 +27,26 @@ fun getFormattedPrice(dormitory: Dormitory): String {
         }
     }
     return if (minPrice != null && maxPrice != null) {
-        "$minPrice₽ – $maxPrice₽"
+        if (minPrice == maxPrice) {
+            "$minPrice₽"
+        } else {
+            "$minPrice₽ – $maxPrice₽"
+        }
     } else {
         "Цена не указана"
+    }
+}
+
+fun getFormattedDays(dormitory: Dormitory): String? {
+    val minDays = dormitory.details?.mainInfo?.minDays
+    val maxDays = dormitory.details?.mainInfo?.maxDays
+    if (!minDays.isNullOrEmpty() && !maxDays.isNullOrEmpty()) {
+        if (minDays == maxDays) {
+            return "$minDays дней"
+        }
+        return "$minDays – $maxDays дней";
+    } else {
+        return null;
     }
 }
 

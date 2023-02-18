@@ -28,10 +28,10 @@ import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 
 @Composable
 fun DormitoryScreen(
-    index : Int,
+    index: Int,
     viewModel: MainViewModel
 ) {
-    Log.e("LOGGGG", viewModel.toString() )
+    Log.e("LOGGGG", viewModel.toString())
     val dormitory = viewModel.state.dormitoriesList[index]
     LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
         item {
@@ -97,13 +97,17 @@ fun Room(
     room: Room,
     modifier: Modifier = Modifier,
 ) {
-    HorizontalCard(color = MaterialTheme.colors.primary, modifier = Modifier.then(modifier)) {
+    HorizontalCard(
+        color = MaterialTheme.colors.primary,
+        modifier = Modifier
+            .then(modifier)
+    ) {
         HeadlineH5(
             text = room.details?.type ?: "Что-то где можно жить",
         )
         Price(formatPrice(room.details?.price), modifier = Modifier)
         room.details?.description?.let { description ->
-            HorizontalCardDescription(text = description)
+            HorizontalCardDescription(text = description, modifier = Modifier.fillMaxWidth())
         }
     }
 }
@@ -161,10 +165,12 @@ fun Documents(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    Column(modifier = Modifier.padding(15.dp, 0.dp).then(modifier)) {
+    Column(modifier = Modifier
+        .padding(15.dp, 0.dp)
+        .then(modifier)) {
         documents.forEachIndexed { index, documentUrl ->
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(documentUrl))
-            Button(onClick = {context.startActivity(intent)}) {
+            Button(onClick = { context.startActivity(intent) }) {
                 Text(text = "Документ ${index + 1}")
             }
         }

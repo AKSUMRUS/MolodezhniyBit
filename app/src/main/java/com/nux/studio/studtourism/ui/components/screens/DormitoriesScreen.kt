@@ -24,12 +24,13 @@ import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
 fun DormitoriesScreen(
     navController: NavController,
     viewModel: MainViewModel
-){
+) {
     val isLoading = viewModel.state.isLoading
 
     val mainViewModel: MainViewModel = hiltViewModel()
     var height = (200..400).random()
 
+    if (isLoading) {
     LaunchedEffect(true) {
         viewModel.getDormitories()
     }

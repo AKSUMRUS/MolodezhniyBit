@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
@@ -32,8 +33,10 @@ fun HorizontalCard(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    val configuration = LocalConfiguration.current
     Column(
         modifier = Modifier
+            .width(configuration.screenWidthDp.dp - 25.dp)
             .fillMaxHeight()
             .padding(10.dp)
             .clip(RoundedCornerShape(20.dp))
