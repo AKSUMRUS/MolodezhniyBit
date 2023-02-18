@@ -1,6 +1,7 @@
 package com.nux.studio.studtourism.ui.components.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH3
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
@@ -28,12 +28,19 @@ import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import com.nux.studio.studtourism.data.local.models.Dormitory
+import com.nux.studio.studtourism.data.local.models.DormitoryDetails
+import com.nux.studio.studtourism.data.local.models.MainInfo
+import com.nux.studio.studtourism.data.local.models.University
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
+import com.nux.studio.studtourism.ui.components.atoms.Pill
+import com.nux.studio.studtourism.ui.components.atoms.PillVariant
+import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 
 @Preview
 @Composable
 fun DormitoryScreenPreview() {
-//    DormitoryScreen()
+//    DormitoryScreen(
+//    )
 }
 
 @Composable
@@ -141,21 +148,52 @@ fun DormitoryScreen(
                     }
                 }
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.Transparent)
-            )
             HeadlineH3(
                 text = dormitory.details?.mainInfo!!.name, modifier = Modifier.padding(3.dp, 15.dp)
             )
-            Text(
-                modifier = Modifier
-                    .background(Color.White)
-                    .padding(15.dp, 10.dp),
-                text = "Тольятти",
-                fontSize = 20.sp
-            )
+            Row() {
+                dormitory.details.mainInfo.city?.let { city ->
+                    Pill(dormitory.details.mainInfo.city, PillVariant.CYAN_OUTLINE)
+                }
+            }
+            val minDays = dormitory.details.mainInfo.minDays
+            val maxDays = dormitory.details.mainInfo.maxDays
+            if (!minDays.isNullOrEmpty() && !maxDays.isNullOrEmpty()) {
+                Row(
+                ) {
+                    Image(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.icon_calendar),
+                        contentDescription = "Dates",
+                        modifier = Modifier
+                            .size(30.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                    Text(
+                        text = "$minDays – $maxDays дней",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(15.dp),
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            }
+            var minPrice: Int? = null;
+            var maxPrice: Int? = null;
+            dormitory.rooms?.forEach { entry ->
+                val price = entry.value.details?.price?.toIntOrNull();
+                if (price != null) {
+                    if (minPrice == null || price < minPrice!!) {
+                        minPrice = price
+                    }
+                    if (maxPrice == null || price > maxPrice!!) {
+                        maxPrice = price
+                    }
+                }
+            }
+            val price = if (minPrice != null && maxPrice != null) {
+                "$minPrice₽ – $maxPrice₽"
+            } else {
+                "Цена не указана"
+            }
             Row(
             ) {
                 Image(
@@ -165,31 +203,40 @@ fun DormitoryScreen(
                         .size(30.dp)
                         .align(Alignment.CenterVertically)
                 )
-//                Text(
-//                    text = price, fontSize = 20.sp, modifier = Modifier.padding(15.dp),
-//                    fontWeight = FontWeight.Bold,
-//                )
-            }
-            Row(
-            ) {
-                Image(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.icon_calendar),
-                    contentDescription = "Dates",
-                    modifier = Modifier
-                        .size(30.dp)
-                        .align(Alignment.CenterVertically)
+                Text(
+                    text = price, fontSize = 20.sp, modifier = Modifier.padding(15.dp),
+                    fontWeight = FontWeight.Bold,
                 )
-//                Text(
-////                    text = "от $minDays до $maxDays дней",
-//                    fontSize = 20.sp,
-//                    modifier = Modifier.padding(15.dp),
-//                    fontWeight = FontWeight.Bold,
-//                )
+            }
+            GetAddresss(dormitory).let { address ->
+                SectionHeader(text = "Адрес")
+                Text(text = address ?: "Адрес не указан", modifier = Modifier.padding(15.dp))
             }
             ButtonPrimary(text = "Забронировать") {}
             Rooms()
             Services()
         }
     }
+}
 
+fun GetAddresss(dormitory: Dormitory): String? {
+    val address_parts = mutableListOf<String?>()
+    val city = dormitory.details?.mainInfo?.city;
+    if (!city.isNullOrEmpty()) {
+        address_parts.add(city);
+    }
+    val street = dormitory.details?.mainInfo?.street;
+    if (!street.isNullOrEmpty()) {
+        address_parts.add(street);
+    }
+    val house = dormitory.details?.mainInfo?.houseNumber;
+    if (!house.isNullOrEmpty()) {
+        address_parts.add(house);
+    }
+    val address = address_parts.joinToString(", ")
+    return if (address.isNotEmpty()) {
+        address
+    } else {
+        null
+    }
 }

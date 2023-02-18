@@ -5,29 +5,37 @@ import com.nux.studio.studtourism.data.error.ErrorRemote
 import com.nux.studio.studtourism.data.local.prefs.TokenPrefs
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
-import com.nux.studio.studtourism.data.remote.models.EditUser
-import com.nux.studio.studtourism.data.remote.models.User
 import com.nux.studio.studtourism.util.Resource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.*
 import retrofit2.awaitResponse
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
     private val tokenPrefs: TokenPrefs,
-    private val api: RetrofitServices
+    private val api: RetrofitServices,
+    private val profileRepository: ProfileRepository,
 ) {
+
+    private val _loginFlow = MutableSharedFlow<Resource<Unit>>()
+    val loginFlow = _loginFlow.asSharedFlow()
+
+    private val _signUpFlow = MutableSharedFlow<Resource<Unit>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val signUpFlow = _signUpFlow.asSharedFlow()
+    val editUserFlow = profileRepository.editUserFlow
 
     fun getToken(): String? {
         return tokenPrefs.token
     }
 
-    fun login(
+    suspend fun login(
         email: String,
         password: String
-    ): Flow<Resource<Unit>> = flow {
-
-        emit(Resource.Loading(true))
+    ) {
+        _loginFlow.emit(Resource.Loading(true))
 
         val request = api.login(AuthInfo(email = email, password = password))
 
@@ -36,92 +44,60 @@ class AuthRepository @Inject constructor(
             if (responseApi.code() == 200) {
                 responseApi.body()?.getString("token")
             } else {
-                emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
-                emit(Resource.Loading(false))
-                return@flow
+                _loginFlow.emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
+                _loginFlow.emit(Resource.Loading(false))
+                return
             }
         } catch (e: Exception) {
-            emit(Resource.Error(message = ErrorRemote.NoInternet))
-            emit(Resource.Loading(false))
-            return@flow
+            _loginFlow.emit(Resource.Error(message = ErrorRemote.NoInternet))
+            _loginFlow.emit(Resource.Loading(false))
+            return
         }
 
         tokenPrefs.token = response
 
-        emit(Resource.Success(Unit))
+        _loginFlow.emit(Resource.Success(Unit))
 
-        emit(Resource.Loading(false))
+        _loginFlow.emit(Resource.Loading(false))
     }
 
-    fun signUp(
+    suspend fun signUp(
         email: String,
-        password: String
-    ): Flow<Resource<Unit>> {
-        return flow {
-            emit(Resource.Loading(true))
+        password: String,
+        firstName: String,
+        lastName: String,
+        middleName: String,
+        phone: String,
+    ) {
+        _signUpFlow.emit(Resource.Loading(true))
 
-            val authInfo = AuthInfo(email = email, password = password)
-            val request = api.signUp(authInfo)
-
-            val response = try {
-                val responseApi = request.awaitResponse()
-                when {
-                    responseApi.code() == 200 -> responseApi.body()
-                    else -> {
-                        emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
-                        emit(Resource.Loading(false))
-                        return@flow
-                    }
-                }
-            } catch (e: Exception) {
-                emit(Resource.Error(message = ErrorRemote.NoInternet))
-                emit(Resource.Loading(false))
-                return@flow
-            }
-
-            tokenPrefs.token = response?.token
-            emit(Resource.Success(Unit))
-            emit(Resource.Loading(false))
-        }
-    }
-
-    fun editUser() = flow<Resource<User?>> {
-        val editUser = EditUser(
-            id = null,
-            email = null,
-            firstName = null,
-            lastName = null,
-            middleName = null,
-            gender = null,
-            departureCity = null,
-            phone = null,
-            socialUrl = null,
-            universityName = null,
-            avatar = null,
-            birthday = null,
-            WoS = null,
-            WoS1 = null,
-            studentRoleType = null
-        )
-
-        val request = api.editUser(editUser)
+        val authInfo = AuthInfo(email = email, password = password)
+        val request = api.signUp(authInfo)
 
         val response = try {
             val responseApi = request.awaitResponse()
-            if (responseApi.code() == 200) {
-                responseApi.body()
-            } else {
-                emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
-                emit(Resource.Loading(false))
-                return@flow
+            when {
+                responseApi.code() == 200 -> responseApi.body()
+                else -> {
+                    _signUpFlow.emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
+                    _signUpFlow.emit(Resource.Loading(false))
+                    return
+                }
             }
         } catch (e: Exception) {
-            emit(Resource.Error(message = ErrorRemote.NoInternet))
-            emit(Resource.Loading(false))
-            return@flow
+            _signUpFlow.emit(Resource.Error(message = ErrorRemote.NoInternet))
+            _signUpFlow.emit(Resource.Loading(false))
+            return
         }
 
-        emit(Resource.Success(response))
-        emit(Resource.Loading(false))
+        tokenPrefs.token = response?.token
+        profileRepository.editUser(
+            firstName = firstName,
+            lastName = lastName,
+            middleName = middleName,
+            phone = phone,
+        )
+        _signUpFlow.emit(Resource.Success(Unit))
+        _signUpFlow.emit(Resource.Loading(false))
     }
 }

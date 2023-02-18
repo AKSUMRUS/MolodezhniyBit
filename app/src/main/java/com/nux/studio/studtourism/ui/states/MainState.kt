@@ -1,4 +1,4 @@
-package com.nux.studio.studtourism.ui.viewmodels
+package com.nux.studio.studtourism.ui.states
 
 import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.data.local.models.Event

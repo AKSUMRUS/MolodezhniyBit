@@ -11,9 +11,9 @@ import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 import com.nux.studio.studtourism.ui.components.atoms.ButtonSecondary
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
+import kotlin.concurrent.fixedRateTimer
 
 
-@Preview
 @Composable
 private fun SingUpPreview() {
     StudTourismTheme {
@@ -35,15 +35,46 @@ fun SignUp(
     val inputModifier = Modifier.padding(bottom = 10.dp)
     Column(
         modifier = Modifier.fillMaxHeight()
-    ){
-        InputField(text = name, placeholder = "Имя", modifier = inputModifier, onValueChange = {name = it})
-        InputField(text = surname, placeholder = "Фамилия", modifier = inputModifier, onValueChange = {surname = it})
-        InputField(text = middleName, placeholder = "Отчество", modifier = inputModifier, onValueChange = {middleName = it})
-        InputField(text = email, placeholder = "Почта", modifier = inputModifier, onValueChange = {email = it})
-        InputField(text = phone, placeholder = "Телефон", modifier = inputModifier, onValueChange = {phone = it})
-        InputField(text = password, placeholder = "Пароль", modifier = inputModifier, onValueChange = {password = it})
+    ) {
+        InputField(
+            text = name,
+            placeholder = "Имя",
+            modifier = inputModifier,
+            onValueChange = { name = it })
+        InputField(
+            text = surname,
+            placeholder = "Фамилия",
+            modifier = inputModifier,
+            onValueChange = { surname = it })
+        InputField(
+            text = middleName,
+            placeholder = "Отчество",
+            modifier = inputModifier,
+            onValueChange = { middleName = it })
+        InputField(
+            text = email,
+            placeholder = "Почта",
+            modifier = inputModifier,
+            onValueChange = { email = it })
+        InputField(
+            text = phone,
+            placeholder = "Телефон",
+            modifier = inputModifier,
+            onValueChange = { phone = it })
+        InputField(
+            text = password,
+            placeholder = "Пароль",
+            modifier = inputModifier,
+            onValueChange = { password = it })
         ButtonPrimary(text = "Создать", modifier = Modifier, onClick = {
-            viewModel.signUp(email, password)
+            viewModel.signUp(
+                email = email,
+                password = password,
+                fistName = name,
+                lastName = surname,
+                middleName = middleName,
+                phone = phone,
+            )
         })
         ButtonPrimary(text = "Создать", modifier = Modifier, onClick = {})
         ButtonSecondary(text = "Уже есть аккаунт? Войти", modifier = Modifier, onClick = {})

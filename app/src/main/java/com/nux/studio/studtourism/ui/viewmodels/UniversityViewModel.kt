@@ -1,13 +1,15 @@
 package com.nux.studio.studtourism.ui.viewmodels
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nux.studio.studtourism.data.repository.AuthRepository
-import com.nux.studio.studtourism.ui.states.SignUpState
+import com.nux.studio.studtourism.data.repository.UniversityRepository
+import com.nux.studio.studtourism.ui.states.MainState
+import com.nux.studio.studtourism.ui.states.UniversityState
 import com.nux.studio.studtourism.ui.viewmodels.error.ErrorMapper
 import com.nux.studio.studtourism.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,56 +19,42 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(
+class UniversityViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    private val authRepository: AuthRepository,
+    private val universityRepository: UniversityRepository,
 ) : ViewModel() {
 
     private val errorMapper = ErrorMapper(context)
-    private var _state by mutableStateOf(SignUpState())
-    val state: SignUpState
+    private var _state by mutableStateOf(UniversityState())
+    val state : UniversityState
         get() = _state
 
     init {
-        subscribeSignUpFlow()
+        subscribeUniversityFlow()
     }
 
-    fun signUp(
-        email: String,
-        password: String,
-        fistName: String,
-        lastName: String,
-        middleName: String,
-        phone: String,
-    ) {
+    fun loadUniversity(id: String) {
         viewModelScope.launch {
-            authRepository.signUp(
-                email = email,
-                password = password,
-                firstName = fistName,
-                lastName = lastName,
-                middleName = middleName,
-                phone = phone,
-            )
+            universityRepository.loadUniversity(id)
         }
     }
 
-    private fun subscribeSignUpFlow() {
+    private fun subscribeUniversityFlow() {
         viewModelScope.launch {
-            authRepository.signUpFlow.collectLatest { result ->
+            universityRepository.universityFlow.collectLatest { result ->
                 when (result) {
                     is Resource.Success -> {
-                        result.data?.let {
-                            _state = _state.copy(isSuccess = true)
+                        result.data?.let {data ->
+                            _state = _state.copy(university = data)
                         }
                     }
                     is Resource.Loading -> {
-                        result.isLoading.let { data ->
+                        result.isLoading.let {data ->
                             _state = _state.copy(isLoading = data)
                         }
                     }
                     is Resource.Error -> {
-                        result.message?.let { error ->
+                        result.message?.let {error ->
                             _state = _state.copy(error = errorMapper.map(error))
                         }
                     }

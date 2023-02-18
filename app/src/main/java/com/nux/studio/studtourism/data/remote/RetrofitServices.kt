@@ -7,13 +7,9 @@ import com.nux.studio.studtourism.data.local.models.University
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
 import com.nux.studio.studtourism.data.remote.models.EditUser
 import com.nux.studio.studtourism.data.remote.models.User
-import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface RetrofitServices {
 
@@ -28,7 +24,7 @@ interface RetrofitServices {
     ) : Call<Token>
 
     @GET("me")
-    fun getProfile()
+    fun getProfile(): Call<User>
 
     @GET("universities/all")
     fun getUniversitiesList() : Call<List<University>>
@@ -60,7 +56,7 @@ interface RetrofitServices {
         @Path("id") id: String
     ) : Call<Lab>
 
-    @POST("users")
+    @PUT("users")
     fun editUser(
         @Body editUser: EditUser
     ) : Call<User>

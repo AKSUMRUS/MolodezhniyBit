@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nux.studio.studtourism.data.repository.MainRepository
+import com.nux.studio.studtourism.ui.states.MainState
 import com.nux.studio.studtourism.ui.viewmodels.error.ErrorMapper
 import com.nux.studio.studtourism.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +31,7 @@ class MainViewModel @Inject constructor(
         getDormitories()
     }
 
-    fun getDormitories() {
+    private fun getDormitories() {
         viewModelScope.launch {
             repository.getDormitories().collect { result ->
                 when (result) {
