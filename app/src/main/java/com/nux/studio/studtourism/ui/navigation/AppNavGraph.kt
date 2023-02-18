@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.nux.studio.studtourism.ui.components.screens.DormitoriesScreen
+import com.nux.studio.studtourism.ui.components.screens.DormitoryScreen
 import com.nux.studio.studtourism.ui.components.screens.EventsScreen
 import com.nux.studio.studtourism.ui.components.screens.LabsScreen
 
@@ -20,9 +21,13 @@ fun AppNavGraph(
         startDestination = SegmentControlTabs.DORMITORIES.route,
     ) {
         composable(SegmentControlTabs.DORMITORIES.route) {
-            DormitoriesScreen()
+            DormitoriesScreen(navController = navController)
 //            Text("DORMITORIES")
         }
+//        composable("dormitory") {
+//            DormitoryScreen()
+////            Text("DORMITORIES")
+//        }
         composable(SegmentControlTabs.EVENTS.route) {
             EventsScreen()
 //            Text("EVENTS")

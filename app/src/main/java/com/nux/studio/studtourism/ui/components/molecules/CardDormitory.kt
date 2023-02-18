@@ -6,10 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
@@ -28,9 +25,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.DormitoryDetails
+import com.nux.studio.studtourism.ui.components.atoms.Price
 import com.nux.studio.studtourism.ui.components.atoms.texts.Body1
 import com.nux.studio.studtourism.ui.components.atoms.texts.Body2
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH2
@@ -39,6 +38,8 @@ import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
 @Composable
 fun CardDormitory(
     dormitory: DormitoryDetails,
+    height: Int,
+    navController: NavController,
 ){
 
     var price: String = "";
@@ -56,8 +57,6 @@ fun CardDormitory(
     }
 
 
-    val height = (200..400).random()
-
     Card(
         elevation = 10.dp,
         modifier = Modifier
@@ -65,11 +64,15 @@ fun CardDormitory(
             .clip(RoundedCornerShape(20.dp))
             .fillMaxSize()
             .clickable {
-            },
+                       navController.navigate()
+            }
+//            .align(Arrangement.Center)
+        ,
 
         ) {
         Box(
-            modifier = Modifier.height(height.dp)
+            modifier = Modifier.height(height.dp),
+//            contentAlignment = Alignment.CenterVertically
         ){
             AsyncImage(
                 model = dormitory.mainInfo?.photos?.get(0),
@@ -111,21 +114,23 @@ fun CardDormitory(
 
                 var modifierSubtitle: Modifier = Modifier.padding(start = 20.dp)
 
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(top = 10.dp)
                 ) {
-                    Image(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.icon),
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.icon_calendar),
                         contentDescription = "",
                         modifier = Modifier,
+                        tint = MaterialTheme.colors.onSecondary,
                     )
 
                     Body2(
-                        text = price,
+                        text = dates,
                         color = MaterialTheme.colors.onSecondary,
                         modifier = modifierSubtitle,
-                        fontSize = 12.0.sp,
 //                            letterSpacing = -0.2040000057220459.sp,
                         textAlign = TextAlign.Left,
                         fontWeight = FontWeight.Normal
@@ -134,16 +139,17 @@ fun CardDormitory(
                 }
 
                 Row(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().padding(top = 10.dp)
                 ) {
-                    Image(
+                    Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.icon),
                         contentDescription = "",
                         modifier = Modifier,
+                        tint = MaterialTheme.colors.onSecondary,
                     )
 
                     Body2(
-                        text = dates,
+                        text = price,
                         color = MaterialTheme.colors.onSecondary,
                         modifier = modifierSubtitle,
                         textAlign = TextAlign.Left,
