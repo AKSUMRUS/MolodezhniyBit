@@ -107,11 +107,9 @@ class MainRepository @Inject constructor(
         emit(Resource.Loading(false))
     }
     fun getDormitoriesBooked(): Flow<Resource<List<DormitoryBooked>>> = flow {
-        Log.d("GetDormitoriesBooked", "called")
         emit(Resource.Loading(true))
         val response = try {
             val responseApi = api.getDormitoriesBookedList().awaitResponse()
-            Log.d("GetDormitoriesBooked", responseApi.code().toString())
             if (responseApi.code() == 200) {
                 responseApi.body()
             } else {

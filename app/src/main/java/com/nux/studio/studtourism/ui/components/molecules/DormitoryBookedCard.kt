@@ -39,15 +39,8 @@ fun CardDormitoryBooked(
     navController: NavController,
     viewModel: MainViewModel
 ) {
-    Log.d("CardDormitoryBooked", "dormitoryBooked: ${dormitoryBooked.dormitoryId}");
-    val dormitory = viewModel.state.dormitoriesList.find { it.id == dormitoryBooked.dormitoryId };
-    Log.d(
-        "CardDormitoryBooked",
-        "dormitoryBookedListIsEmpty ${viewModel.state.dormitoriesList.isEmpty()}"
-    );
-    Log.d("CardDormitoryBooked", "found dormitory ${dormitory}");
-    val room: Room? = dormitory?.rooms?.get(dormitoryBooked.roomId);
-    Log.d("CardDormitoryBooked", "room: ${room}")
+    val dormitory = viewModel.state.dormitoriesList.find { it.id == dormitoryBooked.dormitoryId }
+    val room: Room? = dormitory?.rooms?.get(dormitoryBooked.roomId)
     val price: String? = room?.details?.price;
     val dates: String? = dormitoryBooked.dates?.let { "${it.from} - ${it.to}" };
 
