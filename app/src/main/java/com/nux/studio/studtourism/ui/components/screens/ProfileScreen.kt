@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -22,7 +21,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.nux.studio.studtourism.R
@@ -77,7 +75,31 @@ fun ProfileScreen() {
             viewModel.setBirthDate(birthday)
         }, year, month, day
     )
+    
+    Row(
+        modifier = Modifier.padding(32.dp)
+    ) {
+        Icon(
+            ImageVector.vectorResource(id = R.drawable.ic_back),
+            contentDescription = "go back",
+            tint = Color.White,
+            modifier = Modifier
+                .padding(
+                    top = 4.dp,
+                    end = 12.dp
+                )
+                .clickable {
 
+                }
+        )
+        Text(
+            text = "Назад",
+            color = Color.White,
+            modifier = Modifier.clickable {
+
+            }
+        )
+    }
 
     LazyColumn {
         item {
@@ -196,6 +218,17 @@ fun ProfileScreen() {
                 onValueChange = viewModel::setUniversity
             )
         }
+        item { 
+            Text(
+                textAlign = TextAlign.Center,
+                text = "Выйти из аккаунта",
+                color = Color.Red,
+                modifier = Modifier
+                    .padding(top = 24.dp)
+                    .fillMaxWidth()
+            )
+
+        }
         item {
             ButtonPrimary(
                 text = "Сохранить изменения",
@@ -208,7 +241,11 @@ fun ProfileScreen() {
                         middleName = middleName,
                         birthday = birthDate,
                         departureCity = departureCity,
-                        gender = gender
+                        gender = gender,
+                        email = email,
+                        phone = phone,
+                        studentRoleType = studentRoleType,
+                        universityName = universityName
                     )
                 },
                 modifier = Modifier
