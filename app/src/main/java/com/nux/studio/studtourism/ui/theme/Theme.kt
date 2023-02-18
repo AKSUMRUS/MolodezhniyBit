@@ -8,19 +8,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
-    background = Black,
-    onBackground = Cyan,
-
-    primary = White,
+    primary = LightLightBlue,
     onPrimary = Black,
 
-    primaryVariant = LightBlack,
+    background = White,
+    onBackground = Black,
 
-    secondary = White,
-    onSecondary = Black,
+    primaryVariant = LightBlue,
 
-    surface = LightGray,
-    onSurface = Black,
+    secondary = LightGray,
+    onSecondary = White,
+
+    surface = Black,
+    onSurface = Cyan,
 )
 
 private val LightColorPalette = lightColors(
@@ -41,11 +41,7 @@ private val LightColorPalette = lightColors(
 
 @Composable
 fun StudTourismTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
+    val colors = LightColorPalette
 
     MaterialTheme(
         colors = colors,
