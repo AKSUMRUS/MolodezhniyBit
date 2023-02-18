@@ -14,7 +14,6 @@ import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
 import kotlin.concurrent.fixedRateTimer
 
 
-@Preview
 @Composable
 private fun SingUpPreview() {
     StudTourismTheme {

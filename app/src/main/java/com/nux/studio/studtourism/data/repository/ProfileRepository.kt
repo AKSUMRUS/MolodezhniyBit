@@ -28,6 +28,7 @@ class ProfileRepository @Inject constructor(
         middleName: String? = null,
         phone: String? = null,
     ) {
+        _editUserFlow.emit(Resource.Loading(true))
         val editUser = EditUser(
             id = null,
             email = null,
@@ -63,8 +64,8 @@ class ProfileRepository @Inject constructor(
             return
         }
 
-        _editUserFlow.emit(Resource.Success(response))
         _editUserFlow.emit(Resource.Loading(false))
+        _editUserFlow.emit(Resource.Success(response))
     }
 
 }
