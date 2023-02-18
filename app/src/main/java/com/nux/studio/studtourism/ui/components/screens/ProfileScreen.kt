@@ -44,8 +44,10 @@ fun ProfileScreen() {
     val departureCity = state.user?.departureCity ?: ""
     val email = state.user?.email ?: ""
     val phone = state.user?.phone ?: ""
-    val userRole = state.user
-    
+    val studentRoleType = state.user?.studentRoleType ?: ""
+    val universityName = state.user?.universityName ?: ""
+
+
     LazyColumn {
         item {
             val photo = state.user?.avatar
@@ -118,25 +120,39 @@ fun ProfileScreen() {
                 onValueChange = viewModel::setDepartureCity
             )
         }
-        item { 
+        item {
             TitleText(text = "Контакты", topPadding = 48.dp)
         }
-        item { 
+        item {
             InputFieldItem(
                 title = "E-mail",
                 text = email,
                 onValueChange = viewModel::setEmail
             )
         }
-        item { 
+        item {
             InputFieldItem(
                 title = "Телефон",
                 text = phone,
                 onValueChange = viewModel::setPhone
             )
         }
-        item { 
+        item {
             TitleText(text = "Данные о студенте", topPadding = 48.dp)
+        }
+        item {
+            InputFieldItem(
+                title = "Роль",
+                text = studentRoleType,
+                onValueChange = viewModel::setStudentRoleType
+            )
+        }
+        item {
+            InputFieldItem(
+                title = "ВУЗ",
+                text = universityName,
+                onValueChange = viewModel::setUniversity
+            )
         }
         item {
             ButtonPrimary(

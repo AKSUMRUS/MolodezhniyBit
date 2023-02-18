@@ -169,4 +169,16 @@ class ProfileViewModel @Inject constructor(
     fun setUserRole(userRole: String) {
         _profileState = _profileState.copy(user = _profileState.user?.copy(userRole = userRole))
     }
+
+    fun setUniversity(universityName: String) {
+        _profileState =
+            _profileState.copy(user = _profileState.user?.copy(universityName = universityName))
+
+    }
+
+    fun setStudentRoleType(studentRoleType: String) {
+        _profileState =
+            _profileState.copy(user = _profileState.user?.copy(studentRoleType = studentRoleType))
+
+    }
 }
