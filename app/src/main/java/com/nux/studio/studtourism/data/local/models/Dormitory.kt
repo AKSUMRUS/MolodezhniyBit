@@ -2,7 +2,7 @@ package com.nux.studio.studtourism.data.local.models
 
 import android.util.Log
 
-class Dormitory (
+data class Dormitory (
     val userId: String?,
     val universityId: String?,
     val createdTimestamp: Long?,

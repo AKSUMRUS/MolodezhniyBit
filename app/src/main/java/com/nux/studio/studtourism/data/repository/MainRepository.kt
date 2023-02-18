@@ -46,14 +46,12 @@ class MainRepository @Inject constructor(
             if (responseApi.code() == 200) {
                 responseApi.body()
             } else {
-                Log.d("GetDormitories", responseApi.code().toString())
                 emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
                 emit(Resource.Loading(false))
                 return@flow
             }
         } catch (e: Exception) {
             emit(Resource.Error(message = ErrorRemote.NoInternet))
-            Log.d("GetDormitories", e.toString())
             emit(Resource.Loading(false))
             return@flow
         }
@@ -69,11 +67,13 @@ class MainRepository @Inject constructor(
             if (responseApi.code() == 200) {
                 responseApi.body()
             } else {
+                Log.d("EventsScreen", responseApi.code().toString())
                 emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
                 emit(Resource.Loading(false))
                 return@flow
             }
         } catch (e: Exception) {
+            Log.d("EventsScreen", e.toString())
             emit(Resource.Error(message = ErrorRemote.NoInternet))
             emit(Resource.Loading(false))
             return@flow
@@ -91,10 +91,12 @@ class MainRepository @Inject constructor(
                 responseApi.body()
             } else {
                 emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
+                Log.d("GetLabs", responseApi.code().toString())
                 emit(Resource.Loading(false))
                 return@flow
             }
         } catch (e: Exception) {
+            Log.d("GetLabs", e.toString())
             emit(Resource.Error(message = ErrorRemote.NoInternet))
             emit(Resource.Loading(false))
             return@flow

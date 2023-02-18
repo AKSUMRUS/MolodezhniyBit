@@ -3,7 +3,7 @@ package com.nux.studio.studtourism.data.local.models.lab
 import com.nux.studio.studtourism.data.local.models.Coordinates
 
 data class LabDetails(
-    val name: String,
+    val name: String?,
     val link: String?,
     val description: String?,
     val photos: List<String>?,

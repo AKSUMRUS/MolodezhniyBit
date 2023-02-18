@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Студ Туризм</string>
+
+    <!--  Errors  -->
     <string name="error_unauthorized">Отсутствует авторизация</string>
     <string name="error_forbidden">В доступе отказано</string>
     <string name="error_not_found">По запросу ничего не найдено</string>
+
+    <!--  Navigation  -->
+    <string name="navigation_dormitories">Жилье</string>
+    <string name="navigation_events">События</string>
+    <string name="navigation_labs">Наука</string>
 </resources>

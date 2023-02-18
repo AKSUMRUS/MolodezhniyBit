@@ -42,7 +42,7 @@ class ErrorMapper(
                 null
             }
             else -> {
-                null
+                error.toString()
             }
         }
 

@@ -38,7 +38,6 @@ class MainViewModel @Inject constructor(
                     is Resource.Success -> {
                         result.data?.let {data ->
                             _state = _state.copy(dormitoriesList = data)
-                            Log.d("GetDormitories", data.toString())
                         }
                     }
                     is Resource.Loading -> {
@@ -49,7 +48,6 @@ class MainViewModel @Inject constructor(
                     is Resource.Error -> {
                         result.message?.let {error ->
                             _state = _state.copy(error = errorMapper.map(error))
-                            Log.d("GetDormitories", error.toString())
                         }
                     }
                 }
