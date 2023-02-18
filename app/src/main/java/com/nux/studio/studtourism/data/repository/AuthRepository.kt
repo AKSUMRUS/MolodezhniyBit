@@ -68,7 +68,7 @@ class AuthRepository @Inject constructor(
             val response = try {
                 val responseApi = request.awaitResponse()
                 when {
-                    responseApi.code() == 200 -> responseApi.body()?.getString("token")
+                    responseApi.code() == 200 -> responseApi.body()
                     else -> {
                         emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
                         emit(Resource.Loading(false))
@@ -81,7 +81,7 @@ class AuthRepository @Inject constructor(
                 return@flow
             }
 
-            tokenPrefs.token = response
+            tokenPrefs.token = response?.token
             emit(Resource.Success(Unit))
             emit(Resource.Loading(false))
         }

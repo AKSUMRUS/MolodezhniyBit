@@ -3,6 +3,7 @@ package com.nux.studio.studtourism.di
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.data.remote.TokenInterceptor
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -28,12 +29,23 @@ interface MainModule {
     fun getTokenInterception(impl : TokenInterceptor) : Interceptor
 
     companion object {
+
         @Provides
         @Singleton
-        fun provideRetrofitServices(client: OkHttpClient): Retrofit {
+        fun provideMoshi(): Moshi {
+            return Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
+        }
+        @Provides
+        @Singleton
+        fun provideRetrofitServices(
+            client: OkHttpClient,
+            moshi: Moshi
+        ): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .client(client)
                 .build()
         }
@@ -55,7 +67,8 @@ interface MainModule {
         @Provides
         @Singleton
         fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-            return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            return HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BODY)
         }
 
         @Provides

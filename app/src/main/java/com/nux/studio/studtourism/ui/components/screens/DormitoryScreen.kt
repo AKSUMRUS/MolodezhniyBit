@@ -22,6 +22,7 @@ import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH3
 import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH4
 import com.ledokol.dvor_app.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.R
+import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 
 @Preview
 @Composable
@@ -150,7 +151,7 @@ fun DormitoryScreen(
                 }
             }
             HeadlineH3(
-                text = name, modifier = Modifier.padding(15.dp)
+                text = name, modifier = Modifier.padding(3.dp, 15.dp)
             )
             Row(
             ) {
@@ -176,12 +177,13 @@ fun DormitoryScreen(
                         .align(Alignment.CenterVertically)
                 )
                 Text(
-                    text = "$minDays - $maxDays дней",
+                    text = "от $minDays до $maxDays дней",
                     fontSize = 20.sp,
                     modifier = Modifier.padding(15.dp),
                     fontWeight = FontWeight.Bold,
                 )
             }
+            ButtonPrimary(text = "Забронировать"){}
             Rooms()
             Services()
         }
