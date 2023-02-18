@@ -21,7 +21,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            AppContent()
+            StudTourismTheme {
+                ProfileScreen()
+            }
         }
     }
 }

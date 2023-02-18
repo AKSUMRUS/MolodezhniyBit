@@ -1,12 +1,11 @@
 package com.nux.studio.studtourism.ui.components.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -16,10 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 import com.nux.studio.studtourism.ui.components.atoms.InputField
-import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH3
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
-import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH6
 import com.nux.studio.studtourism.ui.components.atoms.texts.Subtitle2
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 import com.nux.studio.studtourism.ui.viewmodels.ProfileViewModel
@@ -46,7 +44,11 @@ fun ProfileScreen() {
     var departure by remember { mutableStateOf("") }
 
 
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier.padding(
+            bottom = 24.dp
+        )
+    ) {
         item {
             val photo = state.user?.avatar
             AsyncImage(
@@ -144,6 +146,86 @@ fun ProfileScreen() {
         }
         // Дата рождения
         item {
+            Subtitle2(
+                text = "Дата рождения",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(
+                    horizontal = 16.dp,
+                    vertical = 4.dp
+                )
+            )
+            InputField(
+                text = birthDate,
+                placeholder = "Дата рождения",
+                onValueChange = { birthDate = it },
+                modifier = Modifier
+                    .padding(
+                        horizontal = 16.dp,
+                    )
+                    .background(Color(0xF3F8FCFF)),
+            )
+        }
+        // Пол
+        item {
+            Subtitle2(
+                text = "Пол",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(
+                    horizontal = 16.dp,
+                    vertical = 4.dp
+                )
+            )
+            InputField(
+                text = gender,
+                placeholder = "Пол",
+                onValueChange = { gender = it },
+                modifier = Modifier
+                    .padding(
+                        horizontal = 16.dp,
+                    )
+                    .background(Color(0xF3F8FCFF)),
+            )
+        }
+        // Город отправления
+        item {
+            Subtitle2(
+                text = "Город отправления",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(
+                    horizontal = 16.dp,
+                    vertical = 4.dp
+                )
+            )
+            InputField(
+                text = departure,
+                placeholder = "Город отправления",
+                onValueChange = { departure = it },
+                modifier = Modifier
+                    .padding(
+                        horizontal = 16.dp,
+                    )
+                    .background(Color(0xF3F8FCFF)),
+            )
+        }
+        item {
+            ButtonPrimary(
+                text = "Сохранить изменения",
+                onClick = {
+                    viewModel.editProfile(
+                        lastName = lastName,
+                        firstName = firstName,
+                        middleName = middleName,
+                        birthday = birthDate,
+                        departureCity = departure,
+                        gender = gender
+                    )
+                },
+                modifier = Modifier.padding(
+                    top = 24.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                ).fillMaxWidth()
+            )
 
         }
     }
