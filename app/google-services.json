@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "916530002994",
+    "project_id": "studtourism-20a1c",
+    "storage_bucket": "studtourism-20a1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:916530002994:android:527bafc5e8f82af425902b",
+        "android_client_info": {
+          "package_name": "com.nux.studio.studtourism"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "916530002994-f9kh2jjf3nva4vtqlr1j2hphar9akfae.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nux.studio.studtourism",
+            "certificate_hash": "3a12c71147e754ed558f17b33793a40aadfa025b"
+          }
+        },
+        {
+          "client_id": "916530002994-8lukom3bi4c74tic833t3pru8s8sm80n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzO88bTSx1Tp6kT_E_rJvEMVTjW3FJqaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "916530002994-8lukom3bi4c74tic833t3pru8s8sm80n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
