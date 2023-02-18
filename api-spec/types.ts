@@ -322,3 +322,26 @@ interface EventBookingRequest {
     ];
   };
 }
+[
+  {
+    dates: { from: "2023-03-14", to: "2023-03-17" },
+    author: {
+      role: "user",
+      name: "Фио точно",
+      contacts: { phone: "телефон точно", email: "mail@mail.ru" },
+    },
+    userId: "PVbA7soK4S",
+    universityId: "ddasXacKVT",
+    dormitoryId: "t46oXcQLKo",
+    roomId: "yek4nZPkhE",
+    quantity: 2,
+    comment: "Не обращайте внимание на заявку",
+    status: "new",
+    from: "2023-03-14",
+    to: "2023-03-17",
+    id: "C0LWkzghs0",
+    timestamp: 1676652740970,
+    createdTimestamp: 1676652740970,
+    updatedTimestamp: 1676652740970,
+  },
+];

@@ -118,6 +118,7 @@ class MainRepository @Inject constructor(
                 return@flow
             }
         } catch (e: Exception) {
+            Log.d("GetDormitoriesBookedException", e.toString())
             emit(Resource.Error(message = ErrorRemote.NoInternet))
             emit(Resource.Loading(false))
             return@flow
