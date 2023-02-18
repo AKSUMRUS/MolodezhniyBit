@@ -10,6 +10,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.nux.studio.studtourism.ui.components.screens.ProfileScreen
+import com.nux.studio.studtourism.ui.components.screens.SignUp
 import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            AppContent()
+            ProfileScreen()
         }
     }
 }

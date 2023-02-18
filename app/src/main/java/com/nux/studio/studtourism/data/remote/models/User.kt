@@ -10,7 +10,7 @@ data class User(
     val createdTimestamp: Long?,
     val starredEvents: List<String>?,
     val updatedTimestamp: Long?,
-    val starredDormitories: List<String>,
+    val starredDormitories: List<String>?,
     val firstName: String?,
     val lastName: String?,
     val middleName: String?,
