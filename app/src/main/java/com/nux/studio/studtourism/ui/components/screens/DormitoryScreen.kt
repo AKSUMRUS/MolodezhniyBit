@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -33,7 +34,6 @@ import coil.compose.AsyncImage
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.ui.components.atoms.*
-import com.nux.studio.studtourism.ui.components.atoms.authforms.Label
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 import com.nux.studio.studtourism.ui.components.atoms.texts.Subtitle2
@@ -292,16 +292,19 @@ fun DormitoryScreen(
                             requestState = requestState.copy(comment = it)
                         }
                     )
-//                    SectionHeader(
-//                        text = "Документы",
-//                        modifier = Modifier.padding(15.dp, 0.dp)
-//                    )
                     Row(
                         modifier = Modifier
                     ) {
-                        Label(text = "Добавить в календарь")
+                        SectionHeader(
+                            text = "Добавить в календарь",
+                            modifier = Modifier
+                                .padding(15.dp, 0.dp)
+                                .align(CenterVertically)
+                        )
                         Switch(
                             checked = checkedCalendar.value,
+                            modifier = Modifier
+                                .align(CenterVertically),
                             onCheckedChange = {
                                 checkedCalendar.value = it
                             },

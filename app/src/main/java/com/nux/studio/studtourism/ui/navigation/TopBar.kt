@@ -1,24 +1,25 @@
 package com.nux.studio.studtourism.ui.navigation
 
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.TopAppBarActionButton
-import com.nux.studio.studtourism.data.repository.AuthRepository
 import com.nux.studio.studtourism.ui.components.atoms.CircleAsyncImage
 import com.nux.studio.studtourism.ui.viewmodels.AuthViewModel
 import com.nux.studio.studtourism.ui.viewmodels.ProfileViewModel
-import javax.inject.Inject
-
 
 
 @Composable
@@ -41,34 +42,55 @@ fun TopBar(
             title = {},
             backgroundColor = MaterialTheme.colors.surface,
             navigationIcon = {
-                IconButton(onClick = {
-                    if(authRepository.isAuthorized()) {
-                        navController.navigate("profile") {
-                            launchSingleTop = false
-                            restoreState = true
+                if (authRepository.isAuthorized()) {
+                    IconButton(onClick = {
+                        if (authRepository.isAuthorized()) {
+                            navController.navigate("profile") {
+                                launchSingleTop = false
+                                restoreState = true
+                            }
+                        } else {
+                            navController.navigate("login?to=profile")
                         }
-                    } else {
-                        navController.navigate("login?to=profile")
+                    }) {
+                        CircleAsyncImage(
+                            url = photoUrl,
+                            description = "Фото профиля"
+                        )
                     }
-                }) {
-                    CircleAsyncImage(
-                        url = photoUrl,
-                        description = "Фото профиля"
-                    )
                 }
             },
             actions = {
-                TopAppBarActionButton(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.favourites),
-                    description = "Search"
-                ) {
+                if (authRepository.isAuthorized()) {
+                    TopAppBarActionButton(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.favourites),
+                        description = "Search"
+                    ) {
 
-                }
-                TopAppBarActionButton(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.notifications),
-                    description = "Lock"
-                ) {
+                    }
+                    TopAppBarActionButton(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.notifications),
+                        description = "Lock"
+                    ) {
 
+                    }
+                } else {
+                    Button(
+                        onClick = { navController.navigate("login") },
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .align(CenterVertically)
+                            .padding(end = 20.dp, bottom = 2.dp, top = 2.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.background,
+                        ),
+                        shape = CircleShape,
+                    ) {
+                        Text(
+                            text = "Войти",
+                            color = MaterialTheme.colors.surface,
+                        )
+                    }
                 }
             }
         )

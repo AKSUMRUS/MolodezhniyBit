@@ -145,7 +145,9 @@ private fun checkDormitory(
         return false
     }
     if (!filters.city.isNullOrEmpty()) {
-        if (dormitory.details?.mainInfo?.city?.contains(filters.city.toString()) != true) {
+        if (dormitory.details?.mainInfo?.city?.lowercase()
+                ?.contains(filters.city.toString().lowercase()) != true
+        ) {
             return false
         }
     }
