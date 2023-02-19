@@ -44,8 +44,10 @@ fun SelectPreview() {
 @Composable
 fun Select(
     items: List<String>,
-    value: String = "",
-    onValueChange: (String) -> Unit
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    placeholder: String = "",
 ) {
     var expanded by remember { mutableStateOf(false) }
     var textfieldSize by remember { mutableStateOf(Size.Zero) }
@@ -56,76 +58,61 @@ fun Select(
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Column(modifier = Modifier.fillMaxWidth()) {
-        TextField(
-            value = value,
-            modifier = Modifier
-                .background(Color.Transparent)
-                .fillMaxWidth()
-                .padding(all = 4.dp)
-                .fillMaxWidth()
-                .border(1.dp, Color.LightGray, CircleShape)
-                .onGloballyPositioned { coordinates ->
-                    //This value is used to assign to the DropDown the same width
-                    textfieldSize = coordinates.size.toSize()
-                },
-            shape = CircleShape,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = MaterialTheme.colors.onPrimary,
-                disabledTextColor = Color.Transparent,
-                backgroundColor = MaterialTheme.colors.primary,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = { keyboardController?.hide() }),
-            textStyle = TextStyle(
-                color = Color.Black,
-                fontSize = 15.sp,
-            ),
-            onValueChange = { onValueChange(it) },
-            maxLines = 1,
-            trailingIcon = {
-                Icon(icon, "contentDescription",
-                    Modifier.clickable { expanded = !expanded })
+//    Column(modifier = Modifier.fillMaxWidth().then(modifier)) {
+    InputField(
+        text = value,
+        modifier = Modifier
+            .fillMaxWidth()
+            .onGloballyPositioned { coordinates ->
+                //This value is used to assign to the DropDown the same width
+                textfieldSize = coordinates.size.toSize()
             }
-        )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
-                .background(MaterialTheme.colors.background)
-        ) {
+            .then(modifier),
+        placeholder = placeholder,
+        keyboardActions = KeyboardActions(
+            onDone = { keyboardController?.hide() }),
+        onValueChange = { onValueChange(it) },
+        trailingIcon = {
+            Icon(icon, "contentDescription",
+                Modifier.clickable { expanded = !expanded },
+                tint = MaterialTheme.colors.onPrimary
+            )
+        }
+    )
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false },
+        modifier = Modifier
+            .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
+            .background(MaterialTheme.colors.background)
+    ) {
 
-            items.forEach { item ->
-                if (item.contains(value, true)) {
-                    DropdownMenuItem(
-                        onClick = { onValueChange(item); expanded = false },
-                        modifier = Modifier
-                            .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
+        items.forEach { item ->
+            if (item.contains(value, true)) {
+                DropdownMenuItem(
+                    onClick = { onValueChange(item); expanded = false },
+                    modifier = Modifier
+                        .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
                     ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
+                        Text(text = item, color = MaterialTheme.colors.onBackground)
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterVertically)
                         ) {
-                            Text(text = item, color=MaterialTheme.colors.onBackground)
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .align(Alignment.CenterVertically)
-                            ) {
-                                if (value == item) {
+                            if (value == item) {
 
-                                    Image(
-                                        imageVector = ImageVector.vectorResource(id = R.drawable.icon_check),
-                                        contentDescription = "checked",
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .fillMaxWidth()
-                                            .align(Alignment.CenterEnd)
-                                    )
-                                }
+                                Image(
+                                    imageVector = ImageVector.vectorResource(id = R.drawable.icon_check),
+                                    contentDescription = "checked",
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .fillMaxWidth()
+                                        .align(Alignment.CenterEnd)
+                                )
                             }
                         }
                     }
@@ -133,4 +120,5 @@ fun Select(
             }
         }
     }
+//    }
 }

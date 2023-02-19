@@ -11,8 +11,8 @@ data class FilterState(
     val committee: Committee? = null,
     val placeType: String? = "",
     val mealType: MealType = MealType.BREAKFAST,
-    val startDate: LocalDate? = null,
-    val endDate: LocalDate? = null,
+    val startDate: String = "",
+    val endDate: String = "",
 )
 
 enum class RatingBy{

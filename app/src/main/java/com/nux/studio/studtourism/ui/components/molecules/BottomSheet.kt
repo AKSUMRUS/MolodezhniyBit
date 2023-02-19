@@ -1,8 +1,11 @@
 package com.nux.studio.studtourism.ui.components.molecules
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,9 +19,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nux.studio.studtourism.ui.components.atoms.DateSelect
 import com.nux.studio.studtourism.ui.components.atoms.Grabber
+import com.nux.studio.studtourism.ui.components.atoms.OurRadioButton
 import com.nux.studio.studtourism.ui.components.atoms.Select
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
+import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 import com.nux.studio.studtourism.ui.states.FilterState
+import com.nux.studio.studtourism.ui.states.RatingBy
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
 
@@ -63,20 +69,69 @@ fun BottomSheet(
                     text = "Настройка Поиска",
                     onClose = { coroutineScope.launch { modalSheetState.hide() } }
                 )
-                Select(
-                    viewModel.cities.toList(),
-                    value = state.city ?: "",
-                    onValueChange = { state = state.copy(city = it) }
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                LazyColumn(modifier = Modifier.padding(horizontal = 15.dp)) {
+                    item {
+
+                        Select(
+                            viewModel.cities.toList(),
+                            value = state.city ?: "",
+                            placeholder = "Город",
+                            onValueChange = { state = state.copy(city = it) },
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 10.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            DateSelect(
+                                value = state.startDate,
+                                onValueChange = { state = state.copy(startDate = it) },
+                                modifier = Modifier.weight(1f),
+                            )
+                            DateSelect(
+                                value = state.endDate,
+                                onValueChange = { state = state.copy(endDate = it) },
+                                modifier = Modifier.weight(1f),
+                            )
+                        }
+                        SectionHeader(text = "Рейтинг")
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 10.dp)
+                        ) {
+                            OurRadioButton(
+                                text = "По убыванию",
+                                selected = (state.ratingBy == RatingBy.DESCENDING),
+                                onClick = { state = state.copy(ratingBy = RatingBy.DESCENDING) },
+                                modifier = Modifier.weight(1f),
+                            )
+                            OurRadioButton(
+                                text = "По возрастанию",
+                                selected = (state.ratingBy == RatingBy.ASCENDING),
+                                onClick = { state = state.copy(ratingBy = RatingBy.ASCENDING) },
+                                modifier = Modifier.weight(1f),
+                            )
+                        }
+                    }
+                }
+                Divider(color = MaterialTheme.colors.onBackground.copy(alpha=0.1f), thickness = 1.dp)
+                Button(
+                    onClick = { state = FilterState() },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = MaterialTheme.colors.background,
+                        contentColor = MaterialTheme.colors.onBackground
+                    ),
                 ) {
-                    DateSelect()
-                    DateSelect()
-//                        onDateSelected = { state = state.copy(startDate = it) },
-//                        onDismissRequest = {})
+                    HeadlineH5(
+                        text = "Сбросить фильтры",
+                        modifier = Modifier.padding(20.dp),
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }

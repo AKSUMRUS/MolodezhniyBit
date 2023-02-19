@@ -2,6 +2,7 @@ package com.nux.studio.studtourism.ui.components.atoms
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -35,7 +36,7 @@ fun InputField(
     TextField(
         value = text,
         onValueChange = { onValueChange(it) },
-        placeholder = { Text(text = placeholder) },
+        placeholder = { Text(text = placeholder, color=MaterialTheme.colors.onPrimary.copy(alpha = .6f)) },
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType
         ).copy(imeAction = imeAction, capitalization = capitalization),
@@ -43,11 +44,13 @@ fun InputField(
         keyboardActions = keyboardActions,
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(CircleShape)
             .background(
                 MaterialTheme.colors.primary
             )
             .then(modifier),
+        shape= CircleShape,
+        maxLines = 1,
         singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
             textColor = MaterialTheme.colors.onPrimary,

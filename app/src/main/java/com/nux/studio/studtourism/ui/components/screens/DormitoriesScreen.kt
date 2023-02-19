@@ -209,5 +209,3 @@ private data class MarkerInfo(
     val title: String?,
     val snippet: String?,
 )
-
-
