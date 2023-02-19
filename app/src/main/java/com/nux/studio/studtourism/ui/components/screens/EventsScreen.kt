@@ -30,12 +30,7 @@ fun EventsScreen(
     viewModel: MainViewModel,
     navController: NavController,
     ) {
-    val events = viewModel.state.eventsList
     val isLoading = viewModel.state.isLoading
-
-    val filters = viewModel.filterState
-
-    Log.e("LOGGGG", viewModel.toString())
 
     LaunchedEffect(true) {
         viewModel.getEvents()
@@ -47,13 +42,12 @@ fun EventsScreen(
         if (isLoading) {
             LoadingViewCenter()
         } else {
-            val list = viewModel.state.eventsList
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(top = 0.dp, start = 0.dp, end = 0.dp),
                 modifier = Modifier.background(MaterialTheme.colors.background),
             ) {
-                itemsIndexed(list) { index, event ->
+                itemsIndexed(viewModel.state.eventsList) { index, event ->
                     CardEvent(
                         event = event,
                         height = 240,
@@ -65,21 +59,6 @@ fun EventsScreen(
                     )
                 }
             }
-        }
-
-        FloatingActionButton(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 24.dp),
-            backgroundColor = MaterialTheme.colors.surface,
-            onClick = {
-                //
-            }
-        ) {
-            Image(
-                imageVector = ImageVector.vectorResource(id = R.drawable.filters),
-                contentDescription = "Filter's button"
-            )
         }
     }
 }

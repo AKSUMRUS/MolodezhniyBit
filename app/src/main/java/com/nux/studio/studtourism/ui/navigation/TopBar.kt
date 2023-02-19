@@ -17,7 +17,6 @@ import com.nux.studio.studtourism.ui.components.atoms.CircleAsyncImage
 import com.nux.studio.studtourism.ui.viewmodels.AuthViewModel
 import com.nux.studio.studtourism.ui.viewmodels.ProfileViewModel
 
-
 @Composable
 fun TopBar(
     navController: NavController,
@@ -39,7 +38,7 @@ fun TopBar(
             backgroundColor = MaterialTheme.colors.surface,
             navigationIcon = {
                 IconButton(onClick = {
-                    if(authRepository.isAuthorized()) {
+                    if (authRepository.isAuthorized()) {
                         navController.navigate("profile") {
                             launchSingleTop = false
                             restoreState = true
@@ -61,6 +60,18 @@ fun TopBar(
                 ) {
 
                 }
+                TopAppBarActionButton(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.icon_calendar_checked),
+                    description = "Booking",
+                    onClick = {
+                        if (authRepository.isAuthorized()) {
+                            navController.navigate("booking/dormitories") {
+                            }
+                        } else {
+                            navController.navigate("login?to=booking/dormitories")
+                        }
+                    }
+                )
                 TopAppBarActionButton(
                     imageVector = ImageVector.vectorResource(id = R.drawable.notifications),
                     description = "Lock"
