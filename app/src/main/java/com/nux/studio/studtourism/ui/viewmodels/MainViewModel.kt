@@ -43,6 +43,10 @@ class MainViewModel @Inject constructor(
     var committees: Set<Committee> = emptySet()
         private set
 
+    init {
+        subscribeDormitoriesFlow()
+    }
+
     fun filterInfo(dormitories: List<Dormitory>?) {
         if (dormitories.isNullOrEmpty()) {
             return
@@ -96,7 +100,13 @@ class MainViewModel @Inject constructor(
 
     fun getDormitories() {
         viewModelScope.launch {
-            repository.getDormitories().collect { result ->
+            repository.getDormitories()
+        }
+    }
+
+    private fun subscribeDormitoriesFlow() {
+        viewModelScope.launch {
+            repository.dormitoriesFlow.collect { result ->
                 when (result) {
                     is Resource.Success -> {
                         result.data?.let {data ->
@@ -188,6 +198,10 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setIndexView(index: Int) {
+        _state = _state.copy(indexView = index)
     }
 
 }
