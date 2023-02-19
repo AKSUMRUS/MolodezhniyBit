@@ -75,7 +75,7 @@ fun DormitoriesScreen(
                     ) {
                         Log.d("Dormitories", filters.toString())
                         var height = 300
-                        itemsIndexed(list) { index, dormitory ->
+                        itemsIndexed(viewModel.state.dormitoriesList) { index, dormitory ->
                             if (index % 2 == 0) {
                                 height =
                                     ((-1.0).pow((index/2).toDouble()) * ((index * 30) % 100) + 300).toInt()
