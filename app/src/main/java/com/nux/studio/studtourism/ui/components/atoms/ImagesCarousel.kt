@@ -1,7 +1,9 @@
 package com.nux.studio.studtourism.ui.components.atoms
 
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -29,8 +31,9 @@ fun ImagesCarousel(photos: Collection<String>) {
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    Box(modifier = Modifier
-        .fillMaxWidth()
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
         LazyRow(
             Modifier.clip(
@@ -66,13 +69,16 @@ fun ImagesCarousel(photos: Collection<String>) {
             ) {
                 for (i in photos.indices) {
                     var color = MaterialTheme.colors.background;
-                    if (listState.firstVisibleItemIndex != i) {
+                    val isSelected = listState.firstVisibleItemIndex == i;
+                    if (!isSelected) {
                         color = color.copy(0.3f)
                     }
                     Button(
                         modifier = Modifier
                             .padding(5.dp)
-                            .size(20.dp),
+                            .size(if (isSelected) {20.dp} else {15.dp})
+                            .align(Alignment.CenterVertically),
+                        border = BorderStroke(2.dp, MaterialTheme.colors.onBackground),
                         onClick = {
                             coroutineScope.launch {
                                 Log.d("FirstVisible", "${listState.firstVisibleItemIndex}")
@@ -86,7 +92,10 @@ fun ImagesCarousel(photos: Collection<String>) {
                             }
                         },
                         shape = CircleShape,
-                        colors = ButtonDefaults.buttonColors(backgroundColor = color)
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = color,
+                            contentColor = MaterialTheme.colors.onBackground
+                        )
                     ) {
                     }
                 }
