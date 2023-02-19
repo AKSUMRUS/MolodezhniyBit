@@ -1,7 +1,7 @@
 package com.nux.studio.studtourism.data.local.models
 
 data class Author(
-    val role: String? = null,
-    val name: String? = null,
+    val role: String? = "Студент",
+    val name: String? = "Пашка",
     val contacts: Contacts = Contacts(),
 )

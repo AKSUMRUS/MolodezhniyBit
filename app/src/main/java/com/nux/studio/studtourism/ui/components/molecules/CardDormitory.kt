@@ -1,11 +1,12 @@
 package com.nux.studio.studtourism.ui.components.molecules
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -98,8 +99,7 @@ fun CardDormitory(
                     fontWeight = FontWeight.Bold,
                 )
 
-                val modifierSubtitle: Modifier = Modifier.padding(start = 20.dp)
-
+                val modifierSubtitle: Modifier = Modifier.padding(start = 7.dp)
 
                 Row(
                     modifier = Modifier

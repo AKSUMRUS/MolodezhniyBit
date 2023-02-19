@@ -32,7 +32,6 @@ import com.nux.studio.studtourism.ui.components.molecules.SegmentControlMap
 import com.nux.studio.studtourism.ui.states.FilterState
 import com.nux.studio.studtourism.ui.states.SortOrder
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
-import java.lang.Math.pow
 import kotlin.math.pow
 
 @Composable
@@ -140,7 +139,6 @@ fun DormitoriesScreen(
     }
 }
 
-private fun
 private fun checkDormitory(
     dormitory: Dormitory,
     filters: FilterState

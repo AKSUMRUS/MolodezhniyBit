@@ -52,11 +52,14 @@ class MainRepository @Inject constructor(
             if (responseApi.code() == 200) {
                 responseApi.body()
             } else {
+                Log.e("BOOKING", responseApi.code().toString())
+                Log.e("BOOKING", responseApi.errorBody().toString())
                 emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
                 emit(Resource.Loading(false))
                 return@flow
             }
         } catch (e: Exception) {
+            Log.e("BOOKING", e.toString())
             emit(Resource.Error(message = ErrorRemote.NoInternet))
             emit(Resource.Loading(false))
             return@flow

@@ -3,7 +3,6 @@ package com.nux.studio.studtourism.ui.components.screens
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.widget.DatePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,17 +10,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,13 +25,13 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.ui.components.atoms.*
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 import com.nux.studio.studtourism.ui.components.atoms.texts.Subtitle2
+import com.nux.studio.studtourism.ui.components.molecules.BackButton
 import com.nux.studio.studtourism.ui.navigation.SegmentControlTabs
 import com.nux.studio.studtourism.ui.viewmodels.AuthViewModel
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
@@ -380,29 +375,11 @@ fun DormitoryScreen(
             )
         }
 
-        Row(
-            modifier = Modifier
-                .padding(25.dp)
-                .align(Alignment.TopStart)
-                .clickable {
-                    navController.popBackStack()
-                }
-        ) {
-            Icon(
-                ImageVector.vectorResource(id = R.drawable.ic_back),
-                contentDescription = "go back",
-                tint = Color.White,
-                modifier = Modifier
-                    .padding(
-                        top = 4.dp,
-                        end = 12.dp
-                    )
-            )
-            Text(
-                text = "Назад",
-                color = Color.White
-            )
-        }
+        BackButton(
+            navController = navController,
+            modifier = Modifier.align(Alignment.TopStart)
+        )
+
     }
 }
 

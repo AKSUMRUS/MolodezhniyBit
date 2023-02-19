@@ -2,32 +2,24 @@ package com.nux.studio.studtourism.ui.components.screens
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.Event
 import com.nux.studio.studtourism.ui.components.atoms.*
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
+import com.nux.studio.studtourism.ui.components.molecules.BackButton
 import com.nux.studio.studtourism.ui.components.molecules.convertLongToTime
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import com.nux.studio.studtourism.ui.viewmodels.UniversityViewModel
@@ -90,38 +82,25 @@ fun EventScreen(
                     }
                 }
                 event.details.description?.let { description ->
-                    SectionHeader(text = "Описание", modifier = Modifier.padding(horizontal = 15.dp))
+                    SectionHeader(
+                        text = "Описание",
+                        modifier = Modifier.padding(horizontal = 15.dp)
+                    )
                     Text(text = description, modifier = Modifier.padding(horizontal = 15.dp))
                 }
-                university?.details?.name?.let {name ->
-                    SectionHeader(text = "Организатор", modifier = Modifier.padding(horizontal = 15.dp))
+                university?.details?.name?.let { name ->
+                    SectionHeader(
+                        text = "Организатор",
+                        modifier = Modifier.padding(horizontal = 15.dp)
+                    )
                     Text(text = name, modifier = Modifier.padding(horizontal = 15.dp))
                 }
                 Box(modifier = Modifier.height(120.dp))
             }
         }
-        Row(
-            modifier = Modifier
-                .padding(25.dp)
-                .align(Alignment.TopStart)
-                .clickable {
-                    navController.popBackStack()
-                }
-        ) {
-            Icon(
-                ImageVector.vectorResource(id = R.drawable.ic_back),
-                contentDescription = "go back",
-                tint = Color.White,
-                modifier = Modifier
-                    .padding(
-                        top = 4.dp,
-                        end = 12.dp
-                    )
-            )
-            Text(
-                text = "Назад",
-                color = Color.White
-            )
-        }
+        BackButton(
+            navController = navController,
+            modifier = Modifier.align(Alignment.TopStart)
+        )
     }
 }

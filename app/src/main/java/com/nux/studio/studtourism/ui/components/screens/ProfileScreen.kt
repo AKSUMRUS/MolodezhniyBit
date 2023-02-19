@@ -37,6 +37,7 @@ import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 import com.nux.studio.studtourism.ui.components.atoms.InputField
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.ui.components.atoms.texts.Subtitle2
+import com.nux.studio.studtourism.ui.components.molecules.BackButton
 import com.nux.studio.studtourism.ui.viewmodels.ProfileViewModel
 import java.util.*
 
@@ -264,29 +265,10 @@ fun ProfileScreen(
             }
         }
 
-        Row(
-            modifier = Modifier
-                .padding(25.dp)
-                .align(Alignment.TopStart)
-                .clickable {
-                    navController.popBackStack()
-                }
-        ) {
-            Icon(
-                ImageVector.vectorResource(id = R.drawable.ic_back),
-                contentDescription = "go back",
-                tint = Color.White,
-                modifier = Modifier
-                    .padding(
-                        top = 4.dp,
-                        end = 12.dp
-                    )
-            )
-            Text(
-                text = "Назад",
-                color = Color.White
-            )
-        }
+        BackButton(
+            navController = navController,
+            modifier = Modifier.align(Alignment.TopStart)
+        )
     }
 }
 
