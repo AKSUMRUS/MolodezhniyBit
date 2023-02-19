@@ -32,7 +32,10 @@ import com.nux.studio.studtourism.ui.components.molecules.SegmentControlMap
 import com.nux.studio.studtourism.ui.states.FilterState
 import com.nux.studio.studtourism.ui.states.SortOrder
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
-import java.lang.Math.pow
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatterBuilder
+import java.time.temporal.ChronoField
 import kotlin.math.pow
 
 @Composable
@@ -75,10 +78,10 @@ fun DormitoriesScreen(
                     ) {
                         Log.d("Dormitories", filters.toString())
                         var height = 300
-                        itemsIndexed(viewModel.state.dormitoriesList) { index, dormitory ->
+                        itemsIndexed(dormitories) { index, dormitory ->
                             if (index % 2 == 0) {
                                 height =
-                                    ((-1.0).pow((index/2).toDouble()) * ((index * 30) % 100) + 300).toInt()
+                                    ((-1.0).pow((index / 2).toDouble()) * ((index * 30) % 100) + 300).toInt()
                             }
 
                             CardDormitory(
@@ -140,11 +143,44 @@ fun DormitoriesScreen(
     }
 }
 
-private fun
+private fun getLongFromDateStr(dateStr: String): Long {
+    val formatter = DateTimeFormatterBuilder()
+        .appendPattern("dd.MM.yyyy")
+        .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+        .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+        .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+        .parseDefaulting(ChronoField.MILLI_OF_SECOND, 0)
+        .toFormatter()
+    val date: LocalDateTime =
+        LocalDateTime.parse(dateStr, formatter)
+    val millis: Long =
+        date.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
+    Log.d("Mills", millis.toString())
+    return millis;
+}
+
+private fun checkDates(filters: FilterState, dormitory: Dormitory): Boolean {
+    if (filters.startDate.isNotEmpty() && filters.endDate.isNotEmpty()) {
+        if (dormitory.rooms == null) {
+            return false;
+        }
+        val stDate = getLongFromDateStr(filters.startDate);
+        val enDate = getLongFromDateStr(filters.endDate);
+        return dormitory.rooms.values.any { room ->
+            ((room.details?.dateRange?.from ?: Long.MAX_VALUE) <= stDate)
+                    && (enDate <= (room.details?.dateRange?.to ?: 0))
+        }
+    }
+    return true;
+}
+
 private fun checkDormitory(
     dormitory: Dormitory,
     filters: FilterState
 ): Boolean {
+    if (!checkDates(filters, dormitory)) {
+        return false
+    }
     if (dormitory.details?.mainInfo?.name.isNullOrEmpty()) {
         return false
     }
