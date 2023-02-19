@@ -2,17 +2,22 @@ package com.nux.studio.studtourism.ui.components.molecules
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nux.studio.studtourism.ui.components.atoms.InputField
+import com.nux.studio.studtourism.ui.components.atoms.*
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH2
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.ui.states.FilterState
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
@@ -33,7 +38,7 @@ fun BottomSheet(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(state) {
-        if(state != FilterState()) {
+        if (state != FilterState()) {
             viewModel.updateFilters(state)
         }
     }
@@ -50,25 +55,29 @@ fun BottomSheet(
         sheetContent = {
             Column(
                 modifier = Modifier
-//                    .fillMaxSize()
+                    .fillMaxWidth()
                     .background(MaterialTheme.colors.background)
             ) {
-                Button(
-                    onClick = {
-                        coroutineScope.launch { modalSheetState.hide() }
-                    }
-                ) {
-                    Text(text = "Hide Sheet")
-                }
-                
-                InputField(
-                    text = state.city?: "",
-                    onValueChange = {
-                        state = state.copy(city = it)
-                    },
-                    keyboardActions = KeyboardActions(
-                        onDone = {keyboardController?.hide()})
+                Grabber()
+                BottomSheetHeader(
+                    text = "Настройка Поиска",
+                    onClose = { coroutineScope.launch { modalSheetState.hide() } }
                 )
+                Select(
+                    viewModel.cities.toList(),
+                    value = state.city ?: "",
+                    onValueChange = { state = state.copy(city = it) }
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    DateSelect()
+                    DateSelect()
+//                        onDateSelected = { state = state.copy(startDate = it) },
+//                        onDismissRequest = {})
+                }
             }
         }
     ) {
@@ -78,5 +87,33 @@ fun BottomSheet(
             }
         }
     }
+}
 
+@Composable
+fun BottomSheetHeader(text: String, modifier: Modifier = Modifier, onClose: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(modifier)
+    ) {
+        HeadlineH5(
+            text = text,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(40.dp),
+            fontWeight = FontWeight.Bold,
+        )
+        IconButton(
+            onClick = { onClose() },
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(10.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "Close",
+                tint = MaterialTheme.colors.onBackground
+            )
+        }
+    }
 }
