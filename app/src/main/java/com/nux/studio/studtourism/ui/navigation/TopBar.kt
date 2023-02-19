@@ -48,7 +48,7 @@ fun TopBar(
                             restoreState = true
                         }
                     } else {
-                        navController.navigate("login")
+                        navController.navigate("login?to=profile")
                     }
                 }) {
                     CircleAsyncImage(

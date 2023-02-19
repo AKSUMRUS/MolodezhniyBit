@@ -3,11 +3,8 @@ package com.nux.studio.studtourism.data.repository
 import android.util.Log
 import com.nux.studio.studtourism.data.error.ErrorCatcher
 import com.nux.studio.studtourism.data.error.ErrorRemote
-import com.nux.studio.studtourism.data.local.models.Dormitory
-import com.nux.studio.studtourism.data.local.models.DormitoryBooked
-import com.nux.studio.studtourism.data.local.models.Event
+import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.data.local.models.lab.Lab
-import com.nux.studio.studtourism.data.local.models.University
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -37,6 +34,28 @@ class MainRepository @Inject constructor(
         }
 
         emit(Resource.Success(response))
+        emit(Resource.Loading(false))
+    }
+    fun makeDormitoryBooking(
+        booking : DormitoryBookingRequest
+    ): Flow<Resource<Any>> = flow {
+        emit(Resource.Loading(true))
+        val response = try {
+            val responseApi = api.makeDormitoryBooking(booking).awaitResponse()
+            if (responseApi.code() == 200) {
+                responseApi.body()
+            } else {
+                emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
+                emit(Resource.Loading(false))
+                return@flow
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(message = ErrorRemote.NoInternet))
+            emit(Resource.Loading(false))
+            return@flow
+        }
+
+        emit(Resource.Success(Unit))
         emit(Resource.Loading(false))
     }
 

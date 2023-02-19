@@ -1,47 +1,89 @@
 package com.nux.studio.studtourism.ui.components.screens
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.widget.DatePicker
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.ui.components.atoms.*
-import com.nux.studio.studtourism.ui.components.atoms.texts.*
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
+import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
+import com.nux.studio.studtourism.ui.components.atoms.texts.Subtitle2
+import com.nux.studio.studtourism.ui.navigation.SegmentControlTabs
+import com.nux.studio.studtourism.ui.viewmodels.AuthViewModel
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import com.nux.studio.studtourism.ui.viewmodels.UniversityViewModel
+import java.util.*
 
 @Composable
 fun DormitoryScreen(
     index: String,
+    navController: NavController,
     viewModel: MainViewModel
 ) {
     Log.e("LOGGGG", viewModel.toString())
     val dormitory = viewModel.state.dormitoriesList.find { item ->
         item.id == index
-    }?: viewModel.state.dormitoriesList[0]
+    } ?: viewModel.state.dormitoriesList[0]
+
+    var requestState by remember { mutableStateOf(DormitoryBookingRequest()) }
+
+    val authRepository = hiltViewModel<AuthViewModel>().repository
+
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+
+    val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
+    val month: Int = calendar.get(Calendar.MONTH)
+    val year: Int = calendar.get(Calendar.YEAR)
+
+    calendar.time = Date()
+
+    val datePickerDialogFrom = DatePickerDialog(
+        context,
+        { _: DatePicker, yearPicked: Int, monthRaw: Int, dayRaw: Int ->
+            val dayPicked = String.format("%02d", dayRaw)
+            val monthPicked = String.format("%02d", monthRaw + 1)
+            val date = "$dayPicked.$monthPicked.$yearPicked"
+            requestState = requestState.copy(dates = requestState.dates.copy(from = date))
+        }, year, month, day
+    )
+    val datePickerDialogTo = DatePickerDialog(
+        context,
+        { _: DatePicker, yearPicked: Int, monthRaw: Int, dayRaw: Int ->
+            val dayPicked = String.format("%02d", dayRaw)
+            val monthPicked = String.format("%02d", monthRaw + 1)
+            val date = "$dayPicked.$monthPicked.$yearPicked"
+            requestState = requestState.copy(dates = requestState.dates.copy(to = date))
+        }, year, month, day
+    )
 
     val universityViewModel: UniversityViewModel = hiltViewModel()
+    var screenState by remember { mutableStateOf(0) }
 
     if (dormitory.universityId != null) {
         LaunchedEffect(true) {
@@ -83,58 +125,150 @@ fun DormitoryScreen(
                         Pill(dormitory.details.mainInfo.city, variant = PillVariant.BACKGROUND)
                     }
                 }
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 15.dp)
-                        .fillMaxWidth(),
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        val minDays = dormitory.details.mainInfo.minDays
-                        val maxDays = dormitory.details.mainInfo.maxDays
-                        if (!minDays.isNullOrEmpty() && !maxDays.isNullOrEmpty()) {
-                            Dates(
-                                "$minDays – $maxDays дней",
-                                modifier = Modifier.padding(bottom = 7.dp)
-                            )
-                        }
-                        Price(getFormattedPrice(dormitory))
-                    }
-                    Column(modifier = Modifier.weight(1f)) {
-                        dormitory.details.rules?.committee?.phone?.let { phone ->
-                            Phone(phone, modifier = Modifier.padding(bottom = 7.dp))
-                        }
-                        dormitory.details.rules?.committee?.email?.let { email -> Mail(email) }
-                    }
-                }
-                SectionHeader(text = "Адрес", modifier = Modifier.padding(15.dp, 0.dp))
-                Text(text = getFormattedAddress(dormitory), modifier = Modifier.padding(15.dp))
-
-                dormitory.rooms.let { rooms ->
-                    if (rooms != null && rooms.isNotEmpty()) {
-                        SectionHeader(text = "Комнаты", modifier = Modifier.padding(15.dp, 0.dp))
-                        Rooms(rooms = rooms.values)
-                    }
-                }
-                dormitory.details.services?.let { services ->
-                    if (services.isNotEmpty()) {
-                        SectionHeader(text = "Услуги", modifier = Modifier.padding(15.dp, 0.dp))
-                        Services(services = services)
-                    }
-                }
-                dormitory.details.rules?.let { rules ->
-                    SectionHeader(
-                        text = "Правила",
+                if (screenState == 0) {
+                    Row(
                         modifier = Modifier
                             .padding(horizontal = 15.dp)
-
-                    )
-                    Rules(rules = rules)
-                }
-                dormitory.details.documents?.let { documents ->
-                    if (documents.isNotEmpty()) {
-                        SectionHeader(text = "Документы", modifier = Modifier.padding(15.dp, 0.dp))
-                        Documents(documents = dormitory.details.documents)
+                            .fillMaxWidth(),
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            val minDays = dormitory.details.mainInfo.minDays
+                            val maxDays = dormitory.details.mainInfo.maxDays
+                            if (!minDays.isNullOrEmpty() && !maxDays.isNullOrEmpty()) {
+                                Dates(
+                                    "$minDays – $maxDays дней",
+                                    modifier = Modifier.padding(bottom = 7.dp)
+                                )
+                            }
+                            Price(getFormattedPrice(dormitory))
+                        }
+                        Column(modifier = Modifier.weight(1f)) {
+                            dormitory.details.rules?.committee?.phone?.let { phone ->
+                                Phone(phone, modifier = Modifier.padding(bottom = 7.dp))
+                            }
+                            dormitory.details.rules?.committee?.email?.let { email -> Mail(email) }
+                        }
                     }
+                    SectionHeader(text = "Адрес", modifier = Modifier.padding(15.dp, 0.dp))
+                    Text(text = getFormattedAddress(dormitory), modifier = Modifier.padding(15.dp))
+
+                    dormitory.rooms.let { rooms ->
+                        if (rooms != null && rooms.isNotEmpty()) {
+                            SectionHeader(
+                                text = "Комнаты",
+                                modifier = Modifier.padding(15.dp, 0.dp)
+                            )
+                            Rooms(rooms = rooms.values)
+                        }
+                    }
+                    dormitory.details.services?.let { services ->
+                        if (services.isNotEmpty()) {
+                            SectionHeader(text = "Услуги", modifier = Modifier.padding(15.dp, 0.dp))
+                            Services(services = services)
+                        }
+                    }
+                    dormitory.details.rules?.let { rules ->
+                        SectionHeader(
+                            text = "Правила",
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+
+                        )
+                        Rules(rules = rules)
+                    }
+                    dormitory.details.documents?.let { documents ->
+                        if (documents.isNotEmpty()) {
+                            SectionHeader(
+                                text = "Документы",
+                                modifier = Modifier.padding(15.dp, 0.dp)
+                            )
+                            Documents(documents = dormitory.details.documents)
+                        }
+                    }
+                } else {
+
+//                    SectionHeader(
+//                        text = "Тип Размещения",
+//                        modifier = Modifier.padding(15.dp, 0.dp)
+//                    )
+//                    SectionHeader(
+//                        text = "Питание",
+//                        modifier = Modifier.padding(15.dp, 0.dp)
+//                    )
+                    SectionHeader(
+                        text = "Даты",
+                        modifier = Modifier.padding(15.dp, 0.dp)
+                    )
+                    InputFieldScreen(
+                        title = "c дд/мм",
+                        text = requestState.dates.from ?: "",
+                        onValueChange = {
+                            requestState =
+                                requestState.copy(dates = requestState.dates.copy(from = it))
+                        },
+                        trailingIcon = {
+                            Icon(
+                                ImageVector.vectorResource(id = R.drawable.icon_calendar),
+                                tint = Color.Black,
+                                contentDescription = "calendar",
+                                modifier = Modifier
+                                    .clickable {
+                                        datePickerDialogFrom.show()
+                                    }
+                            )
+                        }
+                    )
+                    InputFieldScreen(
+                        title = "до дд/мм",
+                        text = requestState.dates.to ?: "",
+                        onValueChange = {
+                            requestState =
+                                requestState.copy(dates = requestState.dates.copy(to = it))
+                        },
+                        trailingIcon = {
+                            Icon(
+                                ImageVector.vectorResource(id = R.drawable.icon_calendar),
+                                tint = Color.Black,
+                                contentDescription = "calendar",
+                                modifier = Modifier
+                                    .clickable {
+                                        datePickerDialogTo.show()
+                                    }
+                            )
+                        }
+                    )
+                    InputFieldScreenWithTitle(
+                        title = "ФИО",
+                        text = requestState.author.name?: "",
+                        onValueChange = {
+                            requestState = requestState.copy(author = requestState.author.copy(name = it))
+                        }
+                    )
+                    InputFieldScreenWithTitle(
+                        title = "E-mail",
+                        text = requestState.author.contacts.email?: "",
+                        onValueChange = {
+                            requestState = requestState.copy(author = requestState.author.copy(contacts =  requestState.author.contacts.copy(email = it)))
+                        }
+                    )
+                    InputFieldScreenWithTitle(
+                        title = "Телефон",
+                        text = requestState.author.contacts.phone?: "",
+                        onValueChange = {
+                            requestState = requestState.copy(author = requestState.author.copy(contacts =  requestState.author.contacts.copy(phone = it)))
+                        }
+                    )
+                    InputFieldScreenWithTitle(
+                        title = "Комментарий",
+                        text = requestState.comment?: "",
+                        onValueChange = {
+                            requestState = requestState.copy(comment = it)
+                        }
+                    )
+//                    SectionHeader(
+//                        text = "Документы",
+//                        modifier = Modifier.padding(15.dp, 0.dp)
+//                    )
                 }
                 Box(modifier = Modifier.height(120.dp))
             }
@@ -149,7 +283,23 @@ fun DormitoryScreen(
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.surface,
             ),
-            onClick = { /*TODO*/ },
+            onClick = {
+                if (!authRepository.isAuthorized()) {
+                    navController.navigate("login")
+                }
+                else if (screenState == 0) {
+                    screenState = 1
+                }
+                else {
+                    screenState = 0
+                    viewModel.makeDormitoryBooking(requestState)
+                    navController.navigate(SegmentControlTabs.DORMITORIES.route) {
+                        popUpTo(SegmentControlTabs.DORMITORIES.route) {
+
+                        }
+                    }
+                }
+            },
         ) {
             Text(
                 modifier = Modifier.padding(15.dp),
@@ -311,4 +461,62 @@ private fun Rules(
             }
         }
     }
+}
+
+@Composable
+private fun InputFieldScreen(
+    title: String,
+    text: String,
+    onValueChange: (String) -> Unit,
+    trailingIcon: @Composable (() -> Unit)? = null,
+) {
+//    if(!title.isNullOrEmpty()) {
+//        Subtitle2(
+//            text = title,
+//            fontWeight = FontWeight.Bold,
+//            modifier = Modifier.padding(
+//                start = 16.dp,
+//                end = 16.dp,
+//                top = 16.dp,
+//                bottom = 4.dp
+//            )
+//        )
+//    }
+
+    InputField(
+        text = text,
+        placeholder = title,
+        onValueChange = onValueChange,
+        modifier = Modifier
+            .background(Color(0xF3F8FCFF)),
+        trailingIcon = trailingIcon
+    )
+}
+
+@Composable
+private fun InputFieldScreenWithTitle(
+    title: String,
+    text: String,
+    onValueChange: (String) -> Unit,
+    trailingIcon: @Composable (() -> Unit)? = null,
+) {
+    Subtitle2(
+        text = title,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(
+            start = 16.dp,
+            end = 16.dp,
+            top = 16.dp,
+            bottom = 4.dp
+        )
+    )
+
+    InputField(
+        text = text,
+        placeholder = title,
+        onValueChange = onValueChange,
+        modifier = Modifier
+            .background(Color(0xF3F8FCFF)),
+        trailingIcon = trailingIcon
+    )
 }

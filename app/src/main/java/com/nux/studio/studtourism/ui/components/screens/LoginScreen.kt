@@ -22,7 +22,8 @@ import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
 
 @Composable
 fun LoginScreen(
-    navController: NavController
+    navController: NavController,
+    to: String
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -30,11 +31,18 @@ fun LoginScreen(
 
     val viewModel: SignUpViewModel = hiltViewModel()
 
+    val currentRoute = navController.currentDestination?.route?: ""
+
     LaunchedEffect(viewModel.state.isSuccess) {
         if(viewModel.state.isSuccess == true) {
-            navController.navigate("profile") {
-                popUpTo("login") {
-                    inclusive = true
+            if(to.isNullOrEmpty()) {
+                navController.popBackStack()
+            }
+            else {
+                navController.navigate(to) {
+                    popUpTo(currentRoute) {
+                        inclusive = true
+                    }
                 }
             }
         }
@@ -90,10 +98,10 @@ fun LoginScreen(
             ButtonPrimary(
                 text = "Зарегестрироваться",
                 onClick = {
-                    navController.navigate("signUp") {
-                        popUpTo("login") {
-                            inclusive = true
-                        }
+                        navController.navigate("signUp?to=$to") {
+                            popUpTo(currentRoute) {
+                                inclusive = true
+                            }
                     }
                           },
                 modifier = Modifier

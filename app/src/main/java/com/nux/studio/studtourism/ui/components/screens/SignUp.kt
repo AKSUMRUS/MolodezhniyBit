@@ -3,20 +3,18 @@ package com.nux.studio.studtourism.ui.components.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.nux.studio.studtourism.ui.components.atoms.InputField
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 import com.nux.studio.studtourism.ui.components.atoms.ButtonSecondary
-import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
-import kotlin.concurrent.fixedRateTimer
 
 @Composable
 fun SignUp(
-    navController: NavController
+    navController: NavController,
+    to: String
 ) {
     val viewModel: SignUpViewModel = hiltViewModel()
     var name by remember { mutableStateOf("") }
@@ -26,11 +24,18 @@ fun SignUp(
     var phone by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    val currentRoute = navController.currentDestination?.route?: ""
+
     LaunchedEffect(viewModel.state.isSuccess) {
         if(viewModel.state.isSuccess == true) {
-            navController.navigate("profile") {
-                popUpTo("signUp") {
-                    inclusive = true
+            if(to.isNullOrEmpty()) {
+                navController.popBackStack()
+            }
+            else {
+                navController.navigate(to) {
+                    popUpTo(currentRoute) {
+                        inclusive = true
+                    }
                 }
             }
         }
@@ -84,8 +89,8 @@ fun SignUp(
             text = "Уже есть аккаунт? Войти",
             modifier = Modifier,
             onClick = {
-                navController.navigate("login") {
-                    popUpTo("signUp") {
+                navController.navigate("login?to=$to") {
+                    popUpTo(currentRoute) {
                         inclusive = true
                     }
                 }

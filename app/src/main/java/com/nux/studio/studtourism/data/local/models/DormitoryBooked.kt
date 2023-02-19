@@ -1,8 +1,8 @@
 package com.nux.studio.studtourism.data.local.models
 
 data class DatesBooked(
-    val from: String?,
-    val to: String?,
+    val from: String? = "",
+    val to: String? = "",
 )
 data class DormitoryBooked(
     val dates: DatesBooked?,

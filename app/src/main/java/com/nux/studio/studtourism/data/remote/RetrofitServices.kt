@@ -1,10 +1,7 @@
 package com.nux.studio.studtourism.data.remote
 
-import com.nux.studio.studtourism.data.local.models.Dormitory
-import com.nux.studio.studtourism.data.local.models.DormitoryBooked
-import com.nux.studio.studtourism.data.local.models.Event
+import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.data.local.models.lab.Lab
-import com.nux.studio.studtourism.data.local.models.University
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
 import com.nux.studio.studtourism.data.remote.models.EditUser
 import com.nux.studio.studtourism.data.remote.models.User
@@ -64,5 +61,10 @@ interface RetrofitServices {
     fun editUser(
         @Body editUser: EditUser
     ) : Call<User>
+
+    @POST("bookings")
+    fun makeDormitoryBooking(
+        @Body booking: DormitoryBookingRequest
+    ) : Call<Any>
 
 }

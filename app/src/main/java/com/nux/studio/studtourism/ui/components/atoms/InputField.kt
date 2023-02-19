@@ -41,12 +41,59 @@ fun InputField(
         ).copy(imeAction = imeAction, capitalization = capitalization),
         textStyle = textStyle,
         keyboardActions = keyboardActions,
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(
                 MaterialTheme.colors.primary
-            ),
+            )
+            .then(modifier),
+        singleLine = true,
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = MaterialTheme.colors.onPrimary,
+            placeholderColor = MaterialTheme.colors.secondaryVariant,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            backgroundColor = Color.Transparent,
+            cursorColor = Color.DarkGray,
+            disabledTextColor = MaterialTheme.colors.onPrimary,
+        ),
+        enabled = enabled,
+        trailingIcon = trailingIcon,
+        visualTransformation = visualTransformation?: VisualTransformation.None,
+    )
+}
+
+@Composable
+fun InputField2(
+    text: String,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    placeholder: String = "",
+    onValueChange: (String) -> Unit,
+    imeAction: ImeAction = ImeAction.Next,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
+    textStyle: TextStyle = LocalTextStyle.current.copy(color = MaterialTheme.colors.onBackground),
+    trailingIcon: @Composable (() -> Unit)? = null,
+    visualTransformation: VisualTransformation? = null,
+) {
+    TextField(
+        value = text,
+        onValueChange = { onValueChange(it) },
+        placeholder = { Text(text = placeholder) },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType
+        ).copy(imeAction = imeAction, capitalization = capitalization),
+        textStyle = textStyle,
+        keyboardActions = keyboardActions,
+        modifier = Modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(
+                MaterialTheme.colors.primary
+            )
+            .then(modifier),
         singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
             textColor = MaterialTheme.colors.onPrimary,

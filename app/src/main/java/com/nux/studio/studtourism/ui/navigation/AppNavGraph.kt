@@ -1,6 +1,5 @@
 package com.nux.studio.studtourism.ui.navigation
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -68,7 +67,8 @@ fun AppNavGraph(
             val index = backStackEntry.arguments?.getString("index", "") ?: ""
             DormitoryScreen(
                 index = index,
-                viewModel = viewModel
+                viewModel = viewModel,
+                navController = navController
             )
         }
         composable(
@@ -104,14 +104,30 @@ fun AppNavGraph(
         composable("profile") {
             ProfileScreen()
         }
-        composable("login") {
+        composable("login?to={to}",
+            arguments = listOf(
+                navArgument("to") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
+            )) {backStackEntry ->
+            val to : String = backStackEntry.arguments?.getString("to", "")?: ""
             LoginScreen(
-                navController = navController
+                navController = navController,
+                to = to
             )
         }
-        composable("signUp") {
+        composable("signUp?to={to}",
+            arguments = listOf(
+                navArgument("to") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
+            )) {backStackEntry ->
+            val to : String = backStackEntry.arguments?.getString("to", "")?: ""
             SignUp(
-                navController = navController
+                navController = navController,
+                to = to
             )
         }
     }

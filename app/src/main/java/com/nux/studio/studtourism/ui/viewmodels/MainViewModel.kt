@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nux.studio.studtourism.data.local.models.Committee
 import com.nux.studio.studtourism.data.local.models.Dormitory
+import com.nux.studio.studtourism.data.local.models.DormitoryBookingRequest
 import com.nux.studio.studtourism.data.repository.MainRepository
 import com.nux.studio.studtourism.ui.states.FilterState
 import com.nux.studio.studtourism.ui.states.MainState
@@ -16,6 +17,7 @@ import com.nux.studio.studtourism.ui.viewmodels.error.ErrorMapper
 import com.nux.studio.studtourism.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -64,6 +66,32 @@ class MainViewModel @Inject constructor(
         filters: FilterState
     ) {
         filterState = filters
+    }
+
+    fun makeDormitoryBooking(
+        bookingRequest: DormitoryBookingRequest
+    ) {
+        viewModelScope.launch {
+            repository.makeDormitoryBooking(
+                booking = bookingRequest
+            ).collect {result ->
+                when (result) {
+                    is Resource.Success -> {
+
+                    }
+                    is Resource.Loading -> {
+                        result.isLoading.let {data ->
+                            _state = _state.copy(isLoading = data)
+                        }
+                    }
+                    is Resource.Error -> {
+                        result.message?.let {error ->
+                            _state = _state.copy(error = errorMapper.map(error))
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun getDormitories() {
