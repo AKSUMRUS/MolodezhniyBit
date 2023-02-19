@@ -50,18 +50,9 @@ fun LabScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
             item {
-                LazyRow() {
-                    item {
-                        lab.details.photos?.forEach { photoUrl ->
-                            AsyncImage(
-                                model = photoUrl,
-                                contentDescription = "Фото события",
-                                modifier = Modifier
-                                    .width(LocalConfiguration.current.screenWidthDp.dp)
-                                    .padding(0.dp),
-                                contentScale = ContentScale.FillWidth
-                            )
-                        }
+                lab.details.photos?.let {photos ->
+                    if (photos.isNotEmpty()) {
+                        ImagesCarousel(photos = photos)
                     }
                 }
                 lab.details.name?.let { name ->

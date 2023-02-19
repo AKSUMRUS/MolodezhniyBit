@@ -1,5 +1,6 @@
 package com.nux.studio.studtourism.ui.components.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -51,18 +52,10 @@ fun EventScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
             item {
-                LazyRow() {
-                    item {
-                        event.details?.photos?.forEach { photoUrl ->
-                            AsyncImage(
-                                model = photoUrl,
-                                contentDescription = "Фото события",
-                                modifier = Modifier
-                                    .width(LocalConfiguration.current.screenWidthDp.dp)
-                                    .padding(0.dp),
-                                contentScale = ContentScale.FillWidth
-                            )
-                        }
+                Log.d("EventId", event.id)
+                event.details.photos?.let {photos ->
+                    if (photos.isNotEmpty()) {
+                        ImagesCarousel(photos = photos)
                     }
                 }
                 event.details.name?.let { name ->

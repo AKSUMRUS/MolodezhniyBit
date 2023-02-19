@@ -101,30 +101,13 @@ fun DormitoryScreen(
         }
     }
     val university = universityViewModel.state.university
-    Log.d("DUniversityId", "${dormitory.universityId}")
-    Log.d("DUniversity", university.toString())
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
             item {
-                LazyRow() {
-                    item {
-                        dormitory.details?.mainInfo?.photos?.forEach { photoUrl ->
-                            AsyncImage(
-                                model = photoUrl,
-                                contentDescription = "Фото общежития",
-                                modifier = Modifier
-                                    .width(LocalConfiguration.current.screenWidthDp.dp)
-                                    .padding(0.dp)
-                                    .clip(
-                                        RoundedCornerShape(
-                                            bottomEnd = 30.dp,
-                                            bottomStart = 30.dp
-                                        )
-                                    ),
-                                contentScale = ContentScale.FillWidth
-                            )
-                        }
+                dormitory.details?.mainInfo?.photos?.let {photos ->
+                    if (photos.isNotEmpty()) {
+                        ImagesCarousel(photos = photos)
                     }
                 }
                 HeadlineH5(
