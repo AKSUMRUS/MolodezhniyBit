@@ -100,26 +100,6 @@ fun EventScreen(
                 Box(modifier = Modifier.height(120.dp))
             }
         }
-        Button(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .padding(bottom = 30.dp)
-                .padding(horizontal = 25.dp),
-            shape = CircleShape,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.surface,
-            ),
-            onClick = { /*TODO*/ },
-        ) {
-            Text(
-                modifier = Modifier.padding(15.dp),
-                text = "Оставить заявку",
-                color = MaterialTheme.colors.onSurface,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-            )
-        }
         Row(
             modifier = Modifier
                 .padding(25.dp)

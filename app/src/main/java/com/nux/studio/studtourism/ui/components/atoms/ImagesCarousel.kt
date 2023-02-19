@@ -58,7 +58,7 @@ fun ImagesCarousel(photos: Collection<String>) {
                 }
             }
             item {
-                Box(modifier = Modifier.width(10.dp))
+                Box(modifier = Modifier.width(2.dp))
             }
         }
         if (photos.size > 1) {
