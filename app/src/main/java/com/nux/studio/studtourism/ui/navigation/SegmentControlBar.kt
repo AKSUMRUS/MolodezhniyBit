@@ -39,6 +39,7 @@ fun SegmentControlBar(
                 ,
                 onClick = { index, tab ->
                     if (tab.route != currentRoute) {
+
                         navController.navigate(tab.route) {
                             popUpTo(navController.graph.startDestinationId) {
                                 saveState = true

@@ -1,5 +1,6 @@
 package com.nux.studio.studtourism.ui.navigation
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -10,6 +11,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,6 +37,7 @@ fun TopBar(
     val currentRoute = navBackStackEntry?.destination?.route
 
     val photoUrl = profileViewModel.getProfileUrl()
+    val context = LocalContext.current
 
     val routes = remember { SegmentControlTabs.values().map { it.route } }
     if (currentRoute in routes) {
@@ -64,10 +67,11 @@ fun TopBar(
                 if (authRepository.isAuthorized()) {
                     TopAppBarActionButton(
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_favourite_not_selected),
-                        description = "Search"
-                    ) {
-
-                    }
+                        description = "Search",
+                        onClick = {
+                            Toast.makeText(context,"Появится в новой версии", Toast.LENGTH_SHORT).show()
+                        }
+                    )
                     TopAppBarActionButton(
                         imageVector = ImageVector.vectorResource(id = R.drawable.icon_calendar_checked),
                         description = "Booking",
@@ -83,7 +87,9 @@ fun TopBar(
                     TopAppBarActionButton(
                         imageVector = ImageVector.vectorResource(id = R.drawable.notifications),
                         description = "Lock",
-                        onClick = {}
+                        onClick = {
+                            Toast.makeText(context,"Появится в новой версии", Toast.LENGTH_SHORT).show()
+                        }
                     )
                 }
                 else {
