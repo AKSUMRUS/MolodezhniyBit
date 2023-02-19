@@ -22,10 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
-import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.*
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.ui.components.molecules.BottomSheet
@@ -44,7 +41,7 @@ fun DormitoriesScreen(
 
     var height = (200..400).random()
 
-    var indexView = viewModel.state.indexView
+    val indexView = viewModel.state.indexView
 
     val filters = viewModel.filterState
 
@@ -182,7 +179,10 @@ private fun GoogleMapView(
 
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
-        cameraPositionState = cameraPositionState
+        cameraPositionState = cameraPositionState,
+        uiSettings = MapUiSettings(
+            zoomControlsEnabled = false
+        )
     ) {
         markers.forEach { markerInfo ->
             Marker(
@@ -207,4 +207,5 @@ private data class MarkerInfo(
     val title: String?,
     val snippet: String?,
 )
+
 
