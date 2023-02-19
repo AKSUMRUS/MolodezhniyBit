@@ -63,18 +63,30 @@ fun TopBar(
             actions = {
                 if (authRepository.isAuthorized()) {
                     TopAppBarActionButton(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.favourites),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_favourite_not_selected),
                         description = "Search"
                     ) {
 
                     }
                     TopAppBarActionButton(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.icon_calendar_checked),
+                        description = "Booking",
+                        onClick = {
+                            if (authRepository.isAuthorized()) {
+                                navController.navigate("booking/dormitories") {
+                                }
+                            } else {
+                                navController.navigate("login?to=booking/dormitories")
+                            }
+                        }
+                    )
+                    TopAppBarActionButton(
                         imageVector = ImageVector.vectorResource(id = R.drawable.notifications),
-                        description = "Lock"
-                    ) {
-
-                    }
-                } else {
+                        description = "Lock",
+                        onClick = {}
+                    )
+                }
+                else {
                     Button(
                         onClick = { navController.navigate("login") },
                         modifier = Modifier

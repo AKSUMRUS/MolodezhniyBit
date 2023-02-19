@@ -32,6 +32,8 @@ import com.nux.studio.studtourism.ui.components.molecules.SegmentControlMap
 import com.nux.studio.studtourism.ui.states.FilterState
 import com.nux.studio.studtourism.ui.states.SortOrder
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
+import java.lang.Math.pow
+import kotlin.math.pow
 
 @Composable
 fun DormitoriesScreen(
@@ -41,11 +43,11 @@ fun DormitoriesScreen(
 ) {
     val isLoading = viewModel.state.isLoading
 
-    var height = (200..400).random()
-
     val indexView = viewModel.state.indexView
 
     val filters = viewModel.filterState
+
+    val starredDormitories = viewModel.state.starredDormitories
 
     LaunchedEffect(true) {
         viewModel.getDormitories()
@@ -72,9 +74,11 @@ fun DormitoriesScreen(
                             .background(MaterialTheme.colors.background),
                     ) {
                         Log.d("Dormitories", filters.toString())
-                        itemsIndexed(dormitories) { index, dormitory ->
+                        var height = 300
+                        itemsIndexed(viewModel.state.dormitoriesList) { index, dormitory ->
                             if (index % 2 == 0) {
-                                height = (200..400).random()
+                                height =
+                                    ((-1.0).pow((index/2).toDouble()) * ((index * 30) % 100) + 300).toInt()
                             }
 
                             CardDormitory(
@@ -86,6 +90,8 @@ fun DormitoriesScreen(
                                 },
                                 height = height,
                                 navController = navController,
+                                onFavouriteClick = viewModel::favouriteDormitory,
+                                isStarred = starredDormitories.contains(dormitory.id)
                             )
                         }
                     }

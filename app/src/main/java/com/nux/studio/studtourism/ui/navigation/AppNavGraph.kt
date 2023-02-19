@@ -101,6 +101,11 @@ fun AppNavGraph(
                 viewModel = viewModel
             )
         }
+        composable(
+            route = "booking/dormitories"
+        ) {
+            DormitoriesBookedScreen(navController = navController, viewModel = viewModel)
+        }
         composable("profile") {
             ProfileScreen(navController = navController)
         }

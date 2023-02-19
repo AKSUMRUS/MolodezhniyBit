@@ -35,7 +35,7 @@ fun LabsScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     navController: NavController,
-){
+) {
 
     val labs = viewModel.state.labsList
     val isLoading = viewModel.state.isLoading
@@ -79,21 +79,5 @@ fun LabsScreen(
                 }
             }
         }
-
-        FloatingActionButton(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 24.dp),
-            backgroundColor = MaterialTheme.colors.surface,
-            onClick = {
-                //
-            }
-        ) {
-            Image(
-                imageVector = ImageVector.vectorResource(id = R.drawable.filters),
-                contentDescription = "Filter's button"
-            )
-        }
     }
-
 }

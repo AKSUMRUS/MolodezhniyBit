@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.util.Log
 import com.nux.studio.studtourism.data.error.ErrorCatcher
 import com.nux.studio.studtourism.data.error.ErrorRemote
+import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.data.local.prefs.PhotoPrefs
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.data.remote.models.EditUser
@@ -92,6 +93,7 @@ class ProfileRepository @Inject constructor(
         WoS: String? = null,
         WoS1: String? = null,
         studentRoleType: String? = null,
+        starredDormitories: Set<String>? = null
     ) {
         _editUserFlow.emit(Resource.Loading(true))
         val editUser = EditUser(
@@ -109,7 +111,8 @@ class ProfileRepository @Inject constructor(
             birthday = birthday,
             WoS = WoS,
             WoS1 = WoS1,
-            studentRoleType = studentRoleType
+            studentRoleType = studentRoleType,
+            starredDormitories = starredDormitories
         )
 
         val request = api.editUser(editUser)

@@ -1,5 +1,7 @@
 package com.nux.studio.studtourism.ui.components.screens
 
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -33,8 +35,6 @@ fun DormitoriesBookedScreen(
 ) {
     val isLoading = viewModel.state.isLoading
 
-    var height = (200..400).random()
-
     LaunchedEffect(true) {
         viewModel.getDormitories()
         viewModel.getDormitoriesBooked()
@@ -45,46 +45,27 @@ fun DormitoriesBookedScreen(
             .fillMaxSize()
             .then(modifier)
     ) {
-        BottomSheet(
-            viewModel = viewModel
-        ) {
 //                openBottomSheet ->
-            if (isLoading) {
-                Text(text = "Loading...")
-                LoadingViewCenter()
+        if (isLoading) {
+            Text(text = "Loading...")
+            LoadingViewCenter()
+        } else {
+            if (viewModel.state.dormitoriesBookedList.isEmpty()) {
+                HeadlineH4(text = "Нет брони")
             } else {
-                if (viewModel.state.dormitoriesBookedList.isEmpty()) {
-                    HeadlineH4(text = "Нет брони")
-                } else {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(1),
-                        contentPadding = PaddingValues(top = 10.dp, start = 0.dp, end = 0.dp),
-                        modifier = Modifier.background(MaterialTheme.colors.background),
-                    ) {
-                        itemsIndexed(viewModel.state.dormitoriesBookedList) { index, dormitoryBooked ->
-                            CardDormitoryBooked(
-                                dormitoryBooked = dormitoryBooked,
-                                navController = navController,
-                                viewModel = viewModel,
-                            )
-                        }
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(1),
+                    contentPadding = PaddingValues(top = 10.dp, start = 0.dp, end = 0.dp),
+                    modifier = Modifier.background(MaterialTheme.colors.background),
+                ) {
+                    itemsIndexed(viewModel.state.dormitoriesBookedList) { index, dormitoryBooked ->
+                        CardDormitoryBooked(
+                            dormitoryBooked = dormitoryBooked,
+                            navController = navController,
+                            viewModel = viewModel,
+                        )
                     }
                 }
-            }
-
-            FloatingActionButton(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(end = 16.dp, bottom = 24.dp),
-                backgroundColor = MaterialTheme.colors.surface,
-                onClick = {
-//                    openBottomSheet()
-                }
-            ) {
-                Image(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.filters),
-                    contentDescription = "Filter's button"
-                )
             }
         }
     }
