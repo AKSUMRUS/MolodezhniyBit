@@ -93,7 +93,8 @@ class ProfileRepository @Inject constructor(
         WoS: String? = null,
         WoS1: String? = null,
         studentRoleType: String? = null,
-        starredDormitories: Set<String>? = null
+        starredDormitories: Set<String>? = null,
+        starredEvents: Set<String>? = null
     ) {
         _editUserFlow.emit(Resource.Loading(true))
         val editUser = EditUser(
@@ -112,7 +113,8 @@ class ProfileRepository @Inject constructor(
             WoS = WoS,
             WoS1 = WoS1,
             studentRoleType = studentRoleType,
-            starredDormitories = starredDormitories
+            starredDormitories = starredDormitories,
+            starredEvents = starredEvents
         )
 
         val request = api.editUser(editUser)

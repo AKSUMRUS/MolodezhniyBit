@@ -55,7 +55,9 @@ fun EventsScreen(
                             navController.navigate(
                                 "event?index=$index"
                             )
-                        }
+                        },
+                        isStarred = viewModel.state.starredEvents.contains(event.id),
+                        onFavouriteClick = viewModel::favouriteEvent
                     )
                 }
             }
