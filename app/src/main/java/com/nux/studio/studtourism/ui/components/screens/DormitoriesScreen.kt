@@ -12,7 +12,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -26,7 +27,6 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.nux.studio.studtourism.R
-import com.nux.studio.studtourism.data.local.models.Coordinates
 import com.nux.studio.studtourism.ui.components.molecules.BottomSheet
 import com.nux.studio.studtourism.ui.components.molecules.CardDormitory
 import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
@@ -74,7 +74,7 @@ fun DormitoriesScreen(
                             if (!filters.city.isNullOrEmpty()) {
                                 can =
                                     can && (item.details?.mainInfo?.city?.contains(filters.city.toString())
-                                        ?: true)
+                                        ?: false)
                             }
                             can
                         }

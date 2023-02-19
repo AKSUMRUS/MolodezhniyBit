@@ -38,6 +38,7 @@ import com.nux.studio.studtourism.ui.viewmodels.AuthViewModel
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import com.nux.studio.studtourism.ui.viewmodels.UniversityViewModel
 import java.util.*
+import java.util.Date
 
 @Composable
 fun DormitoryScreen(
