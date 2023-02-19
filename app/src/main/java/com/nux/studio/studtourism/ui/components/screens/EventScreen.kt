@@ -21,12 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.nux.studio.studtourism.data.local.models.Event
-import com.nux.studio.studtourism.ui.components.atoms.*
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
+import com.nux.studio.studtourism.data.local.models.*
+import com.nux.studio.studtourism.ui.components.atoms.*
+import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 import com.nux.studio.studtourism.ui.components.molecules.convertLongToTime
-import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import com.nux.studio.studtourism.ui.viewmodels.UniversityViewModel
 
 @Composable
@@ -48,9 +48,9 @@ fun EventScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
             item {
-                LazyRow {
+                LazyRow() {
                     item {
-                        event.details.photos?.forEach { photoUrl ->
+                        event.details?.photos?.forEach { photoUrl ->
                             AsyncImage(
                                 model = photoUrl,
                                 contentDescription = "Фото события",

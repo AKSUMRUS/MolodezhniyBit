@@ -1,14 +1,23 @@
 package com.nux.studio.studtourism.ui.navigation
 
+import androidx.annotation.ColorRes
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.TextButton
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import com.nux.studio.studtourism.R
+import com.nux.studio.studtourism.ui.components.atoms.texts.Body1
+import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH6
 
 /**

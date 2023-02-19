@@ -4,26 +4,30 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.nux.studio.studtourism.data.local.models.lab.Lab
-import com.nux.studio.studtourism.ui.components.atoms.Mail
-import com.nux.studio.studtourism.ui.components.atoms.Phone
-import com.nux.studio.studtourism.ui.components.atoms.Pill
-import com.nux.studio.studtourism.ui.components.atoms.PillVariant
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
-import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
+import com.nux.studio.studtourism.data.local.models.*
+import com.nux.studio.studtourism.data.local.models.lab.Lab
+import com.nux.studio.studtourism.ui.components.atoms.*
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
+import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
+import com.nux.studio.studtourism.ui.components.molecules.convertLongToTime
 import com.nux.studio.studtourism.ui.viewmodels.UniversityViewModel
 
 @Composable
@@ -42,7 +46,7 @@ fun LabScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
             item {
-                LazyRow {
+                LazyRow() {
                     item {
                         lab.details.photos?.forEach { photoUrl ->
                             AsyncImage(
@@ -70,7 +74,7 @@ fun LabScreen(
                         .padding(10.dp, 0.dp)
                         .background(Color.Transparent)
                 ) {
-                    lab.details.city?.let { region ->
+                    lab.details?.city?.let { region ->
                         Pill(region, variant = PillVariant.BACKGROUND)
                     }
                 }

@@ -5,6 +5,7 @@ import com.nux.studio.studtourism.data.local.models.lab.Lab
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
 import com.nux.studio.studtourism.data.remote.models.EditUser
 import com.nux.studio.studtourism.data.remote.models.User
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.*
 

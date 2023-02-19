@@ -15,6 +15,9 @@ import com.nux.studio.studtourism.MainActivity
 import com.nux.studio.studtourism.R
 
 class NotificationFirebaseMessagingService : FirebaseMessagingService() {
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+    }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
@@ -30,8 +33,8 @@ class NotificationFirebaseMessagingService : FirebaseMessagingService() {
             this, CODE, intent, PendingIntent.FLAG_ONE_SHOT
         )
 
-        val channelId = getString(R.string.notification_channel_id)
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val channelId = getString(R.string.notification_channel_id);
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         val notificationBuilder =
             NotificationCompat.Builder(this, channelId)
@@ -40,7 +43,7 @@ class NotificationFirebaseMessagingService : FirebaseMessagingService() {
                 .setSmallIcon(R.drawable.notifications)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent)
+                .setContentIntent(pendingIntent);
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -50,10 +53,10 @@ class NotificationFirebaseMessagingService : FirebaseMessagingService() {
                 channelId,
                 "Channel human readable title",
                 NotificationManager.IMPORTANCE_DEFAULT
-            )
-            notificationManager.createNotificationChannel(channel)
+            );
+            notificationManager.createNotificationChannel(channel);
         }
-        notificationManager.notify(CODE, notificationBuilder.build())
+        notificationManager.notify(CODE, notificationBuilder.build());
     }
 
     companion object {

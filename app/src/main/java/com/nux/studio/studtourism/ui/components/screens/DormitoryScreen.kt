@@ -96,7 +96,7 @@ fun DormitoryScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
             item {
-                LazyRow {
+                LazyRow() {
                     item {
                         dormitory.details?.mainInfo?.photos?.forEach { photoUrl ->
                             AsyncImage(
@@ -440,8 +440,8 @@ private fun Rules(
             .padding(horizontal = 15.dp)
             .then(modifier)
     ) {
-        val uniDoc = rules.requiredUniDocuments
-        val studentsDocs = rules.requiredStudentsDocuments
+        val uniDoc = rules.requiredUniDocuments;
+        val studentsDocs = rules.requiredStudentsDocuments;
         if (studentsDocs == uniDoc && studentsDocs != null) {
             RulesHeader(
                 text = "Перечень необходимых документов и требований"
