@@ -24,10 +24,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.lab.Lab
-import com.nux.studio.studtourism.ui.components.atoms.Mail
-import com.nux.studio.studtourism.ui.components.atoms.Phone
-import com.nux.studio.studtourism.ui.components.atoms.Pill
-import com.nux.studio.studtourism.ui.components.atoms.PillVariant
+import com.nux.studio.studtourism.ui.components.atoms.*
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel

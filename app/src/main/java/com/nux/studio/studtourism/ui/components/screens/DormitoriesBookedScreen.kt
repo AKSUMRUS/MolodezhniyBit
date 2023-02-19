@@ -51,7 +51,7 @@ fun DormitoriesBookedScreen(
             LoadingViewCenter()
         } else {
             if (viewModel.state.dormitoriesBookedList.isEmpty()) {
-                HeadlineH4(text = "Нет брони")
+                HeadlineH4(text = "Нет брони", Modifier.align(Alignment.Center))
             } else {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(1),
