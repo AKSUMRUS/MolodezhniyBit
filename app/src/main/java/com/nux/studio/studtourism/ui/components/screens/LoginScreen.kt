@@ -8,7 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -17,7 +16,6 @@ import com.nux.studio.studtourism.ui.components.atoms.authforms.EmailInputField
 import com.nux.studio.studtourism.ui.components.atoms.authforms.Label
 import com.nux.studio.studtourism.ui.components.atoms.authforms.PasswordInputField
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH3
-import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 import com.nux.studio.studtourism.ui.viewmodels.SignUpViewModel
 
 @Composable
@@ -50,8 +48,7 @@ fun LoginScreen(
 
     Box(
         modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(color = MaterialTheme.colors.surface)
     ) {
         Column(

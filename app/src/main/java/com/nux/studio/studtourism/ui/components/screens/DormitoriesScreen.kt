@@ -76,7 +76,9 @@ fun DormitoriesScreen(
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         contentPadding = PaddingValues(top = 10.dp, start = 0.dp, end = 0.dp),
-                        modifier = Modifier.background(MaterialTheme.colors.background),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colors.background),
                     ) {
                         Log.d("Dormitories", filters.toString())
                         itemsIndexed(list) { index, dormitory ->
