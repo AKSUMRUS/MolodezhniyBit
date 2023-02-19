@@ -1,4 +1,4 @@
-# Mobile app for [студтуризм.рф](студтуризм.рф)
+# Mobile app for [студтуризм.рф](https://студтуризм.рф)
 
 Useable native app representation of the site. Have almost all site features, with more accurate implementation.
 
