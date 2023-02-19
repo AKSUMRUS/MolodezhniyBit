@@ -134,7 +134,7 @@ fun CardDormitoryBooked(
                         onClick = {
                             viewModel.cancelDormitoryBooking(
                                 CancelBooking(
-                                    id = dormitoryBooked.dormitoryId,
+                                    id = dormitoryBooked.dormitoryId ?: "0",
                                     dates = dormitoryBooked.dates
                                 )
                             )
