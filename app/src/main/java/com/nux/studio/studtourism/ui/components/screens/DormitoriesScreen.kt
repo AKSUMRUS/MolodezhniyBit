@@ -27,6 +27,7 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.nux.studio.studtourism.R
+import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.ui.components.molecules.BottomSheet
 import com.nux.studio.studtourism.ui.components.molecules.CardDormitory
 import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
@@ -62,6 +63,15 @@ fun DormitoriesScreen(
             if (isLoading) {
                 LoadingViewCenter()
             } else {
+                val list = viewModel.state.dormitoriesList.filter { item ->
+                    var can = true
+                    if (!filters.city.isNullOrEmpty()) {
+                        can =
+                            can && (item.details?.mainInfo?.city?.contains(filters.city.toString())
+                                ?: false)
+                    }
+                    can
+                }
                 if (indexView == 0) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
@@ -69,15 +79,6 @@ fun DormitoriesScreen(
                         modifier = Modifier.background(MaterialTheme.colors.background),
                     ) {
                         Log.d("Dormitories", filters.toString())
-                        val list = viewModel.state.dormitoriesList.filter { item ->
-                            var can = true
-                            if (!filters.city.isNullOrEmpty()) {
-                                can =
-                                    can && (item.details?.mainInfo?.city?.contains(filters.city.toString())
-                                        ?: false)
-                            }
-                            can
-                        }
                         itemsIndexed(list) { index, dormitory ->
                             if (index % 2 == 0) {
                                 height = (200..400).random()
@@ -103,7 +104,8 @@ fun DormitoriesScreen(
                     ) {
                         GoogleMapView(
                             viewModel = viewModel,
-                            navController = navController
+                            navController = navController,
+                            list = list
                         )
                     }
                 }
@@ -143,8 +145,9 @@ fun DormitoriesScreen(
 private fun GoogleMapView(
     viewModel: MainViewModel,
     navController: NavController,
+    list: List<Dormitory>
 ) {
-    val markers = viewModel.state.dormitoriesList
+    val markers = list
         .mapNotNull { dormitory ->
             val latitude = dormitory.details?.mainInfo?.coordinates?.lat?.toDouble()
             val longitude = dormitory.details?.mainInfo?.coordinates?.lng?.toDouble()
