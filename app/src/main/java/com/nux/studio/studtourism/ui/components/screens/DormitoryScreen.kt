@@ -377,6 +377,30 @@ fun DormitoryScreen(
                 fontWeight = FontWeight.Bold,
             )
         }
+
+        Row(
+            modifier = Modifier
+                .padding(25.dp)
+                .align(Alignment.TopStart)
+                .clickable {
+                    navController.popBackStack()
+                }
+        ) {
+            Icon(
+                ImageVector.vectorResource(id = R.drawable.ic_back),
+                contentDescription = "go back",
+                tint = Color.White,
+                modifier = Modifier
+                    .padding(
+                        top = 4.dp,
+                        end = 12.dp
+                    )
+            )
+            Text(
+                text = "Назад",
+                color = Color.White
+            )
+        }
     }
 }
 

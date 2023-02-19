@@ -83,7 +83,8 @@ fun AppNavGraph(
             val index = backStackEntry.arguments?.getInt("index", 0) ?: 0
             EventScreen(
                 index = index,
-                viewModel = viewModel
+                viewModel = viewModel,
+                navController = navController
             )
         }
         composable(
@@ -98,7 +99,8 @@ fun AppNavGraph(
             val index = backStackEntry.arguments?.getInt("index", 0) ?: 0
             LabScreen(
                 index = index,
-                viewModel = viewModel
+                viewModel = viewModel,
+                navController = navController
             )
         }
         composable(

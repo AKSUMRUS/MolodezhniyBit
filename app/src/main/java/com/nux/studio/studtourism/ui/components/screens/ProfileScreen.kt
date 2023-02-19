@@ -1,7 +1,6 @@
 package com.nux.studio.studtourism.ui.components.screens
 
 import android.app.DatePickerDialog
-import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -14,17 +13,18 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -96,194 +96,195 @@ fun ProfileScreen(
         viewModel.uploadImage(bitmap)
     }
 
-    Row(
-        modifier = Modifier.padding(32.dp)
-    ) {
-        Icon(
-            ImageVector.vectorResource(id = R.drawable.ic_back),
-            contentDescription = "go back",
-            tint = Color.White,
-            modifier = Modifier
-                .padding(
-                    top = 4.dp,
-                    end = 12.dp
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn {
+            item {
+                val photo = state.user?.avatar
+                AsyncImage(
+                    model = photo,
+                    contentDescription = "Фото профиля",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(
+                            RoundedCornerShape(
+                                topStart = 0.dp,
+                                topEnd = 0.dp,
+                                bottomStart = 20.dp,
+                                bottomEnd = 20.dp,
+                            )
+                        )
+                        .height(445.dp)
+                        .padding(0.dp)
+                        .clickable {
+                            launcher.launch("image/*")
+                        },
+                    contentScale = ContentScale.Crop
                 )
-                .clickable {
+            }
+            item {
+                TitleText("Основная информация")
+            }
+            //Фамилия
+            item {
+                InputFieldItem(
+                    title = "Фамилия",
+                    text = lastName,
+                    onValueChange = viewModel::setLastName
+                )
+            }
+            //Имя
+            item {
+                InputFieldItem(
+                    title = "Имя",
+                    text = firstName,
+                    onValueChange = viewModel::setFirstName
+                )
+            }
+            //Отчество
+            item {
+                InputFieldItem(
+                    title = "Отчество",
+                    text = middleName,
+                    onValueChange = viewModel::setMiddleName
+                )
+            }
+            // Дата рождения
+            item {
+                InputFieldItem(
+                    title = "Дата рождения",
+                    text = birthDate,
+                    onValueChange = viewModel::setBirthDate,
+                    trailingIcon = {
+                        Icon(
+                            ImageVector.vectorResource(id = R.drawable.icon_calendar),
+                            tint = Color.Black,
+                            contentDescription = "calendar",
+                            modifier = Modifier
+                                .clickable {
+                                    datePickerDialog.show()
+                                }
+                        )
+                    }
+                )
+            }
+            // Пол
+            item {
+                InputFieldItem(
+                    title = "Пол",
+                    text = gender,
+                    onValueChange = viewModel::setGender
+                )
+            }
+            // Город отправления
+            item {
+                InputFieldItem(
+                    title = "Город отправления",
+                    text = departureCity,
+                    onValueChange = viewModel::setDepartureCity
+                )
+            }
+            item {
+                TitleText(text = "Контакты", topPadding = 48.dp)
+            }
+            item {
+                InputFieldItem(
+                    title = "E-mail",
+                    text = email,
+                    onValueChange = viewModel::setEmail
+                )
+            }
+            item {
+                InputFieldItem(
+                    title = "Телефон",
+                    text = phone,
+                    onValueChange = viewModel::setPhone
+                )
+            }
+            item {
+                TitleText(text = "Данные о студенте", topPadding = 48.dp)
+            }
+            item {
+                InputFieldItem(
+                    title = "Роль",
+                    text = studentRoleType,
+                    onValueChange = viewModel::setStudentRoleType
+                )
+            }
+            item {
+                InputFieldItem(
+                    title = "ВУЗ",
+                    text = universityName,
+                    onValueChange = viewModel::setUniversity
+                )
+            }
+            item {
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = "Выйти из аккаунта",
+                    color = Color.Red,
+                    modifier = Modifier
+                        .padding(top = 24.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            viewModel.logout()
+                            navController.popBackStack()
+                        }
 
-                }
-        )
-        Text(
-            text = "Назад",
-            color = Color.White,
-            modifier = Modifier.clickable {
+                )
 
             }
-        )
-    }
-
-    LazyColumn {
-        item {
-            val photo = state.user?.avatar
-            AsyncImage(
-                model = photo,
-                contentDescription = "Фото профиля",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = 0.dp,
-                            topEnd = 0.dp,
-                            bottomStart = 20.dp,
-                            bottomEnd = 20.dp,
+            item {
+                ButtonPrimary(
+                    text = "Сохранить изменения",
+                    textColor = MaterialTheme.colors.onSurface,
+                    buttonColor = MaterialTheme.colors.surface,
+                    onClick = {
+                        viewModel.editProfile(
+                            lastName = lastName,
+                            firstName = firstName,
+                            middleName = middleName,
+                            birthday = birthDate,
+                            departureCity = departureCity,
+                            gender = gender,
+                            email = email,
+                            phone = phone,
+                            studentRoleType = studentRoleType,
+                            universityName = universityName
                         )
-                    )
-                    .height(445.dp)
-                    .padding(0.dp)
-                    .clickable {
-                        launcher.launch("image/*")
                     },
-                contentScale = ContentScale.Crop
-            )
+                    modifier = Modifier
+                        .padding(
+                            top = 24.dp,
+                            bottom = 24.dp,
+                            start = 16.dp,
+                            end = 16.dp,
+                        )
+                        .fillMaxWidth()
+                )
+            }
         }
-        item {
-            TitleText("Основная информация")
-        }
-        //Фамилия
-        item {
-            InputFieldItem(
-                title = "Фамилия",
-                text = lastName,
-                onValueChange = viewModel::setLastName
-            )
-        }
-        //Имя
-        item {
-            InputFieldItem(
-                title = "Имя",
-                text = firstName,
-                onValueChange = viewModel::setFirstName
-            )
-        }
-        //Отчество
-        item {
-            InputFieldItem(
-                title = "Отчество",
-                text = middleName,
-                onValueChange = viewModel::setMiddleName
-            )
-        }
-        // Дата рождения
-        item {
-            InputFieldItem(
-                title = "Дата рождения",
-                text = birthDate,
-                onValueChange = viewModel::setBirthDate,
-                trailingIcon = {
-                    Icon(
-                        ImageVector.vectorResource(id = R.drawable.icon_calendar),
-                        tint = Color.Black,
-                        contentDescription = "calendar",
-                        modifier = Modifier
-                            .clickable {
-                                datePickerDialog.show()
-                            }
-                    )
+
+        Row(
+            modifier = Modifier
+                .padding(25.dp)
+                .align(Alignment.TopStart)
+                .clickable {
+                    navController.popBackStack()
                 }
-            )
-        }
-        // Пол
-        item {
-            InputFieldItem(
-                title = "Пол",
-                text = gender,
-                onValueChange = viewModel::setGender
-            )
-        }
-        // Город отправления
-        item {
-            InputFieldItem(
-                title = "Город отправления",
-                text = departureCity,
-                onValueChange = viewModel::setDepartureCity
-            )
-        }
-        item {
-            TitleText(text = "Контакты", topPadding = 48.dp)
-        }
-        item {
-            InputFieldItem(
-                title = "E-mail",
-                text = email,
-                onValueChange = viewModel::setEmail
-            )
-        }
-        item {
-            InputFieldItem(
-                title = "Телефон",
-                text = phone,
-                onValueChange = viewModel::setPhone
-            )
-        }
-        item {
-            TitleText(text = "Данные о студенте", topPadding = 48.dp)
-        }
-        item {
-            InputFieldItem(
-                title = "Роль",
-                text = studentRoleType,
-                onValueChange = viewModel::setStudentRoleType
-            )
-        }
-        item {
-            InputFieldItem(
-                title = "ВУЗ",
-                text = universityName,
-                onValueChange = viewModel::setUniversity
-            )
-        }
-        item {
-            Text(
-                textAlign = TextAlign.Center,
-                text = "Выйти из аккаунта",
-                color = Color.Red,
-                modifier = Modifier
-                    .padding(top = 24.dp)
-                    .fillMaxWidth()
-                    .clickable {
-                        viewModel.logout()
-                        navController.popBackStack()
-                    }
-
-            )
-
-        }
-        item {
-            ButtonPrimary(
-                text = "Сохранить изменения",
-                textColor = MaterialTheme.colors.onSurface,
-                buttonColor = MaterialTheme.colors.surface,
-                onClick = {
-                    viewModel.editProfile(
-                        lastName = lastName,
-                        firstName = firstName,
-                        middleName = middleName,
-                        birthday = birthDate,
-                        departureCity = departureCity,
-                        gender = gender,
-                        email = email,
-                        phone = phone,
-                        studentRoleType = studentRoleType,
-                        universityName = universityName
-                    )
-                },
+        ) {
+            Icon(
+                ImageVector.vectorResource(id = R.drawable.ic_back),
+                contentDescription = "go back",
+                tint = Color.White,
                 modifier = Modifier
                     .padding(
-                        top = 24.dp,
-                        bottom = 24.dp,
-                        start = 16.dp,
-                        end = 16.dp,
+                        top = 4.dp,
+                        end = 12.dp
                     )
-                    .fillMaxWidth()
+            )
+            Text(
+                text = "Назад",
+                color = Color.White
             )
         }
     }
