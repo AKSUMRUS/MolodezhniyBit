@@ -1,9 +1,7 @@
 package com.nux.studio.studtourism.ui.components.molecules
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,23 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.nux.studio.studtourism.R
-import com.nux.studio.studtourism.data.local.models.*
+import com.nux.studio.studtourism.data.local.models.DormitoryBooked
+import com.nux.studio.studtourism.data.local.models.Room
 import com.nux.studio.studtourism.ui.components.atoms.*
 import com.nux.studio.studtourism.ui.components.atoms.texts.Body1
-import com.nux.studio.studtourism.ui.components.atoms.texts.Body2
-import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH2
-import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 
 @Composable
@@ -41,8 +32,8 @@ fun CardDormitoryBooked(
 ) {
     val dormitory = viewModel.state.dormitoriesList.find { it.id == dormitoryBooked.dormitoryId }
     val room: Room? = dormitory?.rooms?.get(dormitoryBooked.roomId)
-    val price: String? = room?.details?.price;
-    val dates: String? = dormitoryBooked.dates?.let { "${it.from} - ${it.to}" };
+    val price: String? = room?.details?.price
+    val dates: String? = dormitoryBooked.dates?.let { "${it.from} - ${it.to}" }
 
     Card(
         elevation = 10.dp,

@@ -13,10 +13,10 @@ data class Dormitory (
 )
 
 fun getFormattedPrice(dormitory: Dormitory): String {
-    var minPrice: Int? = null;
-    var maxPrice: Int? = null;
+    var minPrice: Int? = null
+    var maxPrice: Int? = null
     dormitory.rooms?.forEach { entry ->
-        val price = entry.value.details?.price?.toIntOrNull();
+        val price = entry.value.details?.price?.toIntOrNull()
         if (price != null) {
             if (minPrice == null || price < minPrice!!) {
                 minPrice = price
@@ -44,25 +44,25 @@ fun getFormattedDays(dormitory: Dormitory): String? {
         if (minDays == maxDays) {
             return "$minDays дней"
         }
-        return "$minDays – $maxDays дней";
+        return "$minDays – $maxDays дней"
     } else {
-        return null;
+        return null
     }
 }
 
 fun getFormattedAddress(dormitory: Dormitory): String {
     val address_parts = mutableListOf<String?>()
-    val city = dormitory.details?.mainInfo?.city;
+    val city = dormitory.details?.mainInfo?.city
     if (!city.isNullOrEmpty()) {
-        address_parts.add(city);
+        address_parts.add(city)
     }
-    val street = dormitory.details?.mainInfo?.street;
+    val street = dormitory.details?.mainInfo?.street
     if (!street.isNullOrEmpty()) {
-        address_parts.add(street);
+        address_parts.add(street)
     }
-    val house = dormitory.details?.mainInfo?.houseNumber;
+    val house = dormitory.details?.mainInfo?.houseNumber
     if (!house.isNullOrEmpty()) {
-        address_parts.add(house);
+        address_parts.add(house)
     }
     val address = address_parts.joinToString(", ")
     return if (address.isNotEmpty()) {

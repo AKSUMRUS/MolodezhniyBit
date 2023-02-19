@@ -82,19 +82,7 @@ class ProfileRepository @Inject constructor(
         val editUser = EditUser(
             id = id,
             email = email,
-            firstName = firstName,
-            lastName = lastName,
-            middleName = middleName,
-            gender = gender,
-            departureCity = departureCity,
-            phone = phone,
-            socialUrl = socialUrl,
-            universityName = universityName,
-            avatar = avatar,
-            birthday = birthday,
-            WoS = WoS,
-            WoS1 = WoS1,
-            studentRoleType = studentRoleType
+            phone = phone
         )
 
         val request = api.editUser(editUser)

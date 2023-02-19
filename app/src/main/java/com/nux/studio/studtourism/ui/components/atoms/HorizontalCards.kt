@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 
 @Composable
 fun HorizontalCardsContainer(

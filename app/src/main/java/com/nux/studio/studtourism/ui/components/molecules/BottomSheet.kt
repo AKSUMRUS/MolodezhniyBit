@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -15,8 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nux.studio.studtourism.ui.components.atoms.*
-import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH2
+import com.nux.studio.studtourism.ui.components.atoms.DateSelect
+import com.nux.studio.studtourism.ui.components.atoms.Grabber
+import com.nux.studio.studtourism.ui.components.atoms.Select
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.ui.states.FilterState
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel

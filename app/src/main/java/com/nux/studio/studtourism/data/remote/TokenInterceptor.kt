@@ -1,7 +1,6 @@
 package com.nux.studio.studtourism.data.remote
 
 import android.content.Context
-import com.nux.studio.studtourism.data.repository.AuthRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Interceptor
 import okhttp3.Response

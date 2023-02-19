@@ -1,14 +1,12 @@
 package com.nux.studio.studtourism.ui.viewmodels
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nux.studio.studtourism.data.repository.UniversityRepository
-import com.nux.studio.studtourism.ui.states.MainState
 import com.nux.studio.studtourism.ui.states.UniversityState
 import com.nux.studio.studtourism.ui.viewmodels.error.ErrorMapper
 import com.nux.studio.studtourism.util.Resource

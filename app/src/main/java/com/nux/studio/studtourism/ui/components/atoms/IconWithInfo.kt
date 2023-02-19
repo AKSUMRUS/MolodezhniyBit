@@ -1,7 +1,6 @@
 package com.nux.studio.studtourism.ui.components.atoms
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.nux.studio.studtourism.R
 
 @Composable
@@ -62,9 +60,9 @@ fun Price(
 
 fun formatPrice(price: String?): String {
     if (price == "0") {
-        return "Бесплатно";
+        return "Бесплатно"
     }
-    return price?.plus("₽") ?: "Цена не указана";
+    return price?.plus("₽") ?: "Цена не указана"
 }
 
 @Composable

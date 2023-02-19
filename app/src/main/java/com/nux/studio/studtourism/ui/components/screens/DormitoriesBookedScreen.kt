@@ -2,7 +2,10 @@ package com.nux.studio.studtourism.ui.components.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -20,7 +23,6 @@ import androidx.navigation.NavController
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH4
 import com.nux.studio.studtourism.ui.components.molecules.BottomSheet
-import com.nux.studio.studtourism.ui.components.molecules.CardDormitory
 import com.nux.studio.studtourism.ui.components.molecules.CardDormitoryBooked
 import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
