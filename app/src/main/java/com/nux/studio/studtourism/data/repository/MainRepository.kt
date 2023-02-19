@@ -7,10 +7,12 @@ import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.data.local.models.lab.Lab
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.util.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 import javax.inject.Inject
 
@@ -67,6 +69,14 @@ class MainRepository @Inject constructor(
 
         emit(Resource.Success(Unit))
         emit(Resource.Loading(false))
+    }
+
+    suspend fun cancelDormitoryBooking(
+        booking: CancelBooking
+    ) {
+        withContext(Dispatchers.IO) {
+            api.cancelDormitoryBooking(booking).execute()
+        }
     }
 
     suspend fun getDormitories() {

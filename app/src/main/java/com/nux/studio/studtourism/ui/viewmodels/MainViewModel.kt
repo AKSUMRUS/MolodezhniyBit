@@ -6,10 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nux.studio.studtourism.data.local.models.Committee
-import com.nux.studio.studtourism.data.local.models.Dormitory
-import com.nux.studio.studtourism.data.local.models.DormitoryBookingRequest
-import com.nux.studio.studtourism.data.local.models.Event
+import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.data.repository.MainRepository
 import com.nux.studio.studtourism.data.repository.ProfileRepository
 import com.nux.studio.studtourism.ui.states.FilterState
@@ -50,6 +47,14 @@ class MainViewModel @Inject constructor(
         subscribeEditProfileFlow()
         subscribeDormitoriesFlow()
         subscribeProfileFlow()
+    }
+
+    fun cancelDormitoryBooking(
+        booking: CancelBooking
+    ) {
+        viewModelScope.launch {
+            repository.cancelDormitoryBooking(booking)
+        }
     }
 
     fun filterInfo(dormitories: List<Dormitory>?) {

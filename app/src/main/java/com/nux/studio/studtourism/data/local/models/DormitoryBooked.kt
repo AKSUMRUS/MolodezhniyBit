@@ -5,7 +5,7 @@ data class DatesBooked(
     val to: String? = "2023-02-02",
 )
 data class DormitoryBooked(
-    val dates: DatesBooked?,
+    val dates: DatesBooked = DatesBooked(),
     val author: Author?,
     val userId: String?,
     val universityId: String?,
