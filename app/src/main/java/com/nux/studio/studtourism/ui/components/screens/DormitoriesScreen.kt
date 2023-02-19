@@ -10,16 +10,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.material.*
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.rememberCameraPositionState
 import com.nux.studio.studtourism.R
+import com.nux.studio.studtourism.data.local.models.Coordinates
 import com.nux.studio.studtourism.ui.components.molecules.BottomSheet
 import com.nux.studio.studtourism.ui.components.molecules.CardDormitory
 import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
@@ -36,7 +43,7 @@ fun DormitoriesScreen(
 
     var height = (200..400).random()
 
-    var indexView by remember { mutableStateOf(0) }
+    var indexView = viewModel.state.indexView
 
     val filters = viewModel.filterState
 
@@ -55,7 +62,7 @@ fun DormitoriesScreen(
             if (isLoading) {
                 LoadingViewCenter()
             } else {
-                if(indexView == 0) {
+                if (indexView == 0) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         contentPadding = PaddingValues(top = 10.dp, start = 0.dp, end = 0.dp),
@@ -88,14 +95,16 @@ fun DormitoriesScreen(
                             )
                         }
                     }
-                }
-                else if(indexView == 1) {
+                } else if (indexView == 1) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(MaterialTheme.colors.background)
                     ) {
-                        Text("map")
+                        GoogleMapView(
+                            viewModel = viewModel,
+                            navController = navController
+                        )
                     }
                 }
             }
@@ -117,10 +126,10 @@ fun DormitoriesScreen(
             }
 
             SegmentControlMap(
-                items = listOf("Лента","Карта"),
+                items = listOf("Лента", "Карта"),
                 defaultSelectedItemIndex = indexView,
                 onItemSelection = { index ->
-                    indexView = index
+                    viewModel.setIndexView(index)
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -129,3 +138,62 @@ fun DormitoriesScreen(
         }
     }
 }
+
+@Composable
+private fun GoogleMapView(
+    viewModel: MainViewModel,
+    navController: NavController,
+) {
+    val center = LatLng(62.204214, 87.531250)
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(center, 2f)
+    }
+
+
+    val markers = viewModel.state.dormitoriesList
+        .mapNotNull { dormitory ->
+            val latitude = dormitory.details?.mainInfo?.coordinates?.lat?.toDouble()
+            val longitude = dormitory.details?.mainInfo?.coordinates?.lng?.toDouble()
+
+            if (latitude == null || longitude == null) {
+                return@mapNotNull null
+            }
+
+            val coordinates = LatLng(latitude, longitude)
+
+            MarkerInfo(
+                id = dormitory.id,
+                state = MarkerState(coordinates),
+                title = dormitory.details.mainInfo.name,
+                snippet = dormitory.details.district,
+            )
+        }
+
+    GoogleMap(
+        modifier = Modifier.fillMaxSize(),
+        cameraPositionState = cameraPositionState
+    ) {
+        markers.forEach { markerInfo ->
+            Marker(
+                state = markerInfo.state,
+                title = markerInfo.title,
+                snippet = markerInfo.snippet,
+                onClick = {
+                    navController.navigate(
+                        "dormitory?index=${markerInfo.id}"
+                    )
+                    true
+                }
+            )
+        }
+    }
+}
+
+
+private data class MarkerInfo(
+    val id: String,
+    val state: MarkerState,
+    val title: String?,
+    val snippet: String?,
+)
+

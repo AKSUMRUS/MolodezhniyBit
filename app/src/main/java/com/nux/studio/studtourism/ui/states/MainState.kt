@@ -11,5 +11,6 @@ data class MainState(
     val labsList: List<Lab> = emptyList(),
     val dormitoriesBookedList: List<DormitoryBooked> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val indexView: Int = 0,
 )
