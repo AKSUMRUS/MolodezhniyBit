@@ -1,7 +1,6 @@
 package com.nux.studio.studtourism.ui.viewmodels
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,40 +10,45 @@ import com.nux.studio.studtourism.data.local.models.Committee
 import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.data.local.models.DormitoryBookingRequest
 import com.nux.studio.studtourism.data.repository.MainRepository
+import com.nux.studio.studtourism.data.repository.ProfileRepository
 import com.nux.studio.studtourism.ui.states.FilterState
 import com.nux.studio.studtourism.ui.states.MainState
 import com.nux.studio.studtourism.ui.viewmodels.error.ErrorMapper
 import com.nux.studio.studtourism.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    private val repository: MainRepository
+    private val repository: MainRepository,
+    private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
     private val errorMapper = ErrorMapper(context)
     private var _state by mutableStateOf(MainState())
-    val state : MainState
+    val state: MainState
         get() = _state
 
     var filterState by mutableStateOf(FilterState())
 
     var cities: Set<String> = emptySet()
-    private set
+        private set
 
     var districts: Set<String> = emptySet()
-    private set
+        private set
 
     var committees: Set<Committee> = emptySet()
         private set
 
     init {
+        loadProfile()
+        subscribeEditProfileFlow()
         subscribeDormitoriesFlow()
+        subscribeProfileFlow()
     }
 
     fun filterInfo(dormitories: List<Dormitory>?) {
@@ -78,18 +82,18 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             repository.makeDormitoryBooking(
                 booking = bookingRequest
-            ).collect {result ->
+            ).collect { result ->
                 when (result) {
                     is Resource.Success -> {
 
                     }
                     is Resource.Loading -> {
-                        result.isLoading.let {data ->
+                        result.isLoading.let { data ->
                             _state = _state.copy(isLoading = data)
                         }
                     }
                     is Resource.Error -> {
-                        result.message?.let {error ->
+                        result.message?.let { error ->
                             _state = _state.copy(error = errorMapper.map(error))
                         }
                     }
@@ -109,18 +113,18 @@ class MainViewModel @Inject constructor(
             repository.dormitoriesFlow.collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        result.data?.let {data ->
+                        result.data?.let { data ->
                             _state = _state.copy(dormitoriesList = data)
                             filterInfo(data)
                         }
                     }
                     is Resource.Loading -> {
-                        result.isLoading.let {data ->
+                        result.isLoading.let { data ->
                             _state = _state.copy(isLoading = data)
                         }
                     }
                     is Resource.Error -> {
-                        result.message?.let {error ->
+                        result.message?.let { error ->
                             _state = _state.copy(error = errorMapper.map(error))
                         }
                     }
@@ -134,17 +138,17 @@ class MainViewModel @Inject constructor(
             repository.getEvents().collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        result.data?.let {data ->
+                        result.data?.let { data ->
                             _state = _state.copy(eventsList = data)
                         }
                     }
                     is Resource.Loading -> {
-                        result.isLoading.let {data ->
+                        result.isLoading.let { data ->
                             _state = _state.copy(isLoading = data)
                         }
                     }
                     is Resource.Error -> {
-                        result.message?.let {error ->
+                        result.message?.let { error ->
                             _state = _state.copy(error = errorMapper.map(error))
                         }
                     }
@@ -158,40 +162,17 @@ class MainViewModel @Inject constructor(
             repository.getLabs().collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        result.data?.let {data ->
+                        result.data?.let { data ->
                             _state = _state.copy(labsList = data)
                         }
                     }
                     is Resource.Loading -> {
-                        result.isLoading.let {data ->
+                        result.isLoading.let { data ->
                             _state = _state.copy(isLoading = data)
                         }
                     }
                     is Resource.Error -> {
-                        result.message?.let {error ->
-                            _state = _state.copy(error = errorMapper.map(error))
-                        }
-                    }
-                }
-            }
-        }
-    }
-    fun getDormitoriesBooked() {
-        viewModelScope.launch {
-            repository.getDormitoriesBooked().collect { result ->
-                when (result) {
-                    is Resource.Success -> {
-                        result.data?.let {data ->
-                            _state = _state.copy(dormitoriesBookedList = data)
-                        }
-                    }
-                    is Resource.Loading -> {
-                        result.isLoading.let {data ->
-                            _state = _state.copy(isLoading = data)
-                        }
-                    }
-                    is Resource.Error -> {
-                        result.message?.let {error ->
+                        result.message?.let { error ->
                             _state = _state.copy(error = errorMapper.map(error))
                         }
                     }
@@ -200,8 +181,75 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun getDormitoriesBooked() {
+        viewModelScope.launch {
+            repository.getDormitoriesBooked().collect { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        result.data?.let { data ->
+                            _state = _state.copy(dormitoriesBookedList = data)
+                        }
+                    }
+                    is Resource.Loading -> {
+                        result.isLoading.let { data ->
+                            _state = _state.copy(isLoading = data)
+                        }
+                    }
+                    is Resource.Error -> {
+                        result.message?.let { error ->
+                            _state = _state.copy(error = errorMapper.map(error))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loadProfile() {
+        viewModelScope.launch {
+            profileRepository.loadProfile()
+        }
+    }
+
+    private fun subscribeEditProfileFlow() {
+        viewModelScope.launch {
+            profileRepository.editUserFlow.collectLatest { result ->
+                if (result is Resource.Success && result.data?.starredDormitories != null) {
+                    _state = _state.copy(
+                        starredDormitories = result.data.starredDormitories.toSet()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun subscribeProfileFlow() {
+        viewModelScope.launch {
+            profileRepository.profileFlow.collectLatest { result ->
+                if (result is Resource.Success && result.data?.starredDormitories != null) {
+                    _state = _state.copy(
+                        starredDormitories = result.data.starredDormitories.toSet()
+                    )
+                }
+            }
+        }
+    }
+
     fun setIndexView(index: Int) {
         _state = _state.copy(indexView = index)
+    }
+
+    fun favouriteDormitory(dormitory: Dormitory, isStarred: Boolean) {
+        val starredDormitories = when {
+            isStarred -> _state.starredDormitories.plus(dormitory.id)
+            else -> _state.starredDormitories.minus(dormitory.id)
+        }
+
+        viewModelScope.launch {
+            profileRepository.editUser(
+                starredDormitories = starredDormitories
+            )
+        }
     }
 
 }

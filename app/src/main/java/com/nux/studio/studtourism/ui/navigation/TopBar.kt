@@ -13,12 +13,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.TopAppBarActionButton
-import com.nux.studio.studtourism.data.repository.AuthRepository
 import com.nux.studio.studtourism.ui.components.atoms.CircleAsyncImage
 import com.nux.studio.studtourism.ui.viewmodels.AuthViewModel
 import com.nux.studio.studtourism.ui.viewmodels.ProfileViewModel
-import javax.inject.Inject
-
 
 
 @Composable
@@ -59,7 +56,7 @@ fun TopBar(
             },
             actions = {
                 TopAppBarActionButton(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.favourites),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_favourite_not_selected),
                     description = "Search"
                 ) {
 
