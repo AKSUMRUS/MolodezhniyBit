@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.nux.studio.studtourism.data.local.models.Committee
 import com.nux.studio.studtourism.data.local.models.Dormitory
 import com.nux.studio.studtourism.data.local.models.DormitoryBookingRequest
+import com.nux.studio.studtourism.data.local.models.Event
 import com.nux.studio.studtourism.data.repository.MainRepository
 import com.nux.studio.studtourism.data.repository.ProfileRepository
 import com.nux.studio.studtourism.ui.states.FilterState
@@ -214,9 +215,19 @@ class MainViewModel @Inject constructor(
     private fun subscribeEditProfileFlow() {
         viewModelScope.launch {
             profileRepository.editUserFlow.collectLatest { result ->
-                if (result is Resource.Success && result.data?.starredDormitories != null) {
+
+                if (result is Resource.Success) {
+                    val starredDormitories = when {
+                        result.data?.starredDormitories != null -> result.data.starredDormitories.toSet()
+                        else -> _state.starredDormitories
+                    }
+                    val starredEvents = when {
+                        result.data?.starredEvents != null -> result.data.starredEvents.toSet()
+                        else -> _state.starredEvents
+                    }
                     _state = _state.copy(
-                        starredDormitories = result.data.starredDormitories.toSet()
+                        starredDormitories = starredDormitories,
+                        starredEvents = starredEvents
                     )
                 }
             }
@@ -226,9 +237,18 @@ class MainViewModel @Inject constructor(
     private fun subscribeProfileFlow() {
         viewModelScope.launch {
             profileRepository.profileFlow.collectLatest { result ->
-                if (result is Resource.Success && result.data?.starredDormitories != null) {
+                if (result is Resource.Success) {
+                    val starredDormitories = when {
+                        result.data?.starredDormitories != null -> result.data.starredDormitories.toSet()
+                        else -> _state.starredDormitories
+                    }
+                    val starredEvents = when {
+                        result.data?.starredEvents != null -> result.data.starredEvents.toSet()
+                        else -> _state.starredEvents
+                    }
                     _state = _state.copy(
-                        starredDormitories = result.data.starredDormitories.toSet()
+                        starredDormitories = starredDormitories,
+                        starredEvents = starredEvents
                     )
                 }
             }
@@ -252,4 +272,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun favouriteEvent(event: Event, isStarred: Boolean) {
+        val starredEvents = when {
+            isStarred -> _state.starredEvents.plus(event.id)
+            else -> _state.starredEvents.minus(event.id)
+        }
+
+        viewModelScope.launch {
+            profileRepository.editUser(
+                starredEvents = starredEvents
+            )
+        }
+    }
 }

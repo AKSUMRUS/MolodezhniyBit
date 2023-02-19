@@ -13,5 +13,6 @@ data class MainState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val indexView: Int = 0,
-    val starredDormitories: Set<String> = emptySet()
+    val starredDormitories: Set<String> = emptySet(),
+    val starredEvents: Set<String> = emptySet()
 )

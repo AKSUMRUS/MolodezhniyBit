@@ -16,5 +16,6 @@ class EditUser (
     val WoS: String?,
     val WoS1: String?,
     val studentRoleType: String?,
-    val starredDormitories: Set<String>? = null
+    val starredDormitories: Set<String>? = null,
+    val starredEvents: Set<String>? = null
 )
