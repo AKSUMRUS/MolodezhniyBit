@@ -144,12 +144,6 @@ private fun GoogleMapView(
     viewModel: MainViewModel,
     navController: NavController,
 ) {
-    val center = LatLng(62.204214, 87.531250)
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(center, 2f)
-    }
-
-
     val markers = viewModel.state.dormitoriesList
         .mapNotNull { dormitory ->
             val latitude = dormitory.details?.mainInfo?.coordinates?.lat?.toDouble()
@@ -168,6 +162,20 @@ private fun GoogleMapView(
                 snippet = dormitory.details.district,
             )
         }
+
+    var latitudeSum = 0.0
+    var longitudeSum = 0.0
+    val size = markers.size
+    markers.forEach { marketInfo ->
+        latitudeSum += marketInfo.state.position.latitude
+        longitudeSum += marketInfo.state.position.longitude
+    }
+
+    val center = LatLng(latitudeSum / size, longitudeSum / size)
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(center, 3.5f)
+    }
+
 
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
