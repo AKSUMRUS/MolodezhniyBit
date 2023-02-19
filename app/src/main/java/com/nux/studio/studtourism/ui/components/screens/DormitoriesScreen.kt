@@ -64,7 +64,8 @@ fun DormitoriesScreen(
                     var can = true
                     if (!filters.city.isNullOrEmpty()) {
                         can =
-                            can && (item.details?.mainInfo?.city?.contains(filters.city.toString())
+                            can && (item.details?.mainInfo?.city?.lowercase()
+                                ?.contains(filters.city.toString().lowercase())
                                 ?: false)
                     }
                     can

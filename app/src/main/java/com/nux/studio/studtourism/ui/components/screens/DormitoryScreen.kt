@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -24,12 +26,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.ui.components.atoms.*
+import com.nux.studio.studtourism.ui.components.atoms.authforms.Label
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 import com.nux.studio.studtourism.ui.components.atoms.texts.Subtitle2
@@ -37,6 +41,10 @@ import com.nux.studio.studtourism.ui.navigation.SegmentControlTabs
 import com.nux.studio.studtourism.ui.viewmodels.AuthViewModel
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import com.nux.studio.studtourism.ui.viewmodels.UniversityViewModel
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatterBuilder
+import java.time.temporal.ChronoField
 import java.util.*
 import java.util.Date
 
@@ -61,6 +69,8 @@ fun DormitoryScreen(
     val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
     val month: Int = calendar.get(Calendar.MONTH)
     val year: Int = calendar.get(Calendar.YEAR)
+
+    val checkedCalendar = remember { mutableStateOf(false) }
 
     calendar.time = Date()
 
@@ -104,7 +114,13 @@ fun DormitoryScreen(
                                 contentDescription = "Фото общежития",
                                 modifier = Modifier
                                     .width(LocalConfiguration.current.screenWidthDp.dp)
-                                    .padding(0.dp),
+                                    .padding(0.dp)
+                                    .clip(
+                                        RoundedCornerShape(
+                                            bottomEnd = 30.dp,
+                                            bottomStart = 30.dp
+                                        )
+                                    ),
                                 contentScale = ContentScale.FillWidth
                             )
                         }
@@ -261,7 +277,7 @@ fun DormitoryScreen(
                     )
                     InputFieldScreenWithTitle(
                         title = "Комментарий",
-                        text = requestState.comment?: "",
+                        text = requestState.comment ?: "",
                         onValueChange = {
                             requestState = requestState.copy(comment = it)
                         }
@@ -270,6 +286,17 @@ fun DormitoryScreen(
 //                        text = "Документы",
 //                        modifier = Modifier.padding(15.dp, 0.dp)
 //                    )
+                    Row(
+                        modifier = Modifier
+                    ) {
+                        Label(text = "Добавить в календарь")
+                        Switch(
+                            checked = checkedCalendar.value,
+                            onCheckedChange = {
+                                checkedCalendar.value = it
+                            },
+                        )
+                    }
                 }
                 Box(modifier = Modifier.height(120.dp))
             }
@@ -293,6 +320,33 @@ fun DormitoryScreen(
                 }
                 else {
                     screenState = 0
+                    if (checkedCalendar.value) {
+                        val formatter = DateTimeFormatterBuilder()
+                            .appendPattern("dd.MM.yyyy")
+                            .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                            .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+                            .parseDefaulting(ChronoField.MILLI_OF_SECOND, 0)
+                            .toFormatter()
+                        val start: LocalDateTime =
+                            LocalDateTime.parse(requestState.dates.from, formatter)
+                        val startMillis: Long =
+                            start.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
+
+                        val end: LocalDateTime =
+                            LocalDateTime.parse(requestState.dates.to, formatter)
+                        val endMillis: Long =
+                            end.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
+
+                        val intent = Intent(Intent.ACTION_EDIT)
+                        intent.type = "vnd.android.cursor.item/event"
+                        intent.putExtra("beginTime", startMillis)
+                        intent.putExtra("allDay", true)
+                        intent.putExtra("rule", "FREQ=YEARLY")
+                        intent.putExtra("endTime", endMillis)
+                        intent.putExtra("title", dormitory.details?.mainInfo?.name)
+                        startActivity(context, intent, null)
+                    }
                     viewModel.makeDormitoryBooking(requestState)
                     navController.navigate(SegmentControlTabs.DORMITORIES.route) {
                         popUpTo(SegmentControlTabs.DORMITORIES.route) {
