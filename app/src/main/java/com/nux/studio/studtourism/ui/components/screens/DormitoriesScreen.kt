@@ -29,6 +29,8 @@ import com.nux.studio.studtourism.ui.components.molecules.BottomSheet
 import com.nux.studio.studtourism.ui.components.molecules.CardDormitory
 import com.nux.studio.studtourism.ui.components.molecules.LoadingViewCenter
 import com.nux.studio.studtourism.ui.components.molecules.SegmentControlMap
+import com.nux.studio.studtourism.ui.states.FilterState
+import com.nux.studio.studtourism.ui.states.SortOrder
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 
 @Composable
@@ -60,16 +62,7 @@ fun DormitoriesScreen(
             if (isLoading) {
                 LoadingViewCenter()
             } else {
-                val list = viewModel.state.dormitoriesList.filter { item ->
-                    var can = true
-                    if (!filters.city.isNullOrEmpty()) {
-                        can =
-                            can && (item.details?.mainInfo?.city?.lowercase()
-                                ?.contains(filters.city.toString().lowercase())
-                                ?: false)
-                    }
-                    can
-                }
+                val dormitories = filterDormitories(viewModel.state.dormitoriesList, filters);
                 if (indexView == 0) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
@@ -79,7 +72,7 @@ fun DormitoriesScreen(
                             .background(MaterialTheme.colors.background),
                     ) {
                         Log.d("Dormitories", filters.toString())
-                        itemsIndexed(list) { index, dormitory ->
+                        itemsIndexed(dormitories) { index, dormitory ->
                             if (index % 2 == 0) {
                                 height = (200..400).random()
                             }
@@ -105,7 +98,7 @@ fun DormitoriesScreen(
                         GoogleMapView(
                             viewModel = viewModel,
                             navController = navController,
-                            list = list
+                            dormitories = dormitories
                         )
                     }
                 }
@@ -141,13 +134,47 @@ fun DormitoriesScreen(
     }
 }
 
+private fun checkDormitory(
+    dormitory: Dormitory,
+    filters: FilterState
+): Boolean {
+    if (dormitory.details?.mainInfo?.name.isNullOrEmpty()) {
+        return false
+    }
+    if (dormitory.onModeration == true) {
+        return false
+    }
+    if (!filters.city.isNullOrEmpty()) {
+        if (dormitory.details?.mainInfo?.city?.contains(filters.city.toString()) != true) {
+            return false
+        }
+    }
+    return true
+}
+
+private fun filterDormitories(
+    dormitories: List<Dormitory>,
+    filters: FilterState
+): List<Dormitory> {
+    val filteredDormitories = dormitories.filter { item -> checkDormitory(item, filters) }
+    if (filters.nameBy != SortOrder.NONE) {
+        val selector = { dorm: Dormitory -> dorm.details?.mainInfo?.name }
+        if (filters.nameBy == SortOrder.ASCENDING) {
+            return filteredDormitories.sortedBy(selector)
+        } else {
+            return filteredDormitories.sortedByDescending(selector)
+        }
+    }
+    return filteredDormitories;
+}
+
 @Composable
 private fun GoogleMapView(
     viewModel: MainViewModel,
     navController: NavController,
-    list: List<Dormitory>
+    dormitories: List<Dormitory>
 ) {
-    val markers = list
+    val markers = dormitories
         .mapNotNull { dormitory ->
             val latitude = dormitory.details?.mainInfo?.coordinates?.lat?.toDouble()
             val longitude = dormitory.details?.mainInfo?.coordinates?.lng?.toDouble()
@@ -210,5 +237,3 @@ private data class MarkerInfo(
     val title: String?,
     val snippet: String?,
 )
-
-

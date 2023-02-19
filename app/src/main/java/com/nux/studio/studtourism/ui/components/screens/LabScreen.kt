@@ -85,12 +85,12 @@ fun LabScreen(
                     )
                     Text(text = description, modifier = Modifier.padding(horizontal = 15.dp))
                 }
-                university?.name?.let { name ->
+                university?.details?.name?.let { name ->
                     SectionHeader(
                         text = "Организация",
                         modifier = Modifier.padding(horizontal = 15.dp)
                     )
-                    Text(text = university.name, modifier = Modifier.padding(horizontal = 15.dp))
+                    Text(text = name, modifier = Modifier.padding(horizontal = 15.dp))
                 }
                 lab.details.unit?.let { unit ->
                     SectionHeader(

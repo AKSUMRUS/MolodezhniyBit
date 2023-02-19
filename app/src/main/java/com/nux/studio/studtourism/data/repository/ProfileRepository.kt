@@ -1,5 +1,6 @@
 package com.nux.studio.studtourism.data.repository
 
+import android.graphics.Bitmap
 import android.util.Log
 import com.nux.studio.studtourism.data.error.ErrorCatcher
 import com.nux.studio.studtourism.data.error.ErrorRemote
@@ -8,10 +9,16 @@ import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.data.remote.models.EditUser
 import com.nux.studio.studtourism.data.remote.models.User
 import com.nux.studio.studtourism.util.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.awaitResponse
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(
@@ -31,8 +38,16 @@ class ProfileRepository @Inject constructor(
     )
     val profileFlow = _profileFlow.asSharedFlow()
 
-    private val defVal = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtxuuCDWzGaybpBF5fQJs6oTATHfPl42PH1JP2PH6D&s"
-    fun getProfileUrl(): String = photoPrefs.url?: defVal
+    private val _uploadPhotoFlow = MutableSharedFlow<Resource<String>>(
+        replay = 3,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val uploadPhotoFlow = _uploadPhotoFlow.asSharedFlow()
+
+    private val defVal =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtxuuCDWzGaybpBF5fQJs6oTATHfPl42PH1JP2PH6D&s"
+
+    fun getProfileUrl(): String = photoPrefs.url ?: defVal
 
     suspend fun loadProfile() {
         _profileFlow.emit(Resource.Loading(true))
@@ -120,4 +135,38 @@ class ProfileRepository @Inject constructor(
         _editUserFlow.emit(Resource.Success(response))
     }
 
+    suspend fun uploadImage(image: Bitmap) = withContext(Dispatchers.IO) {
+        _uploadPhotoFlow.emit(Resource.Loading(true))
+        val stream = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.JPEG, 80, stream)
+        val byteArray = stream.toByteArray()
+        val body = MultipartBody.Part.createFormData(
+            "file", "photo.png",
+            byteArray.toRequestBody("image/png".toMediaTypeOrNull(), 0, byteArray.size)
+        )
+
+        val request = api.uploadPhoto(body)
+        val response = try {
+            val responseApi = request.awaitResponse()
+            if (responseApi.code() == 200) {
+                responseApi.body()
+            } else {
+                _uploadPhotoFlow.emit(Resource.Error(ErrorCatcher.catch(responseApi.code())))
+                _uploadPhotoFlow.emit(Resource.Loading(false))
+                return@withContext
+            }
+        } catch (e: Exception) {
+            _uploadPhotoFlow.emit(Resource.Error(message = ErrorRemote.NoInternet))
+            _uploadPhotoFlow.emit(Resource.Loading(false))
+            return@withContext
+        }
+
+        val photoUrl = response?.url
+        editUser(
+            avatar = photoUrl
+        )
+        photoPrefs.url = response?.url
+        _uploadPhotoFlow.emit(Resource.Loading(false))
+        _uploadPhotoFlow.emit(Resource.Success(response?.url))
+    }
 }

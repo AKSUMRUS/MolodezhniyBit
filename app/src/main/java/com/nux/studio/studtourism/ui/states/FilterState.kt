@@ -1,23 +1,24 @@
 package com.nux.studio.studtourism.ui.states
 
 import com.nux.studio.studtourism.data.local.models.Committee
-import java.time.LocalDate
 
 data class FilterState(
-    val ratingBy: RatingBy = RatingBy.DESCENDING,
+    val nameBy: SortOrder = SortOrder.NONE,
+    val ratingBy: SortOrder = SortOrder.NONE,
     val city: String? = "",
     val district: String? = "",
     val subject: String? = "",
     val committee: Committee? = null,
     val placeType: String? = "",
     val mealType: MealType = MealType.BREAKFAST,
-    val startDate: LocalDate? = null,
-    val endDate: LocalDate? = null,
+    val startDate: String = "",
+    val endDate: String = "",
 )
 
-enum class RatingBy{
+enum class SortOrder {
     DESCENDING,
     ASCENDING,
+    NONE,
 }
 
 enum class MealType {

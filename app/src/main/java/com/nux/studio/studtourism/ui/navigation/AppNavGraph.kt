@@ -66,7 +66,7 @@ fun AppNavGraph(
         ) { backStackEntry ->
             val index = backStackEntry.arguments?.getString("index", "") ?: ""
             DormitoryScreen(
-                index = index,
+                dormitoryId = index,
                 viewModel = viewModel,
                 navController = navController
             )
@@ -102,7 +102,7 @@ fun AppNavGraph(
             )
         }
         composable("profile") {
-            ProfileScreen()
+            ProfileScreen(navController = navController)
         }
         composable("login?to={to}",
             arguments = listOf(

@@ -4,7 +4,9 @@ import com.nux.studio.studtourism.data.local.models.*
 import com.nux.studio.studtourism.data.local.models.lab.Lab
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
 import com.nux.studio.studtourism.data.remote.models.EditUser
+import com.nux.studio.studtourism.data.remote.models.Photo
 import com.nux.studio.studtourism.data.remote.models.User
+import okhttp3.MultipartBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.*
@@ -66,5 +68,11 @@ interface RetrofitServices {
     fun makeDormitoryBooking(
         @Body booking: DormitoryBookingRequest
     ) : Call<Any>
+
+    @POST("file/upload")
+    @Multipart
+    fun uploadPhoto(
+        @Part body: MultipartBody.Part
+    ): Call<Photo>
 
 }

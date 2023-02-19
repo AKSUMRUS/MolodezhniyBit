@@ -7,5 +7,5 @@ data class UniversityDetails(
     val committee: String?,
     val region: String?,
     val shortName: String?,
-    val district: String
+    val district: String?
 )

@@ -97,9 +97,9 @@ fun EventScreen(
                     SectionHeader(text = "Описание", modifier = Modifier.padding(horizontal = 15.dp))
                     Text(text = description, modifier = Modifier.padding(horizontal = 15.dp))
                 }
-                university?.name?.let {name ->
+                university?.details?.name?.let {name ->
                     SectionHeader(text = "Организатор", modifier = Modifier.padding(horizontal = 15.dp))
-                    Text(text = university.name, modifier = Modifier.padding(horizontal = 15.dp))
+                    Text(text = name, modifier = Modifier.padding(horizontal = 15.dp))
                 }
                 Box(modifier = Modifier.height(120.dp))
             }

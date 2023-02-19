@@ -3,6 +3,7 @@ package com.nux.studio.studtourism.ui.components.molecules
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,9 +17,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nux.studio.studtourism.ui.components.atoms.DateSelect
 import com.nux.studio.studtourism.ui.components.atoms.Grabber
+import com.nux.studio.studtourism.ui.components.atoms.OurRadioButton
 import com.nux.studio.studtourism.ui.components.atoms.Select
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
+import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 import com.nux.studio.studtourism.ui.states.FilterState
+import com.nux.studio.studtourism.ui.states.SortOrder
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
 
@@ -39,7 +43,7 @@ fun BottomSheet(
 
     LaunchedEffect(state) {
 //        if (state != FilterState()) {
-            viewModel.updateFilters(state)
+        viewModel.updateFilters(state)
 //        }
     }
 
@@ -63,20 +67,93 @@ fun BottomSheet(
                     text = "Настройка Поиска",
                     onClose = { coroutineScope.launch { modalSheetState.hide() } }
                 )
-                Select(
-                    viewModel.cities.toList(),
-                    value = state.city ?: "",
-                    onValueChange = { state = state.copy(city = it) }
+                LazyColumn(modifier = Modifier.padding(horizontal = 15.dp)) {
+                    item {
+
+                        Select(
+                            viewModel.cities.toList(),
+                            value = state.city ?: "",
+                            placeholder = "Город",
+                            onValueChange = { state = state.copy(city = it) },
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 10.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            DateSelect(
+                                value = state.startDate,
+                                onValueChange = { state = state.copy(startDate = it) },
+                                modifier = Modifier.weight(1f).padding(end = 5.dp),
+                            )
+                            DateSelect(
+                                value = state.endDate,
+                                onValueChange = { state = state.copy(endDate = it) },
+                                modifier = Modifier.weight(1f).padding(start = 5.dp),
+                            )
+                        }
+                        SectionHeader(text = "Сортировка по имени")
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 10.dp)
+                        ) {
+                            OurRadioButton(
+                                text = "По убыванию",
+                                selected = (state.nameBy == SortOrder.DESCENDING),
+                                onClick = { state = state.copy(ratingBy = SortOrder.NONE, nameBy = SortOrder.DESCENDING) },
+                                modifier = Modifier.weight(1f).padding(end = 5.dp),
+                            )
+                            OurRadioButton(
+                                text = "По возрастанию",
+                                selected = (state.nameBy == SortOrder.ASCENDING),
+                                onClick = { state = state.copy(ratingBy = SortOrder.NONE, nameBy = SortOrder.ASCENDING) },
+                                modifier = Modifier.weight(1f).padding(start = 5.dp),
+                            )
+                        }
+                        SectionHeader(text = "Сортировка по рейтингу")
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 10.dp)
+                        ) {
+                            OurRadioButton(
+                                text = "По убыванию",
+                                selected = (state.ratingBy == SortOrder.DESCENDING),
+                                onClick = { state = state.copy(ratingBy = SortOrder.DESCENDING, nameBy = SortOrder.NONE) },
+                                modifier = Modifier.weight(1f).padding(end = 5.dp),
+                            )
+                            OurRadioButton(
+                                text = "По возрастанию",
+                                selected = (state.ratingBy == SortOrder.ASCENDING),
+                                onClick = { state = state.copy(ratingBy = SortOrder.ASCENDING, nameBy = SortOrder.NONE) },
+                                modifier = Modifier.weight(1f).padding(start = 5.dp),
+                            )
+                        }
+                    }
+                }
+                Divider(
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.1f),
+                    thickness = 1.dp
                 )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                Button(
+                    onClick = {
+                        state = FilterState(); coroutineScope.launch { modalSheetState.hide() }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = MaterialTheme.colors.background,
+                        contentColor = MaterialTheme.colors.onBackground
+                    ),
                 ) {
-                    DateSelect()
-                    DateSelect()
-//                        onDateSelected = { state = state.copy(startDate = it) },
-//                        onDismissRequest = {})
+                    HeadlineH5(
+                        text = "Сбросить фильтры",
+                        modifier = Modifier.padding(20.dp),
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }
