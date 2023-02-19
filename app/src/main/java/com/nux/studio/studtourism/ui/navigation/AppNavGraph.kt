@@ -102,7 +102,7 @@ fun AppNavGraph(
             )
         }
         composable("profile") {
-            ProfileScreen()
+            ProfileScreen(navController = navController)
         }
         composable("login?to={to}",
             arguments = listOf(

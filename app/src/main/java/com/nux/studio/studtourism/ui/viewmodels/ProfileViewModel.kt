@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nux.studio.studtourism.data.repository.AuthRepository
 import com.nux.studio.studtourism.data.repository.ProfileRepository
 import com.nux.studio.studtourism.ui.states.EditProfileState
 import com.nux.studio.studtourism.ui.states.ProfileState
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    private val profileRepository: ProfileRepository
+    private val profileRepository: ProfileRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val errorMapper = ErrorMapper(context)
@@ -182,5 +184,9 @@ class ProfileViewModel @Inject constructor(
         _profileState =
             _profileState.copy(user = _profileState.user?.copy(studentRoleType = studentRoleType))
 
+    }
+
+    fun logout() {
+        authRepository.logout()
     }
 }

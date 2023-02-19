@@ -2,6 +2,7 @@ package com.nux.studio.studtourism.data.repository
 
 import com.nux.studio.studtourism.data.error.ErrorCatcher
 import com.nux.studio.studtourism.data.error.ErrorRemote
+import com.nux.studio.studtourism.data.local.prefs.PhotoPrefs
 import com.nux.studio.studtourism.data.local.prefs.TokenPrefs
 import com.nux.studio.studtourism.data.remote.RetrofitServices
 import com.nux.studio.studtourism.data.remote.models.AuthInfo
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 @Singleton
 class AuthRepository @Inject constructor(
     private val tokenPrefs: TokenPrefs,
+    private val photoPrefs: PhotoPrefs,
     private val api: RetrofitServices,
     private val profileRepository: ProfileRepository,
 ) {
@@ -105,5 +107,11 @@ class AuthRepository @Inject constructor(
         )
         _signUpFlow.emit(Resource.Success(Unit))
         _signUpFlow.emit(Resource.Loading(false))
+    }
+
+    fun logout() {
+        tokenPrefs.token = null
+        tokenPrefs.cloudMessagingToken = null
+        photoPrefs.url = null
     }
 }

@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.nux.studio.studtourism.R
 import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
@@ -32,17 +33,10 @@ import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 import com.nux.studio.studtourism.ui.viewmodels.ProfileViewModel
 import java.util.*
 
-@Preview
 @Composable
-private fun ProfileScreenPreview() {
-    StudTourismTheme {
-        ProfileScreen()
-    }
-}
-
-
-@Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    navController: NavController,
+) {
     val viewModel: ProfileViewModel = hiltViewModel()
     val state = viewModel.profileState
 
@@ -226,6 +220,11 @@ fun ProfileScreen() {
                 modifier = Modifier
                     .padding(top = 24.dp)
                     .fillMaxWidth()
+                    .clickable {
+                        viewModel.logout()
+                        navController.popBackStack()
+                    }
+
             )
 
         }
