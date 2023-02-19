@@ -42,13 +42,12 @@ import java.util.Date
 
 @Composable
 fun DormitoryScreen(
-    index: String,
+    dormitoryId: String,
     navController: NavController,
     viewModel: MainViewModel
 ) {
-    Log.e("LOGGGG", viewModel.toString())
     val dormitory = viewModel.state.dormitoriesList.find { item ->
-        item.id == index
+        item.id == dormitoryId
     } ?: viewModel.state.dormitoriesList[0]
 
     var requestState by remember { mutableStateOf(DormitoryBookingRequest()) }
@@ -92,6 +91,8 @@ fun DormitoryScreen(
         }
     }
     val university = universityViewModel.state.university
+    Log.d("DUniversityId", "${dormitory.universityId}")
+    Log.d("DUniversity", university.toString())
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
@@ -123,7 +124,10 @@ fun DormitoryScreen(
                         .background(Color.Transparent)
                 ) {
                     dormitory.details.mainInfo.city?.let { city ->
-                        Pill(dormitory.details.mainInfo.city, variant = PillVariant.BACKGROUND)
+                        Pill(city, variant = PillVariant.BACKGROUND)
+                    }
+                    university?.details?.region?.let { region ->
+                        Pill(region, variant = PillVariant.BACKGROUND)
                     }
                 }
                 if (screenState == 0) {
@@ -152,7 +156,13 @@ fun DormitoryScreen(
                     }
                     SectionHeader(text = "Адрес", modifier = Modifier.padding(15.dp, 0.dp))
                     Text(text = getFormattedAddress(dormitory), modifier = Modifier.padding(15.dp))
-
+                    university?.details?.name?.let { name ->
+                        SectionHeader(
+                            text = "Организация",
+                            modifier = Modifier.padding(horizontal = 15.dp)
+                        )
+                        Text(text = name, modifier = Modifier.padding(horizontal = 15.dp))
+                    }
                     dormitory.rooms.let { rooms ->
                         if (rooms != null && rooms.isNotEmpty()) {
                             SectionHeader(

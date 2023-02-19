@@ -1,11 +1,9 @@
 package com.nux.studio.studtourism.ui.components.molecules
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -24,7 +22,7 @@ import com.nux.studio.studtourism.ui.components.atoms.Select
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.ui.components.atoms.texts.SectionHeader
 import com.nux.studio.studtourism.ui.states.FilterState
-import com.nux.studio.studtourism.ui.states.RatingBy
+import com.nux.studio.studtourism.ui.states.SortOrder
 import com.nux.studio.studtourism.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
 
@@ -45,7 +43,7 @@ fun BottomSheet(
 
     LaunchedEffect(state) {
 //        if (state != FilterState()) {
-            viewModel.updateFilters(state)
+        viewModel.updateFilters(state)
 //        }
     }
 
@@ -89,15 +87,15 @@ fun BottomSheet(
                             DateSelect(
                                 value = state.startDate,
                                 onValueChange = { state = state.copy(startDate = it) },
-                                modifier = Modifier.weight(1f),
+                                modifier = Modifier.weight(1f).padding(end = 5.dp),
                             )
                             DateSelect(
                                 value = state.endDate,
                                 onValueChange = { state = state.copy(endDate = it) },
-                                modifier = Modifier.weight(1f),
+                                modifier = Modifier.weight(1f).padding(start = 5.dp),
                             )
                         }
-                        SectionHeader(text = "Рейтинг")
+                        SectionHeader(text = "Сортировка по имени")
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -105,22 +103,46 @@ fun BottomSheet(
                         ) {
                             OurRadioButton(
                                 text = "По убыванию",
-                                selected = (state.ratingBy == RatingBy.DESCENDING),
-                                onClick = { state = state.copy(ratingBy = RatingBy.DESCENDING) },
-                                modifier = Modifier.weight(1f),
+                                selected = (state.nameBy == SortOrder.DESCENDING),
+                                onClick = { state = state.copy(ratingBy = SortOrder.NONE, nameBy = SortOrder.DESCENDING) },
+                                modifier = Modifier.weight(1f).padding(end = 5.dp),
                             )
                             OurRadioButton(
                                 text = "По возрастанию",
-                                selected = (state.ratingBy == RatingBy.ASCENDING),
-                                onClick = { state = state.copy(ratingBy = RatingBy.ASCENDING) },
-                                modifier = Modifier.weight(1f),
+                                selected = (state.nameBy == SortOrder.ASCENDING),
+                                onClick = { state = state.copy(ratingBy = SortOrder.NONE, nameBy = SortOrder.ASCENDING) },
+                                modifier = Modifier.weight(1f).padding(start = 5.dp),
+                            )
+                        }
+                        SectionHeader(text = "Сортировка по рейтингу")
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 10.dp)
+                        ) {
+                            OurRadioButton(
+                                text = "По убыванию",
+                                selected = (state.ratingBy == SortOrder.DESCENDING),
+                                onClick = { state = state.copy(ratingBy = SortOrder.DESCENDING, nameBy = SortOrder.NONE) },
+                                modifier = Modifier.weight(1f).padding(end = 5.dp),
+                            )
+                            OurRadioButton(
+                                text = "По возрастанию",
+                                selected = (state.ratingBy == SortOrder.ASCENDING),
+                                onClick = { state = state.copy(ratingBy = SortOrder.ASCENDING, nameBy = SortOrder.NONE) },
+                                modifier = Modifier.weight(1f).padding(start = 5.dp),
                             )
                         }
                     }
                 }
-                Divider(color = MaterialTheme.colors.onBackground.copy(alpha=0.1f), thickness = 1.dp)
+                Divider(
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.1f),
+                    thickness = 1.dp
+                )
                 Button(
-                    onClick = { state = FilterState() },
+                    onClick = {
+                        state = FilterState(); coroutineScope.launch { modalSheetState.hide() }
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = MaterialTheme.colors.background,

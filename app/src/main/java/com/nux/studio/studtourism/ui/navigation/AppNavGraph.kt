@@ -66,7 +66,7 @@ fun AppNavGraph(
         ) { backStackEntry ->
             val index = backStackEntry.arguments?.getString("index", "") ?: ""
             DormitoryScreen(
-                index = index,
+                dormitoryId = index,
                 viewModel = viewModel,
                 navController = navController
             )
