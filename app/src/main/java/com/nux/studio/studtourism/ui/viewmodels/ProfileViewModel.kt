@@ -1,6 +1,7 @@
 package com.nux.studio.studtourism.ui.viewmodels
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +18,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,7 +83,7 @@ class ProfileViewModel @Inject constructor(
                 departureCity = departureCity,
                 socialUrl = socialUrl,
                 universityName = universityName,
-                avatar = "https://sun1-26.userapi.com/impg/zmzFaRBkJtt_KwMGd41ARQyNMRxIctDLPD3uCg/U3HSrag1wIw.jpg?size=1035x1280&quality=95&sign=846b0408cc33466822f75ec8a3728431&type=album",
+                avatar = avatar,
                 birthday = birthday,
                 WoS = WoS,
                 WoS1 = WoS1,
@@ -118,6 +123,7 @@ class ProfileViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> {
                         result.data?.let {
+                            profileRepository.loadProfile()
                             _editProfileState = _editProfileState.copy(isSuccess = true)
                         }
                     }
@@ -188,5 +194,11 @@ class ProfileViewModel @Inject constructor(
 
     fun logout() {
         authRepository.logout()
+    }
+
+    fun uploadImage(image: Bitmap) {
+        viewModelScope.launch {
+            profileRepository.uploadImage(image)
+        }
     }
 }

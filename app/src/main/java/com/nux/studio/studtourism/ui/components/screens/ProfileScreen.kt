@@ -1,7 +1,14 @@
 package com.nux.studio.studtourism.ui.components.screens
 
 import android.app.DatePickerDialog
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.widget.DatePicker
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,13 +19,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,7 +37,6 @@ import com.nux.studio.studtourism.ui.components.atoms.ButtonPrimary
 import com.nux.studio.studtourism.ui.components.atoms.InputField
 import com.nux.studio.studtourism.ui.components.atoms.texts.HeadlineH5
 import com.nux.studio.studtourism.ui.components.atoms.texts.Subtitle2
-import com.nux.studio.studtourism.ui.theme.StudTourismTheme
 import com.nux.studio.studtourism.ui.viewmodels.ProfileViewModel
 import java.util.*
 
@@ -69,7 +76,26 @@ fun ProfileScreen(
             viewModel.setBirthDate(birthday)
         }, year, month, day
     )
-    
+
+    val launcher = rememberLauncherForActivityResult(
+        contract =
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri == null) {
+            return@rememberLauncherForActivityResult
+        }
+        val bitmap = if (Build.VERSION.SDK_INT < 28) {
+            MediaStore.Images
+                .Media.getBitmap(context.contentResolver, uri)
+
+        } else {
+            val source = ImageDecoder
+                .createSource(context.contentResolver, uri)
+            ImageDecoder.decodeBitmap(source)
+        }
+        viewModel.uploadImage(bitmap)
+    }
+
     Row(
         modifier = Modifier.padding(32.dp)
     ) {
@@ -112,7 +138,10 @@ fun ProfileScreen(
                         )
                     )
                     .height(445.dp)
-                    .padding(0.dp),
+                    .padding(0.dp)
+                    .clickable {
+                        launcher.launch("image/*")
+                    },
                 contentScale = ContentScale.Crop
             )
         }
@@ -150,15 +179,15 @@ fun ProfileScreen(
                 text = birthDate,
                 onValueChange = viewModel::setBirthDate,
                 trailingIcon = {
-                        Icon(
-                            ImageVector.vectorResource(id = R.drawable.icon_calendar),
-                            tint = Color.Black,
-                            contentDescription = "calendar",
-                            modifier = Modifier
-                                .clickable {
-                                    datePickerDialog.show()
-                                }
-                        )
+                    Icon(
+                        ImageVector.vectorResource(id = R.drawable.icon_calendar),
+                        tint = Color.Black,
+                        contentDescription = "calendar",
+                        modifier = Modifier
+                            .clickable {
+                                datePickerDialog.show()
+                            }
+                    )
                 }
             )
         }
@@ -212,7 +241,7 @@ fun ProfileScreen(
                 onValueChange = viewModel::setUniversity
             )
         }
-        item { 
+        item {
             Text(
                 textAlign = TextAlign.Center,
                 text = "Выйти из аккаунта",
