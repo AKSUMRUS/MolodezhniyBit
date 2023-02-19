@@ -105,7 +105,7 @@ fun DormitoryScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
             item {
-                dormitory.details?.mainInfo?.photos?.let {photos ->
+                dormitory.details?.mainInfo?.photos?.let { photos ->
                     if (photos.isNotEmpty()) {
                         ImagesCarousel(photos = photos)
                     }
@@ -205,6 +205,18 @@ fun DormitoryScreen(
 //                        text = "Питание",
 //                        modifier = Modifier.padding(15.dp, 0.dp)
 //                    )
+                    LazyRow() {
+                        dormitory.rooms?.forEach { roomPair ->
+                            val id = roomPair.key
+                            val room = roomPair.value
+                            item {
+                                OurRadioButton(
+                                    text = room.details?.type ?: "Тип",
+                                    selected = (requestState.roomId == id),
+                                    onClick = { requestState = requestState.copy(roomId = id) })
+                            }
+                        }
+                    }
                     SectionHeader(
                         text = "Даты",
                         modifier = Modifier.padding(15.dp, 0.dp)
@@ -249,23 +261,32 @@ fun DormitoryScreen(
                     )
                     InputFieldScreenWithTitle(
                         title = "ФИО",
-                        text = requestState.author.name?: "",
+                        text = requestState.author.name ?: "",
                         onValueChange = {
-                            requestState = requestState.copy(author = requestState.author.copy(name = it))
+                            requestState =
+                                requestState.copy(author = requestState.author.copy(name = it))
                         }
                     )
                     InputFieldScreenWithTitle(
                         title = "E-mail",
-                        text = requestState.author.contacts.email?: "",
+                        text = requestState.author.contacts.email ?: "",
                         onValueChange = {
-                            requestState = requestState.copy(author = requestState.author.copy(contacts =  requestState.author.contacts.copy(email = it)))
+                            requestState = requestState.copy(
+                                author = requestState.author.copy(
+                                    contacts = requestState.author.contacts.copy(email = it)
+                                )
+                            )
                         }
                     )
                     InputFieldScreenWithTitle(
                         title = "Телефон",
-                        text = requestState.author.contacts.phone?: "",
+                        text = requestState.author.contacts.phone ?: "",
                         onValueChange = {
-                            requestState = requestState.copy(author = requestState.author.copy(contacts =  requestState.author.contacts.copy(phone = it)))
+                            requestState = requestState.copy(
+                                author = requestState.author.copy(
+                                    contacts = requestState.author.contacts.copy(phone = it)
+                                )
+                            )
                         }
                     )
                     InputFieldScreenWithTitle(
@@ -310,11 +331,9 @@ fun DormitoryScreen(
             onClick = {
                 if (!authRepository.isAuthorized()) {
                     navController.navigate("login")
-                }
-                else if (screenState == 0) {
+                } else if (screenState == 0) {
                     screenState = 1
-                }
-                else {
+                } else {
                     screenState = 0
                     if (checkedCalendar.value) {
                         val formatter = DateTimeFormatterBuilder()

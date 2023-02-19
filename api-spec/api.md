@@ -117,3 +117,8 @@ POST https://stud-api.sabir.pro/reviews
 request: ReviewRequest
 
 response: Review
+
+## Отменить бронирование
+PUT https://stud-api.sabir.pro/bookings
+request: 
+{"id":"C0LWkzghs0","status":"canceled","dates":{"from":"2023-02-19","to":"2023-02-19"}}

@@ -140,6 +140,7 @@ fun DormitoriesScreen(
     }
 }
 
+private fun
 private fun checkDormitory(
     dormitory: Dormitory,
     filters: FilterState
